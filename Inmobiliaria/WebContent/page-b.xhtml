@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+<title>JSF 2.2: Blank Starting-Point Project</title>
+<link href="./css/styles.css" rel="stylesheet" type="text/css"/> 
+</h:head>
+<h:body>
+<h1 class="title">JSF 2.2: Blank Starting-Point Project</h1>
+<p>
+<b>This is Page B.</b> If you started at index.jsf and navigated here
+by clicking the button, the URL will still say index.jsf. When you press the button below, 
+you will get the home page, but the URL will say page-b.jsf. This is normal; in JSF, the results page
+shows the URL of the page containing the form. 
+</p>
+<div align="center">
+<fieldset>
+<legend>JSF Test Form</legend>
+<h2>You entered "#{navigationBean.someProperty}"</h2>
+<h:form>
+  <!-- Calls "someOtherActionControllerMethod" and uses return value as base name of page to navigate to. -->
+  <h:commandButton value="Return to Start Page" 
+                   action="#{navigationBean.someOtherActionControllerMethod}"/>     
+</h:form>
+</fieldset>
+<br/>
+<p>When making your own project based on jsf-blank, delete both this page and the index.xhtml
+page, and copy/rename the example file (see the samples folder) instead.</p>
+</div></h:body></html>
