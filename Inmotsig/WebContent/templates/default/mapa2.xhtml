@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+	
+<script type="text/javascript"
+      src="http://www.openlayers.org/api/OpenLayers.js">
+</script>
+<div id="mapa" style="width: 90%; height: 800px; float: right"></div>
+
+<script type="text/javascript">
+window.onload = function() {
+// esto es por un bug en para wfs
+			var _class = OpenLayers.Format.XML;
+			var originalWriteFunction = _class.prototype.write;
+		
+			var patchedWriteFunction = function() {
+			    var child = originalWriteFunction.apply( this, arguments );
+		
+			    // NOTE: Remove the rogue namespaces as one block of text.
+			    child = child.replace(new RegExp('xmlns:NS\\d+="" NS\\d+:', 'g'), '');
+		
+			    return child;
+			}
+		
+			_class.prototype.write = patchedWriteFunction;
+// aca termina lo del bug			
+			
+	
+	
+	    	mapa = new OpenLayers.Map("mapa");
+
+	 		var wms = new OpenLayers.Layer.WMS("OpenLayers WMS",
+				"http://localhost:8080/geoserver/wms", {
+				layers : 'sige:mapa_montevideo',
+				transparent: 'false',
+				format: 'image/png',
+				isBaseLayer: 'true'
+			});
+						
+			var wfs = new OpenLayers.Layer.Vector("WFS", {
+			  strategies: [new OpenLayers.Strategy.BBOX()],
+			  protocol: new OpenLayers.Protocol.WFS({
+			    url: "http://localhost:8080/geoserver/wfs",
+			    featureType: "propiedad",
+			    featureNS: "http://www.openplans.org/topp",
+			    geometryName: "geom"
+			  })
+			});
+	
+			var wms2 = new OpenLayers.Layer.WMS("OpenLayers WMS",
+					"http://localhost:8080/geoserver/wms", {
+					layers : 'topp:propiedad',
+					transparent: 'true',
+					format: 'image/png',
+					isBaseLayer: 'false'
+				});
+	
+
+	
+  			  mapa.addLayer(wms);
+			  mapa.addLayer(wms2);
+  			  mapa.addLayer(wfs)
+  			  
+			  mapa.zoomToMaxExtent();
+			  mapa.addControl(new OpenLayers.Control.LayerSwitcher(true));
+			  mapa.addControl(new OpenLayers.Control.MousePosition({ numDigits: 6 }));
+			  mapa.addControl(new OpenLayers.Control.ScaleLine());
+
+     
+	}
+
+	
+</script>
+
+</ui:composition>
+</html>
