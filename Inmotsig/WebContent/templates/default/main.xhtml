@@ -13,12 +13,14 @@
 	</f:facet>
 
 	<f:facet name="middle">
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
 		<h:outputStylesheet name="bootstrap/css/bootstrap.css" />
 		<h:outputStylesheet name="bootstrap/css/bootstrap.css.map" />
 		<h:outputStylesheet name="css/dashboard.css" />
-		<script
-			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
-			<link rel="stylesheet" href="http://openlayers.org/en/v3.0.0/css/ol.css" type="text/css"/>
+
+		<link rel="stylesheet"
+			href="http://openlayers.org/en/v3.0.0/css/ol.css" type="text/css" />
 
 		<h:outputScript name="bootstrap/js/bootstrap.js" />
 	</f:facet>
@@ -26,12 +28,30 @@
 	<f:facet name="last">
 
 	</f:facet>
-
 </h:head>
-
 <h:body>
-		<ui:include src="header.xhtml" />
-		<ui:include src="leftMenu.xhtml" />
-		<ui:include src="mapa2.xhtml" />
+	<div class="container-fluid">
+		<div class="row">
+			<!-- Header -->
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<ui:include src="header.xhtml" />
+			</div>
+		</div>
+		<div class="row">
+			<!-- Body -->
+			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+				<ui:include src="filtros.xhtml" />
+			</div>
+			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+				<ui:include src="mapa2.xhtml" />
+			</div>
+		</div>
+		<div class="row">
+			<!-- Footer -->
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<ui:include src="footer.xhtml" />
+			</div>
+		</div>
+	</div>
 </h:body>
 </html>

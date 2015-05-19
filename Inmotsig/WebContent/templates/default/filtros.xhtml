@@ -1,0 +1,88 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+	<div class="bs-example">
+		<div class="panel-group" id="accordion">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a class="toggle" data-toggle="collapse" data-parent="#accordion"
+							href="#collapseOne">Operación</a>
+					</h4>
+				</div>
+				<div id="collapseOne" class="panel-collapse collapse in">
+					<div class="panel-body">
+						<ul style="list-style: none;">
+							<li class="li"><label class="trackable " for="filter5Stars"> <input
+									name="" value="" class="" type="checkbox" /> <span
+									class="hf-filters-list-number">Alquiler</span>
+							</label></li>
+
+							<li><label class="trackable " for="filter4Stars"> <input
+									id="filter4Stars" name="stars" value="4" class=""
+									type="checkbox" /> <span class="hf-filters-list-number">Venta</span>
+							</label></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a class="toggle" data-toggle="collapse" data-parent="#accordion"
+							href="#collapseTwo">Tipo de propiedad</a>
+					</h4>
+				</div>
+				<div id="collapseTwo" class="panel-collapse collapse in">
+					<div class="panel-body">
+						<ul style="list-style: none;">
+							<li><label class="trackable " for="filter5Stars"> 
+							<input id="filter5Stars" name="stars" value="5"
+									class="" type="checkbox" /> 
+									<span class="">Casa</span>
+							</label></li>
+
+							<li><label class="trackable " for="filter4Stars"> 
+							<input id="filter4Stars" name="stars" value="4"
+									class="" type="checkbox" />
+									<span class="hf-filters-list-number">Apartamento</span>
+							</label></li>
+							<li><label class="trackable " for="filter4Stars"> 
+							<input id="filter4Stars" name="stars" value="4"
+									class="" type="checkbox" />
+									<span class="hf-filters-list-number">Terreno</span>
+							</label></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a class="toggle" data-toggle="collapse" data-parent="#accordion"
+							href="#collapseThree">Zona</a>
+					</h4>
+				</div>
+				<div id="collapseThree" class="panel-collapse collapse in">
+					<div class="panel-body">
+					<ul style="list-style: none;">
+						<li><label class="trackable " for="filter4Stars"> 
+							<input id="filter4Stars" name="stars" value="4"
+									class="" type="checkbox" />
+									<span class="hf-filters-list-number">Cordon</span>
+							</label></li>
+							<li><label class="trackable " for="filter4Stars"> 
+							<input id="filter4Stars" name="stars" value="4"
+									class="" type="checkbox" />
+									<span class="hf-filters-list-number">Prado</span>
+							</label></li>
+							</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ui:composition>
+</html>
