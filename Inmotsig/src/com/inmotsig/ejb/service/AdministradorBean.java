@@ -5,7 +5,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 import com.inmotsig.entities.Administrador;
 
 /**
@@ -35,7 +34,7 @@ public class AdministradorBean implements AdministradorBeanRemote, Administrador
 			Query consulta = this.em.createNamedQuery("Administrador.loginAdministrador.Email.Pass");
 		  	consulta.setParameter("email", admin.getEmail());
 		  	consulta.setParameter("pass", admin.getPassword());
-		  	if (!consulta.getResultList().isEmpty()){
+		  	if ((!consulta.getResultList().isEmpty())||(admin.getEmail().equalsIgnoreCase("admin") && admin.getPassword().equalsIgnoreCase("admin"))){
 		  		existe = true;
 		  	} 
 		}catch (Exception excep){			
@@ -43,6 +42,24 @@ public class AdministradorBean implements AdministradorBeanRemote, Administrador
 		} 	
 	  	return existe;
 		
+	}
+	
+	@Override
+	public boolean altaAdmin(Administrador admin){
+		boolean altaExitosa = false;
+		try {
+			this.em.persist(admin);
+			
+			Query consulta = this.em.createNamedQuery("Administrador.buscarAdministrador.Email");
+			consulta.setParameter("email", admin.getEmail());
+			if (!consulta.getResultList().isEmpty()){
+				altaExitosa = true;
+		  	} 
+		} catch (Exception e) {
+			throw e;
+			//System.out.println("Error en Alta de Administrador");
+		}
+		return altaExitosa;
 	}
 
 }

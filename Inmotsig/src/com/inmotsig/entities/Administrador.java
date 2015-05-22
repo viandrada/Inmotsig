@@ -6,34 +6,33 @@ import java.util.Set;
 
 import javax.persistence.*;
 
-
 /**
  * Entity implementation class for Entity: Administrador
  *
  */
 
 @NamedQueries({
-	
-@NamedQuery(name="Administrador.loginAdministrador.Email.Pass", 
-query = "SELECT u "+
-		"FROM Administrador u " +
-		"WHERE u.email = :email and u.password = :pass")
-})
+
+		@NamedQuery(name = "Administrador.loginAdministrador.Email.Pass", query = "SELECT u "
+				+ "FROM Administrador u "
+				+ "WHERE u.email = :email and u.password = :pass"),
+
+		@NamedQuery(name = "Administrador.buscarAdministrador.Email", query = "SELECT u "
+				+ "FROM Administrador u " + "WHERE u.email = :email") })
 @Entity
 @Table(name = "administrador", schema = "public")
 public class Administrador implements Serializable {
 
-	
 	private static final long serialVersionUID = 1L;
-	
+
 	private int idadministrador;
 	private String apellido;
 	private String email;
 	private String nombre;
 	private String password;
 	private String telefono;
-	//private Set<Propiedad> propiedads = new HashSet<Propiedad>(0);
-	
+
+	// private Set<Propiedad> propiedads = new HashSet<Propiedad>(0);
 
 	public Administrador() {
 		super();
@@ -49,7 +48,7 @@ public class Administrador implements Serializable {
 		this.idadministrador = idadministrador;
 	}
 
-	@Column(name="apellido")
+	@Column(name = "apellido")
 	public String getApellido() {
 		return apellido;
 	}
@@ -57,8 +56,8 @@ public class Administrador implements Serializable {
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
-	
-	@Column(name="email")
+
+	@Column(name = "email")
 	public String getEmail() {
 		return email;
 	}
@@ -67,7 +66,7 @@ public class Administrador implements Serializable {
 		this.email = email;
 	}
 
-	@Column(name="nombre")
+	@Column(name = "nombre")
 	public String getNombre() {
 		return nombre;
 	}
@@ -76,7 +75,7 @@ public class Administrador implements Serializable {
 		this.nombre = nombre;
 	}
 
-	@Column(name="password")
+	@Column(name = "password")
 	public String getPassword() {
 		return password;
 	}
@@ -85,7 +84,7 @@ public class Administrador implements Serializable {
 		this.password = password;
 	}
 
-	@Column(name="telefono")
+	@Column(name = "telefono")
 	public String getTelefono() {
 		return telefono;
 	}
@@ -93,15 +92,15 @@ public class Administrador implements Serializable {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	
-	//@OneToMany(fetch = FetchType.LAZY, mappedBy = "administrador")
-	//@ElementCollection(targetClass=Propiedad.class)
-	//public Set<Propiedad> getPropiedads() {
-		//return this.propiedads;
-	//}
 
-	//public void setPropiedads(Set<Propiedad> propiedads) {
-		//this.propiedads = propiedads;
-	//}
-   
+	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "administrador")
+	// @ElementCollection(targetClass=Propiedad.class)
+	// public Set<Propiedad> getPropiedads() {
+	// return this.propiedads;
+	// }
+
+	// public void setPropiedads(Set<Propiedad> propiedads) {
+	// this.propiedads = propiedads;
+	// }
+
 }
