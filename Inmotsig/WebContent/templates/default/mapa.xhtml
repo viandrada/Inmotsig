@@ -2,31 +2,160 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition>
-	<div style="width: 90%; height: 600px; float: right" id="map"></div>
-	<script src="http://openlayers.org/api/OpenLayers.js"></script>
+	<script type="text/javascript"
+		src="http://www.openlayers.org/api/OpenLayers.js">
+    </script>
+	<div id="mapa" style="width: 90%; height: 800px;"></div>
 
 	<script type="text/javascript">
-		window.onload = function() {
+    window.onload = function() {
+    // esto es por un bug en para wfs
+			var _class = OpenLayers.Format.XML;
+			var originalWriteFunction = _class.prototype.write;
+		
+			var patchedWriteFunction = function() {
+			    var child = originalWriteFunction.apply( this, arguments );
+		
+			    // NOTE: Remove the rogue namespaces as one block of text.
+			    child = child.replace(new RegExp('xmlns:NS\\d+="" NS\\d+:', 'g'), '');
+		
+			    return child;
+			}
+		
+			_class.prototype.write = patchedWriteFunction;
+     // aca termina lo del bug			
+			
+	
+	
+	    	
+	            mapa = new OpenLayers.Map("mapa");
 
-			var map = new OpenLayers.Map('map');
-			var wms = new OpenLayers.Layer.WMS("OpenLayers WMS",
-					"http://localhost:8080/geoserver/tsig_p3/wms", {
-						numZoomLevels: 18,
-				        maxResolution: 156543.0339,
-						maxExtent: new OpenLayers.Bounds(-2,-1,2,1),
-						layers : 'tsig_p3:uy_departamentos'
-					});
-			map.addLayer(wms);
-			map.zoomToMaxExtent();
-			map.setCenter(new OpenLayers.LonLat(-34.3, -54.3));
-			var newSize = map.getSize();
-			var res = map.getMaxExtent();
-			console.log(newSize);
-			console.log(res);
-			//map.zoomTo(16);
+	 			var wms = new OpenLayers.Layer.WMS("nada",
+			    "http://localhost:8080/geoserver/wms", {
+				layers : 'tsig_p3:montevideo_ejes',
+				transparent: 'false',
+				format: 'image/png',
+				isBaseLayer: 'true',
+				
+			});
+						
+			var saveStrategy = new OpenLayers.Strategy.Save();
+			var wfsTasmaniaRoads = new OpenLayers.Layer.Vector("WFS", {
+				  strategies: [new OpenLayers.Strategy.BBOX(),saveStrategy],
+				  protocol: new OpenLayers.Protocol.WFS({
+				    url: "http://localhost:8080/geoserver/wfs", 
+				    featureType: "propiedad",
+				    featureNS: "http://www.openplans.org/topp",
+				    geometryName: "geom"
+				    
+				  })
+			}); 
+			
+			
+			var panel = new OpenLayers.Control.Panel({
+                displayClass: "olControlEditingToolbar"
+            });
+		    var draw = new OpenLayers.Control.DrawFeature(
+		    		wfsTasmaniaRoads, OpenLayers.Handler.Point,
+		                {
+		                    handlerOptions: {freehand: false, multi: true},
+		                    displayClass: "olControlDrawFeaturePoint"
+		                    
+		                }
+		    );
+		    
+		    draw.events.register('featureadded',draw ,agregarDatos);
+		    var formText="sin inicializar";		
+		    var f;
+		    function agregarDatos(e){
+ 		    	f=e.feature;
+ 		    	
+ 		    	f.popup = new OpenLayers.Popup.FramedCloud
+                ("pop",
+                f.geometry.getBounds().getCenterLonLat(),
+                null,
+                                
+                '<form >Direccion:<br/><input type="text" id="direccion" name="dir" />'+
+                '<br/>Numero de apartamento:<br/><input type="text" id="numAp" name="numApartamento" /> </form>',
+                null,
+                true 
+                );
+             mapa.addPopup(f.popup); 
 
-		};
-	</script>
+		    };
+		  
+
+					var attributes = {direccion: "emilio"};
+
+		            
+		            var select = new OpenLayers.Control.SelectFeature(wfsTasmaniaRoads);
+            		mapa.addControl(select);
+            		select.activate();
+            		
+            		function onPopupClose(evt) {
+            			selectControl.unselect(selectedFeature);
+            	    };
+		            
+		            wfsTasmaniaRoads.events.on({
+		            	featureselected: function(event) {
+		                    var feature = event.feature;
+		                    feature.popup = new OpenLayers.Popup.FramedCloud
+		                    ("pop",
+		                    feature.geometry.getBounds().getCenterLonLat(),
+		                    null,
+		                    '<form >Direccion:<br/><input type="text" id="direccion2" value="'+feature.attributes.direccion+'" name="dir" />'+
+		                    '<br/>Numero de apartamento:<br/><input type="text" id="numAp2" value="'+feature.attributes.numApartamento+'" name="numApartamento" /> </form>',
+		                    null,
+		                    true 
+		                    );
+		                 mapa.addPopup(feature.popup);  
+		                },
+
+		                <!-- destroy popup when feature is no longer selected. Prevents showing 2 Popups at the same time-->
+		                featureunselected: function(event) {
+		                    var feature = event.feature;
+		                    mapa.removePopup(feature.popup);
+		                    feature.popup.destroy();
+		                    feature.popup = null;
+		                }
+		         
+		            });
+		            
+
+		       var save=  new OpenLayers.Control.Button({displayClass: 'saveButton',
+		    	   trigger: function() {
+		    	   		alert("guardando");
+		    	   		f.attributes.direccion=document.getElementById("direccion").value;
+		    	   		f.attributes.numApartamento=parseInt(document.getElementById("numAp").value);
+		    	   		f.attributes.adminId="admin";
+		    	   		f.attributes.gidPadron=1234;
+		    	   		saveStrategy.save()
+		    	   		}, title: 'Save changes' 
+		    	   	});
+		       
+		       
+		       panel.addControls([select,draw,save]);
+		       mapa.addControl(panel);  
+ 			
+			
+			  mapa.addLayer(wms);			
+
+  			  mapa.addLayer(wfsTasmaniaRoads);
+  			  
+			  mapa.zoomToMaxExtent();
+			  
+			  var lonlat = new OpenLayers.LonLat(-56.21,-34.81).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:32721"));
+	  	      mapa.setCenter(lonlat,12);
+	  	      
+			  mapa.addControl(new OpenLayers.Control.LayerSwitcher(true));
+			  mapa.addControl(new OpenLayers.Control.MousePosition({ numDigits: 6 }));
+			  mapa.addControl(new OpenLayers.Control.ScaleLine());
+
+     
+	}
+
+	
+</script>
 
 </ui:composition>
 </html>
