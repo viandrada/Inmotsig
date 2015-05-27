@@ -15,14 +15,25 @@
 	<f:facet name="middle">
 		<script
 			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
-		<h:outputStylesheet name="bootstrap/css/bootstrap.css" />
-		<h:outputStylesheet name="bootstrap/css/bootstrap.css.map" />
-		<h:outputStylesheet name="css/dashboard.css" />
+
+		<h:outputScript name="js/jquery-2.1.4.min.js" target="head"/>
+		<h:outputScript name="js/OpenLayers.js" target="head" />
+		<h:outputStylesheet name="css/extras.css" target="head" />
+		<h:outputScript name="bootstrap/js/bootstrap.min.js"  target="head"/>
+		<!-- Include the plugin's CSS and JS: -->
+		<h:outputScript name="bootstrap/js/bootstrap-multiselect.js" target="head" />
+		<!--script type="text/javascript" src="bootstrap/js/bootstrap-multiselect.js"/-->
+		<h:outputStylesheet name="bootstrap/css/bootstrap-multiselect.css" target="head"/>
+		<h:outputScript name="bootstrap/js/bootstrap-checkbox.js" target="head"/>
+
+		<h:outputStylesheet name="bootstrap/css/bootstrap.css" target="head"/>
+		<h:outputStylesheet name="bootstrap/css/bootstrap.css.map" target="head"/>
+		<h:outputStylesheet name="css/dashboard.css" target="head"/>
 
 		<link rel="stylesheet"
 			href="http://openlayers.org/en/v3.0.0/css/ol.css" type="text/css" />
 
-		<h:outputScript name="bootstrap/js/bootstrap.js" />
+		<h:outputScript name="bootstrap/js/bootstrap.js" target="head"/>
 	</f:facet>
 
 	<f:facet name="last">
@@ -40,10 +51,10 @@
 		<div class="row">
 			<!-- Body -->
 			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-				<ui:include src="filtros.xhtml" />
+				<ui:include src="leftMenu.xhtml" />
 			</div>
 			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-				<ui:include src="mapa.xhtml" />
+				<ui:include src="mapa2.xhtml" />
 			</div>
 		</div>
 		<div class="row">

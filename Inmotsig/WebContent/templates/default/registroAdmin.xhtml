@@ -1,47 +1,73 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition>
-<div class="container-fluid">
-<div class="row">
-<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-	<h:form id="altaAdmin">
-		<h1>
-			<h:outputText value="Nuevo Administrador" />
-		</h1>
+	<div class="container-fluid" id="altaAdminContent">
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
+				<h:form id="altaAdmin" rendered="true">
+					<h1>
+						<h:outputText value="Nuevo Administrador" />
+					</h1>
 
-		<div class="form-group">
-			<h:outputText value="Nombre : " />
-			<h:inputText class="form-control" id="inputNombre" value="#{registroBean.nombre}" />
+					<div class="form-group">
+						<h:outputText value="Nombre : " />
+						<h:inputText class="form-control" id="inputNombre"
+							value="#{registroBean.nombre}">
+							<f:validateBean for="inputNombre" />
+							<f:ajax event="keyup" render="@this inputTextMessage" />
+						</h:inputText>
+						<h:message id="inputTextMessage" for="inputNombre" errorStyle="color:red;"></h:message>
+					</div>
+
+					<div class="form-group">
+						<h:outputText value="Apellido : " />
+						<h:inputText class="form-control" id="inputApellido"
+							value="#{registroBean.apellido}">
+							<f:validateBean for="inputApellido" />
+							<f:ajax event="keyup" render="@this inputTextMessageApellido" />
+						</h:inputText>
+						<h:message id="inputTextMessageApellido" for="inputApellido" errorStyle="color:red;"></h:message>
+					</div>
+
+					<div class="form-group">
+						<h:outputText value="Email : " />
+						<h:inputText class="form-control" id="inputEmail"
+							value="#{registroBean.email}">
+							<f:validateBean for="inputEmail" />
+							<f:ajax event="keyup" render="@this inputTextMessageEmail" />
+						</h:inputText>
+						<h:message id="inputTextMessageEmail" for="inputEmail" errorStyle="color:red;"></h:message>
+					</div>
+
+					<div class="form-group">
+						<h:outputText value="Telefono : " />
+						<h:inputText class="form-control" id="inputTelefono"
+							value="#{registroBean.telefono}">
+							<f:validateBean for="inputTelefono" />
+							<f:ajax event="keyup" render="@this inputTextMessageTelefono" />
+						</h:inputText>
+						<h:message id="inputTextMessageTelefono" for="inputTelefono" errorStyle="color:red;"></h:message>
+					</div>
+
+					<div class="form-group">
+						<h:outputText value="Password : " />
+						<h:inputSecret class="form-control" id="inputPassword"
+							value="#{registroBean.password}">
+							<f:validateBean for="inputPassword" />
+							<f:ajax event="keyup" render="@this inputTextMessagePassword" />
+						</h:inputSecret>
+						<h:message id="inputTextMessagePassword" for="inputPassword" errorStyle="color:red;"></h:message>
+					</div>
+
+					<h:commandButton class="btn btn-default" value="Crear" type="submit" action="#{registroBean.registroAdmin()}">
+					</h:commandButton>
+
+				</h:form>
+			</div>
 		</div>
-
-		<div class="form-group">
-			<h:outputText value="Apellido : " />
-			<h:inputText class="form-control" id="inputApellido" value="#{registroBean.apellido}" />
-		</div>
-
-		<div class="form-group">
-			<h:outputText value="Email : " />
-			<h:inputText class="form-control" id="inputEmail" value="#{registroBean.email}" />
-		</div>
-
-		<div class="form-group">
-			<h:outputText value="Telefono : " />
-			<h:inputText class="form-control" id="inputTelefono" value="#{registroBean.telefono}" />
-		</div>
-		
-		<div class="form-group">
-			<h:outputText value="Password : " />
-			<h:inputSecret class="form-control" id="inputPassword" value="#{registroBean.password}" />
-		</div>
-
-		<h:commandButton class="btn btn-default" value="Crear" action="#{registroBean.registroAdmin()}" onclick="" />
-
-	</h:form>
-	</div>
-	</div>
 	</div>
 
 </ui:composition>

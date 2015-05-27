@@ -1,0 +1,25 @@
+
+ .labelMenu{
+   border: 1px solid #ccc;
+   border-radius: 4px;
+   padding:4px 12px;
+   margin-bottom:0px;
+   font-size:14px;
+   font-weight:normal;
+   background-color:#01836d;
+   color:white;
+   font-weight: bold;
+   }
+.dropdown-menu>.active>a {
+background-color:#04B486; 
+}
+.btn-danger{
+margin-left:60px;
+}
+.btn-default{
+width:220px;
+}
+
+.anchoLabel{
+	width:220px;
+}

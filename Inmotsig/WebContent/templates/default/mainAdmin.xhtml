@@ -13,7 +13,7 @@
 	</f:facet>
 
 	<f:facet name="middle">
-		<script
+		<h:outputScript
 			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
 		<h:outputStylesheet name="bootstrap/css/bootstrap.css" />
 		<h:outputStylesheet name="bootstrap/css/bootstrap.css.map" />
@@ -42,8 +42,16 @@
 			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 			<ui:include src="leftMenuAdmin.xhtml" />
 			</div>
-			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-				<ui:include src="registroAdmin.xhtml" />
+			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" id="content">
+				<!--ui:include src="#{navigationBean.redirectTo}" /-->
+				<h:panelGroup id="text">
+				<h:panelGroup rendered="#{navigationBean.renderContent == 'registroAdmin'}">
+				<ui:include src="registroAdmin.xhtml"/>
+				</h:panelGroup>
+				<h:panelGroup rendered="#{navigationBean.renderContent == 'reportePropiedades'}">
+				<ui:include src="reportePropiedades.xhtml" />
+				</h:panelGroup>
+				</h:panelGroup>
 			</div>
 		</div>
 		<div class="row" style="margin-bottom: 60px;">

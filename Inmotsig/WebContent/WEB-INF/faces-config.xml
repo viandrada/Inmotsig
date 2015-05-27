@@ -15,11 +15,4 @@
     <to-view-id>/validationFailed.jsp</to-view-id>
   </navigation-case>
   </navigation-rule>
-  <navigation-rule>
-   <from-view-id>/indexAdmin.xhtml</from-view-id>
-  <navigation-case>
-    <from-outcome>registroAdmin</from-outcome>
-    <to-view-id>/registroAdmin.xhtml</to-view-id>
-  </navigation-case>
-</navigation-rule>
 </faces-config>
