@@ -6,19 +6,9 @@
 
 <ui:composition>
 
-	<h:outputScript target="header">
-        $(document).ready(function() {
-			$('#operacion').multiselect();
-			$('#vivienda').multiselect();
-			$('#barrio').multiselect();
-			$('#precios').multiselect();
-			$('#dormitorios').multiselect();
-			$('#banos').multiselect();
-			$('#tamano').multiselect();
-			$('#otros').multiselect();
-		});
-    </h:outputScript>
 
+	<h:outputScript target="header" name="js/menu.js"/>
+<br />
 	<!-- Build your select: -->
 	<label class="labelMenu anchoLabel">Tipo Operación</label>
 	<br />
@@ -31,9 +21,9 @@
 		</button>
 		<ul class="multiselect-container dropdown-menu">
 			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="compra" /> Compra</label></a></li>
+						type="checkbox" value="compra" id="compra" /> Compra</label></a></li>
 			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="alquiler" /> Alquiler</label></a></li>
+						type="checkbox" value="alquiler" id="alquiler" /> Alquiler</label></a></li>
 		</ul>
 	</div>
 	<br />
@@ -206,8 +196,8 @@
 	</div>
 	<br />
 
-	<br />
-	<br />
+
+
 
 
 	<a href="#" class="btn btn-danger">Buscar <span><img

@@ -9,6 +9,7 @@ html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
+      background-image: url('../images/fondo2.png');
 }
 body {
   margin: 0;
@@ -4502,7 +4503,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   color: #ccc;
 }
 .navbar-inverse {
-  background-color: #222;
+  background-color: #FFF;
   border-color: #080808;
 }
 .navbar-inverse .navbar-brand {
