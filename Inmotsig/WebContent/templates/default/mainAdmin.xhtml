@@ -43,7 +43,7 @@
 			<ui:include src="leftMenuAdmin.xhtml" />
 			</div>
 			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" id="content">
-				<!--ui:include src="#{navigationBean.redirectTo}" /-->
+				ui:include src="#{navigationBean.redirectTo}" /
 				<h:panelGroup id="text">
 				<h:panelGroup rendered="#{navigationBean.renderContent == 'registroAdmin'}">
 				<ui:include src="registroAdmin.xhtml"/>
@@ -52,6 +52,7 @@
 				<ui:include src="reportePropiedades.xhtml" />
 				</h:panelGroup>
 				</h:panelGroup>
+<!-- <ui:include src="mapaUsuario.xhtml"/> -->
 			</div>
 		</div>
 		<div class="row" style="margin-bottom: 60px;">
