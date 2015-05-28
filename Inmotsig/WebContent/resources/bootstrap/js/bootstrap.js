@@ -635,11 +635,12 @@ if (typeof jQuery === 'undefined') {
     this.$element
       .addClass('collapsing')
       .removeClass('collapse in')
-      .attr('aria-expanded', false)
+      .attr('aria-expanded', true) //cambie aria-expanded
+    
 
     this.$trigger
       .addClass('collapsed')
-      .attr('aria-expanded', false)
+      .attr('aria-expanded', true) //cambie aria-expanded
 
     this.transitioning = 1
 
@@ -840,7 +841,7 @@ if (typeof jQuery === 'undefined') {
 
       if (e.isDefaultPrevented()) return
 
-      $this.attr('aria-expanded', 'false')
+      $this.attr('aria-expanded', 'true') //cambie aria-expanded
       $parent.removeClass('open').trigger('hidden.bs.dropdown', relatedTarget)
     })
   }
@@ -2075,7 +2076,7 @@ if (typeof jQuery === 'undefined') {
           .removeClass('active')
         .end()
         .find('[data-toggle="tab"]')
-          .attr('aria-expanded', false)
+          .attr('aria-expanded', true) //cambie aria-expanded
 
       element
         .addClass('active')

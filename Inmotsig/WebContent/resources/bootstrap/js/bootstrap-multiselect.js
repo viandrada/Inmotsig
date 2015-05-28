@@ -315,7 +315,7 @@
             nonSelectedText: 'Seleccionar',
             nSelectedText: 'selected',
             allSelectedText: 'Todos',
-            numberDisplayed: 4,
+            numberDisplayed: 3,
             disableIfEmpty: false,
             templates: {
                 button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> <b class="caret"></b></button>',
