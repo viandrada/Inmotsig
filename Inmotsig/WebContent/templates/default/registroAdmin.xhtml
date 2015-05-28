@@ -54,7 +54,7 @@
 
 					<div class="form-group">
 						<h:outputText value="Password : " />
-						<h:inputSecret class="form-control" id="inputPassword"
+						<h:inputSecret class="form-control" id="inputPassword" redisplay="true"
 							value="#{registroBean.password}">
 							<f:validateBean for="inputPassword" />
 							<f:ajax event="keyup" render="@this inputTextMessagePassword" />

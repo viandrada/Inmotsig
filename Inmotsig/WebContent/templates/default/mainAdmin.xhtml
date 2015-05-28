@@ -13,16 +13,14 @@
 	</f:facet>
 
 	<f:facet name="middle">
-		<h:outputScript
-			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
+		<h:outputScript src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
+		<h:outputScript name="bootstrap/js/bootstrap.js" />
 		<h:outputStylesheet name="bootstrap/css/bootstrap.css" />
 		<h:outputStylesheet name="bootstrap/css/bootstrap.css.map" />
 		<h:outputStylesheet name="css/dashboard.css" />
 
 		<link rel="stylesheet"
 			href="http://openlayers.org/en/v3.0.0/css/ol.css" type="text/css" />
-
-		<h:outputScript name="bootstrap/js/bootstrap.js" />
 	</f:facet>
 
 	<f:facet name="last">
@@ -40,26 +38,20 @@
 		<div class="row">
 			<!-- Body -->
 			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-			<ui:include src="leftMenuAdmin.xhtml" />
+				<ui:include src="leftMenuAdmin.xhtml" />
 			</div>
 			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" id="content">
-				<!--ui:include src="#{navigationBean.redirectTo}" /-->
-				<h:panelGroup id="text">
-				<h:panelGroup rendered="#{navigationBean.renderContent == 'registroAdmin'}">
-				<ui:include src="registroAdmin.xhtml"/>
-				</h:panelGroup>
-				<h:panelGroup rendered="#{navigationBean.renderContent == 'reportePropiedades'}">
-				<ui:include src="reportePropiedades.xhtml" />
-				</h:panelGroup>
-				</h:panelGroup>
+				<ui:include src="#{navigationBean.redirectTo}" />
 			</div>
 		</div>
-		<div class="row" style="margin-bottom: 60px;">
+	</div>
+	<footer class="footer">
+		<div class="row " style="margin-bottom: 60px;">
 			<!-- Footer -->
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<ui:include src="footer.xhtml" />
 			</div>
 		</div>
-	</div>
+	</footer>
 </h:body>
 </html>

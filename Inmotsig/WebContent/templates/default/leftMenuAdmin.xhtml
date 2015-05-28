@@ -4,17 +4,6 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition>
-<script type="text/javascript">
-    function hideOrShow(show) {
-        // Get the panel using its ID
-        var obj = document.getElementById("altaAdmin");
-        if (show) {
-            obj.style.display = "block";
-        } else {
-            obj.style.display = "none";
-        }
-    }
-</script>
 	<aside class="sidebar show perfectScrollbar">
 		<div id="solso-sidebar">
 			<div class="panel-group" id="accordion">
@@ -41,8 +30,12 @@
 
 					<div id="collapse2" class="panel-collapse collapse in">
 						<div>
-							<a href="#" class="list-group-item">Agregar</a> <a href="#"
-								class="list-group-item">Editar</a>
+							<h:form>
+								<h:commandLink value="Agregar"
+									action="#{navigationBean.goRegistroAdmin('mapaAdmin.xhtml')}"
+									class="list-group-item"></h:commandLink>
+								<a href="#" class="list-group-item">Editar</a>
+							</h:form>
 						</div>
 					</div>
 				</div>
@@ -75,10 +68,9 @@
 					<div id="collapse4" class="panel-collapse collapse in">
 						<div>
 							<h:form>
-								<!-- h:commandLink
+								<h:commandLink
 									action="#{navigationBean.goRegistroAdmin('reportePropiedades.xhtml')}"
-									value="Propiedades" class="list-group-item"></h:commandLink-->
-								<h:commandLink value="Propiedades" action="#{navigationBean.setRenderContent('reportePropiedades')}" class="list-group-item"></h:commandLink>
+									value="Propiedades" class="list-group-item"></h:commandLink>
 								<a href="#" class="list-group-item">Reporte 2</a>
 								<a href="#" class="list-group-item">Reporte 3</a>
 								<a href="#" class="list-group-item">Reporte 4</a>
@@ -99,14 +91,11 @@
 					<div id="collapse5" class="panel-collapse collapse in">
 						<div>
 							<h:form>
-							<f:ajax render="text">
-								<!--h:commandLink
+								<h:commandLink
 									action="#{navigationBean.goRegistroAdmin('registroAdmin.xhtml')}"
-									value="Agregar" class="list-group-item"></h:commandLink-->
-								<h:commandLink value="Agregar" action="#{navigationBean.setRenderContent('registroAdmin')}" class="list-group-item"></h:commandLink>
+									value="Agregar" class="list-group-item"></h:commandLink>
 								<a href="#" class="list-group-item">Editar</a>
 								<a href="#" class="list-group-item">Eliminar</a>
-								</f:ajax>
 							</h:form>
 						</div>
 					</div>

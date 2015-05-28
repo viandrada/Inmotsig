@@ -1,11 +1,11 @@
 package com.inmotsig.gui.controllers;
 
 
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 
 @ManagedBean
-@ViewScoped
+@ApplicationScoped
 public class NavigationBean {
 	
 	
@@ -41,7 +41,7 @@ public class NavigationBean {
 
 	public String goRegistroAdmin(String redirectTo){
 		this.redirectTo = redirectTo;
-		return "indexAdmin.xhtml";
+		return "indexAdmin";
 	}
 
 }

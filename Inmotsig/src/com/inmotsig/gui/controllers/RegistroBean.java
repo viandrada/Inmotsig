@@ -2,14 +2,14 @@ package com.inmotsig.gui.controllers;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.validation.constraints.NotNull;
 
 import com.inmotsig.ejb.service.AdministradorBean;
 import com.inmotsig.entities.Administrador;
 
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class RegistroBean {
 
 	@NotNull(message = "El nombre es requerido.")
