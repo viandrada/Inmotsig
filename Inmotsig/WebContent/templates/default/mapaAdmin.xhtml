@@ -6,7 +6,7 @@
 		src="http://www.openlayers.org/api/OpenLayers.js">
     </script>
 
-	<div id="mapa" style="width: 512px; height: 512px;"></div>
+	<div id="mapa" style="width: 90%; height: 600px;"></div>
 
 
 	<script type="text/javascript">
@@ -149,9 +149,10 @@ window.onload = function() {
 	mapa.addLayer(wmsTasmania);			
 
   	mapa.addLayer(wfsTasmaniaRoads);
+  	mapa.zoomToMaxExtent();
   	var lonlat = new OpenLayers.LonLat(-56.21,-34.81).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:32721"));
 	mapa.setCenter(lonlat,12);
-	mapa.zoomToMaxExtent();
+	
 	mapa.addControl(new OpenLayers.Control.LayerSwitcher(true));
 	mapa.addControl(new OpenLayers.Control.MousePosition({ numDigits: 6 }));
 	mapa.addControl(new OpenLayers.Control.ScaleLine());

@@ -23,3 +23,11 @@ width:220px;
 .anchoLabel{
 	width:220px;
 }
+
+.menuAdminHeader{
+  color: white;
+  background-color: #01836d;
+  border-color: #ddd;
+}
+
+.top-buffer { margin-top:20px; }

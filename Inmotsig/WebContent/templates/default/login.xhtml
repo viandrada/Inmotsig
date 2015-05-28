@@ -5,9 +5,9 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
 <ui:composition>
      <div class="span3 offset2">
         <h:form>
-                <h:outputText value="Email"></h:outputText>
+                <h:outputText value="Email "></h:outputText>
                 <h:inputText value="#{loginBean.email}" required="true"><f:ajax/></h:inputText>
-                <h:outputText value="Password"></h:outputText>
+                <h:outputText value="Password "></h:outputText>
                 <h:inputSecret value="#{loginBean.password}" required="true"><f:ajax/></h:inputSecret>
            
             <h:commandButton value="Login" action="#{loginBean.login}"></h:commandButton>
