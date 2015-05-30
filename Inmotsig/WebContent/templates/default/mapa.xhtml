@@ -29,16 +29,17 @@
 	
 	    	
 	            mapa = new OpenLayers.Map("mapa");
-
+				var osm  = new OpenLayers.Layer.OSM();	
+/*
 	 			var wms = new OpenLayers.Layer.WMS("nada",
 			    "http://localhost:8080/geoserver/wms", {
-				layers : 'tsig_p3:montevideo_ejes',
+				layers : 'tsig_p3:parcelasnuevas',
 				transparent: 'false',
 				format: 'image/png',
 				isBaseLayer: 'true',
 				
 			});
-						
+				*/		
 			var saveStrategy = new OpenLayers.Strategy.Save();
 			var wfsTasmaniaRoads = new OpenLayers.Layer.Vector("WFS", {
 				  strategies: [new OpenLayers.Strategy.BBOX(),saveStrategy],
@@ -138,14 +139,17 @@
 		       mapa.addControl(panel);  
  			
 			
-			  mapa.addLayer(wms);			
-
+			  //mapa.addLayer(wms);			
+			 mapa.addLayer(osm);
+			var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+		    var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+		    var position       = new OpenLayers.LonLat(-56.21,-34.81).transform( fromProjection, toProjection);
   			  mapa.addLayer(wfsTasmaniaRoads);
   			  
 			  mapa.zoomToMaxExtent();
 			  
 			  var lonlat = new OpenLayers.LonLat(-56.21,-34.81).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:32721"));
-	  	      mapa.setCenter(lonlat,12);
+	  	      mapa.setCenter(position,12);
 	  	      
 			  mapa.addControl(new OpenLayers.Control.LayerSwitcher(true));
 			  mapa.addControl(new OpenLayers.Control.MousePosition({ numDigits: 6 }));
