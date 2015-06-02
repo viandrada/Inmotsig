@@ -82,8 +82,21 @@ window.onload = function() {
                 f.geometry.getBounds().getCenterLonLat(),
                 null,
                                 
-                '<form >Direccion:<br/><input type="text" id="direccion" name="dir" />'+
-                '<br/>Numero de apartamento:<br/><input type="text" id="numAp" name="numApartamento" /> </form>',
+                '<form ><strong>Datos Propiedad: </strong><br/>Dirección: <input type="text" id="direccion" name="dir" />'+
+                '<br/>Número: <input type="text" id="numAp" name="numApartamento" />'+
+                '<br/>Tipo propiedad:  <select id="tipopropiedad" name="tprop"><option value="Casa">Casa</option><option value="Apartamento">Apartamento</option><option value="Terreno">Terreno</option></select>'+
+                '<br/>Tipo transacción:  <select id="tipotransaccion" name="ttrans"><option value="Compra">Compra</option><option value="Alquiler">Alquiler</option></select>'+
+                '<br/>Barrio: <select id="barrio" name="barr"><option value="Aguada">Aguada</option><option value="BarrioSur">Barrio Sur</option><option value="BellaVista">Bella Vista</option><option value="Buceo">Buceo</option><option value="BrazoOriental">Brazo Oriental</option><option value="Carrasco">Carrasco</option><option value="CarrascoNorte">Carrasco Norte</option><option value="Centro">Centro</option><option value="CiudadVieja">Ciudad Vieja</option><option value="Cordon">Cordon</option><option value="Goes">Goes</option><option value="JacintoVera">Jacinto Vera</option><option value="LaBlanqueada">La Blanqueada</option><option value="LaTeja">La Teja</option><option value="Malvin">Malvin</option><option value="MalvinNorte">Malvín Norte</option><option value="Maronas">Maroñas</option><option value="Palermo">Palermo</option><option value="ParqueBatlle">Parque Batlle</option><option value="ParqueRodo">Parque Rodo</option><option value="Pocitos">Pocitos</option><option value="Prado">Prado</option><option value="PuntaCarretas">Punta Carretas</option><option value="PuntaGorda">Punta Gorda</option><option value="Reducto">Reducto</option><option value="Sayago">Sayago</option><option value="TreCruces">Tres Cruces</option><option value="Union">Unión</option><option value="VillaDelCerro">Villa del Cerro</option></select>'+
+                '<br/>Precio: <input type="text" id="precio" name="pre" />'+
+                '<br/>Tamaño: <input type="text" id="tamanio" name="tam" />'+
+                '<br/>Dormitorios: <select id="dormitorios" name="dor"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select>'+ 
+                '<br/>Baños: <select id="banos" name="ban"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>'+ 
+                '<br/>Garage: <select id="garage" name="gar"><option value="No">No</option><option value="Si">Si</option></select>'+ 
+                '<br/>Calefacción: <select id="calefaccion" name="cale"><option value="No">No</option><option value="Si">Si</option></select>'+ 
+                '<br/>Parrillero: <select id="parrillero" name="parr"><option value="No">No</option><option value="Si">Si</option></select>'+ 
+                '<br/>Piscina: <select id="piscina" name="pis"><option value="No">No</option><option value="Si">Si</option></select>'+ 
+                '<br/>Estado: <select id="estado" name="est"><option value="Privada">Privada</option><option value="Publica">Publica</option></select>'+ 
+                '<br/>Descripción: <br/><textarea type="text" id="descripcion" name="des" rows="2" /></form>',
                 null,
                 true 
                 );
@@ -94,7 +107,7 @@ window.onload = function() {
 		    
 
 
-	var attributes = {direccion: "emilio"};
+	var attributes = {direccion: "magallanes"};
 	var select = new OpenLayers.Control.SelectFeature(wfsTasmaniaRoads);
     mapa.addControl(select);
     select.activate();
@@ -111,7 +124,20 @@ window.onload = function() {
 	                   feature.geometry.getBounds().getCenterLonLat(),
 	                   null,
 	                   '<form >Direccion:<br/><input type="text" id="direccion2" value="'+feature.attributes.direccion+'" name="dir" />'+
-	                   '<br/>Numero de apartamento:<br/><input type="text" id="numAp2" value="'+feature.attributes.numApartamento+'" name="numApartamento" /> </form>',
+	                   '<br/>Numero de apartamento:<br/><input type="text" id="numAp2" value="'+feature.attributes.numapartam+'" name="numApartamento" />'+
+	                   '<br/>Tipo de propiedad:<br/><input type="text" id="tipopropiedad2" value="'+feature.attributes.tipoinmueb+'" name="tprop" />'+ 
+	                   '<br/>Tipo de transaccion:<br/><input type="text" id="tipotransaccion2" value="'+feature.attributes.tipooperac+'" name="ttrans" />'+
+	                   '<br/>Precio:<br/><input type="text" id="precio2" value="'+feature.attributes.precio+'" name="pre" />'+
+	                   '<br/>Dormitorios:<br/><input type="text" id="dormitorios2" value="'+feature.attributes.cantdormit+'" name="dor" />'+
+	                   '<br/>Garage:<br/><input type="text" id="garage2" value="'+feature.attributes.garage+'" name="gar" />'+
+	                   '<br/>Tamanio:<br/><input type="text" id="tamanio2" value="'+feature.attributes.tamano+'" name="tam" />'+
+	                   '<br/>Barrios:<br/><input type="text" id="barrio2" value="'+feature.attributes.barrio+'" name="barr" />'+
+	                   '<br/>Banos:<br/><input type="text" id="banos2" value="'+feature.attributes.banos+'" name="ban" />'+
+	                   '<br/>Calefaccion:<br/><input type="text" id="calefaccion2" value="'+feature.attributes.calefaccion+'" name="cale" />'+
+	                   '<br/>Parrillero:<br/><input type="text" id="parrillero2" value="'+feature.attributes.parillero+'" name="parr" />'+
+	                   '<br/>Piscina:<br/><input type="text" id="piscina2" value="'+feature.attributes.piscina+'" name="pis" />'+
+	                   '<br/>Estado:<br/><input type="text" id="estado2" value="'+feature.attributes.estado+'" name="est" />'+
+	                   '<br/>Descripcion:<br/><input type="text" id="descripcion2" value="'+feature.attributes.descripcion+'" name="des" /></form>',
 	                   null,
 	                   true 
 	                   );
@@ -131,10 +157,25 @@ window.onload = function() {
 
 	var save=  new OpenLayers.Control.Button({displayClass: 'saveButton',
 	   	   trigger: function() {
-	   	   		f.attributes.direccion=document.getElementById("direccion").value;
-	   	   		f.attributes.numApartamento=parseInt(document.getElementById("numAp").value);
-	   	   		f.attributes.adminId="admin";
-		    	   		f.attributes.gidPadron=1234;
+	   		 		f.attributes.adminid="1" //SETEAR ADMIN
+		   	   		f.attributes.direccion=document.getElementById("direccion").value;
+		   	   		f.attributes.numapartam=document.getElementById("numAp").value;
+		   	   	    f.attributes.gidpadron=1234; //SETEAR PADRON
+		   	   	    f.attributes.tipoinmueb=document.getElementById("tipopropiedad").value;
+		   	    	f.attributes.tipooperac=document.getElementById("tipotransaccion").value;
+		   	    	f.attributes.precio=document.getElementById("precio").value;
+		   	    	f.attributes.cantdormit=document.getElementById("dormitorios").value;
+		   	    	f.attributes.garage=document.getElementById("garage").value;
+		   	    	f.attributes.tamano=document.getElementById("tamanio").value;
+		   	    	f.attributes.barrio=document.getElementById("barrio").value;
+		   	    	f.attributes.banos=document.getElementById("banos").value;
+		   	    	f.attributes.calefaccion=document.getElementById("calefaccion").value;
+		   	    	f.attributes.parillero=document.getElementById("parrillero").value;
+		   	    	f.attributes.piscina=document.getElementById("piscina").value;
+		   	    	f.attributes.estado=document.getElementById("estado").value;
+		   	    	f.attributes.descripcion=document.getElementById("descripcion").value;
+		   	    	//SETEAR IMAGEN
+		   	    	
 		    	   		saveStrategy.save();
 		    	   		mapa.removePopup(f.popup);
 		                f.popup.destroy();
