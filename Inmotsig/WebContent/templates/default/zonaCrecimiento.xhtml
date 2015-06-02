@@ -4,20 +4,26 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition>
-    <script type="text/javascript"
-		src="http://www.openlayers.org/api/OpenLayers.js"/>
-    <h:outputScript name="js/mapaZonasCrecimiento.js" />
-    
+	<script type="text/javascript"
+		src="http://www.openlayers.org/api/OpenLayers.js" />
+	<script type="text/javascript"
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js" />
+	<h:outputScript name="js/mapaZonasCrecimiento.js" />
+
+
 	<ul class="nav nav-tabs">
 		<h:form>
 			<f:ajax render="zonaCreContent">
 				<li class="active btn btn-default"><h:commandLink value="Mapa"
-						action="#{navigationBean.setRenderContent('mapaZona')}"></h:commandLink></li>
+						action="#{navigationBean.setRenderContent('mapaZona')}"
+						id="mapaLink"></h:commandLink></li>
 				<li class="btn btn-default"><h:commandLink value="Tabla"
 						action="#{navigationBean.setRenderContent('tablaZona')}"></h:commandLink></li>
 			</f:ajax>
 		</h:form>
 	</ul>
+
 
 
 	<h:panelGroup id="zonaCreContent" class="tab-content">
@@ -26,29 +32,20 @@
 				rendered="#{navigationBean.renderContent == 'mapaZona'}">
 				<h3>Zonas de crecimiento</h3>
 				<div id="mapa" style="width: 90%; height: 600px;"></div>
+				<script>
+					cargarMapa();
+				</script>
 			</h:panelGroup>
 		</div>
 		<div id="menu1">
-			<h:panelGroup
+			<h:panelGroup id="tablaZonas"
 				rendered="#{navigationBean.renderContent == 'tablaZona'}">
 				<h3>Zonas de crecimiento</h3>
-				<h:dataTable id="table1" value="#{zonasCrecimientoBean.zonas}" var="item" class="table">
-					<f:facet name="header">
-						<h:outputText value="Zonas de Crecimiento" />
-					</f:facet>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Nombre" />
-						</f:facet>
-						<h:outputText value="#{item.nombre}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Grado de Interes" />
-						</f:facet>
-						<h:outputText value="#{item.gradoInteres}" />
-					</h:column>
-				</h:dataTable>
+				<script>
+					cargarTabla();
+				</script>
+
+
 			</h:panelGroup>
 		</div>
 	</h:panelGroup>

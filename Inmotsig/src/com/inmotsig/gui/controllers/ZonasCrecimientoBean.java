@@ -25,7 +25,7 @@ public class ZonasCrecimientoBean {
 		//Datos de prueba
         List<ZonaCrecimiento> zonas = new ArrayList<ZonaCrecimiento>();
     	
-    	ZonaCrecimiento zona = new ZonaCrecimiento();
+    	/*ZonaCrecimiento zona = new ZonaCrecimiento();
     	zona.setGradoInteres(2.2);
     	zona.setNombre("Buceo");
     	
@@ -34,8 +34,8 @@ public class ZonasCrecimientoBean {
     	zona2.setNombre("Carrasco");
     	
     	zonas.add(zona);
-    	zonas.add(zona2);
-    	
+    	zonas.add(zona2);*/
+        
 		this.zonas = zonas;
 	}
 
