@@ -1,4 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition>
@@ -6,6 +7,14 @@
 		src="http://www.openlayers.org/api/OpenLayers.js">
     </script>
 	<div id="mapa" style="width: 90%; height: 800px;"></div>
+	<script>
+function abrir() {
+	window.open("http://localhost:8080/Inmotsig/detallePropiedad.xhtml")
+}
+</script>
+	<h:form>
+		<h:commandButton value="Detalle" onclick="abrir()"></h:commandButton>
+	</h:form>
 
 	<script type="text/javascript">
     window.onload = function() {

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<ui:composition>
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title>Inmobiliaria</title>
+	</f:facet>
+
+	<f:facet name="middle">
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
+
+		<h:outputScript name="js/jquery-2.1.4.min.js" target="head" />
+		<h:outputScript name="js/OpenLayers.js" target="head" />
+		<h:outputStylesheet name="css/extras.css" target="head" />
+		<h:outputScript name="bootstrap/js/bootstrap.js" target="head" />
+		<h:outputScript name="js/mapaDetallePropiedad.js" target="head" />
+		<h:outputStylesheet name="bootstrap/css/bootstrap.css" target="head" />
+		<h:outputStylesheet name="bootstrap/css/bootstrap.css.map"
+			target="head" />
+		<h:outputStylesheet name="css/dashboard.css" target="head" />
+
+		<link rel="stylesheet"
+			href="http://openlayers.org/en/v3.0.0/css/ol.css" type="text/css" />
+		<h:outputScript name="bootstrap/js/bootstrap.js" target="head" />
+	</f:facet>
+
+	<f:facet name="last">
+
+	</f:facet>
+</h:head>
+<h:body style="padding-top: 0px;">
+	<div class="container-fluid">
+		<div class="row">
+			<h:outputLabel class="control-label btn-lg">
+				<h:panelGroup style="font-size: 65px;"
+					class="glyphicon glyphicon-map-marker"></h:panelGroup>
+			</h:outputLabel>
+			<h:outputLabel id="direccion" style="font-size: 50px;">#{propiedadBean.direccion}</h:outputLabel>
+			<!-- legend></legend-->
+		</div>
+		<div class="row">
+			<!-- Body: mapa y fotos -->
+			<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+				<div id="mapa" style="width: 100%; height: 700px;"></div>
+			</div>
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<!-- h:graphicImage style="width:90%; height:90%;"
+					class="img-responsive img-thumbnail"
+					value="resources/images/PalacioSalvo.jpg"></h:graphicImage-->
+
+
+				<!-- Prueba carrusel -->
+				<div id="carousel-example-generic" class="carousel slide"
+					data-ride="carousel">
+					<!-- Indicators -->
+					<ol class="carousel-indicators">
+						<li data-target="#carousel-example-generic" data-slide-to="0"
+							class="active"></li>
+						<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+						<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+						<li data-target="#carousel-example-generic" data-slide-to="3"></li>
+					</ol>
+
+					<!-- Wrapper for slides -->
+					<div class="carousel-inner" role="listbox">
+						<div class="item active">
+							<h:graphicImage style="width:90%; height:90%;"
+								class="img-responsive img-thumbnail"
+								value="resources/images/PalacioSalvo.jpg"></h:graphicImage>
+							<div class="carousel-caption"></div>
+						</div>
+						<div class="item">
+							<h:graphicImage style="width:90%; height:90%;"
+								class="img-responsive img-thumbnail"
+								value="resources/images/PalacioLegislativo.jpg"></h:graphicImage>
+							<div class="carousel-caption"></div>
+						</div>
+					</div>
+
+					<!-- Controls -->
+					<a class="left carousel-control" href="#carousel-example-generic"
+						role="button" data-slide="prev"> <span
+						class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a> <a class="right carousel-control" href="#carousel-example-generic"
+						role="button" data-slide="next"> <span
+						class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+				<!-- Fin Prueba carrusel -->
+
+			</div>
+		</div>
+		<div class="row">
+			<!-- Detalles -->
+			<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+				<h:panelGroup class="form-group">
+
+					<h:form class="form" id="detallesPropiedad">
+						<h:panelGroup class="row">
+							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+								<h:outputLabel for="operacion" class="control-label">Operacion: </h:outputLabel>
+								<h:outputText id="operacion" class="form-control"
+									value="#{propiedadBean.tipotransaccion}"></h:outputText>
+							</div>
+							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+								<h:outputLabel for="precio" class="control-label">Precio: </h:outputLabel>
+								<h:panelGroup class="input-group">
+									<h:panelGroup class="input-group-addon">USD</h:panelGroup>
+									<h:outputText id="precio" class="form-control"
+										value="#{propiedadBean.precio}"></h:outputText>
+								</h:panelGroup>
+							</div>
+							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+								<h:outputLabel for="tipoPropiedad" class="control-label">Tipo: </h:outputLabel>
+								<h:outputText id="tipoPropiedad" class="form-control"
+									value="#{propiedadBean.tipopropiedad}"></h:outputText>
+							</div>
+						</h:panelGroup>
+
+						<h:panelGroup class="row">
+							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+								<h:outputLabel for="superficieEdificada" class="control-label">Superficie construida: </h:outputLabel>
+								<h:panelGroup class="input-group">
+									<h:outputText id="superficieEdificada" class="form-control"
+										value="#{propiedadBean.tamanio}"></h:outputText>
+									<h:panelGroup class="input-group-addon">m2</h:panelGroup>
+								</h:panelGroup>
+							</div>
+							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+								<h:outputLabel for="dormitorios" class="control-label">Dormitorios: </h:outputLabel>
+								<h:outputText id="dormitorios" class="form-control"
+									value="#{propiedadBean.dormitorios}"></h:outputText>
+							</div>
+							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+								<h:outputLabel for="banos" class="control-label">Baños: </h:outputLabel>
+								<h:outputText id="banos" class="form-control"
+									value="#{propiedadBean.banos}"></h:outputText>
+							</div>
+						</h:panelGroup>
+						<h:panelGroup class="row">
+							<fieldset>
+								<legend>Comodidades</legend>
+							</fieldset>
+						</h:panelGroup>
+						<h:panelGroup class="row">
+							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+								<h:outputLabel for="calefaccion" class="control-label">Calefaccion: </h:outputLabel>
+								<input type="checkbox" value="#{propiedadBean.calefaccion}"
+									id="calefaccion" class="form-control" checked="checked"></input>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+								<h:outputLabel for="garage" class="control-label">Garage: </h:outputLabel>
+								<input type="checkbox" value="#{propiedadBean.garage}"
+									id="garage" class="form-control" checked="checked"></input>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+								<h:outputLabel for="parrillero" class="control-label">Parrillero: </h:outputLabel>
+								<h:selectBooleanCheckbox value="#{propiedadBean.parrillero}"
+									id="parrillero" class="form-control" readonly="true"></h:selectBooleanCheckbox>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+								<h:outputLabel for="piscina" class="control-label">Piscina: </h:outputLabel>
+								<h:selectBooleanCheckbox value="#{propiedadBean.piscina}"
+									id="piscina" class="form-control" readonly="true"></h:selectBooleanCheckbox>
+							</div>
+						</h:panelGroup>
+						<h:panelGroup class="row">
+							<fieldset>
+								<legend>Descripcion</legend>
+							</fieldset>
+						</h:panelGroup>
+						<h:panelGroup class="row">
+							<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+								<h4>#{propiedadBean.descripcion}</h4>
+							</div>
+						</h:panelGroup>
+					</h:form>
+				</h:panelGroup>
+			</div>
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<h:panelGroup class="form-group">
+					<h3>Envienos su consulta.</h3>
+					<h:form id="contacto">
+						<h:panelGroup class="row">
+							<h:panelGroup class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<h:inputText id="nombreUsuario" a:placeholder="Nombre"
+									class="form-control" value="#{emailBean.nombreUsuario}"></h:inputText>
+							</h:panelGroup>
+							<h:panelGroup class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+								<h:inputText id="telUsuario" a:placeholder="Telefono"
+									class="form-control" value="#{emailBean.telefono}">
+								</h:inputText>
+							</h:panelGroup>
+						</h:panelGroup>
+						<h:panelGroup class="row">
+							<h:panelGroup class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+								<h:inputText id="emailUsuario" a:placeholder="Email"
+									class="form-control" value="#{emailBean.emailUsuario}"></h:inputText>
+							</h:panelGroup>
+						</h:panelGroup>
+						<h:panelGroup class="row">
+							<h:panelGroup class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+								<h:inputTextarea id="msjConsultaUsuario"
+									a:placeholder="Ingrese su consulta..." class="form-control"
+									rows="4" value="#{emailBean.consulta}"></h:inputTextarea>
+							</h:panelGroup>
+						</h:panelGroup>
+						<h:panelGroup class="row">
+							<h:panelGroup class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+								<h:commandButton class="btn btn-success btn-block"
+									value="Enviar" onclick="#{emailBean.send()}"></h:commandButton>
+							</h:panelGroup>
+						</h:panelGroup>
+					</h:form>
+				</h:panelGroup>
+			</div>
+		</div>
+		<div class="row">
+			<h:outputText value="Gehogar"></h:outputText>
+		</div>
+	</div>
+</h:body>
+</ui:composition>
+</html>

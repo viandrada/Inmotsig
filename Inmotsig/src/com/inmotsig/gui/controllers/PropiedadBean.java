@@ -1,32 +1,33 @@
 package com.inmotsig.gui.controllers;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class PropiedadBean {
 	
-		private int gid;
-		private String adminid; //en realidad es el mail
-  		private String direccion;
-  		private int numapartam;
-  	    private int gidpadron; 
-  	    private String tipopropiedad;
-  	    private String tipotransaccion;
-   		private int precio;
-   		private String dormitorios;
-   		private String garage;
-   		private int tamanio;
-   		private String barrio;
-   		private String banos;
-   		private String calefaccion;
-   		private String parrillero;
-   		private String piscina;
-   		private String estado;
-   		private String imagen;
-   		private String descripcion;
-
+		private int gid = 1;
+		private String adminid = "admin@admin.com"; //en realidad es el mail
+  		private String direccion = "Backer Street";
+  		private int numapartam = 221;
+  	    private int gidpadron = 221; 
+  	    private String tipopropiedad = "Apartamento";
+  	    private String tipotransaccion = "Venta";
+   		private int precio = 50000;
+   		private String dormitorios = "3";
+   		private boolean garage = true;
+   		private int tamanio = 100;
+   		private String barrio = "West End";
+   		private String banos = "1";
+   		private boolean calefaccion = true;
+   		private boolean parrillero = false;
+   		private boolean piscina = false;
+   		private String estado = "publica";
+   		private String imagen = "";
+   		private String descripcion = "Excelente oportunidad";
+   		
+   	
 		public String getAdminid() {
 			return adminid;
 		}
@@ -75,10 +76,11 @@ public class PropiedadBean {
 		public void setDormitorios(String dormitorios) {
 			this.dormitorios = dormitorios;
 		}
-		public String getGarage() {
+
+		public boolean isGarage() {
 			return garage;
 		}
-		public void setGarage(String garage) {
+		public void setGarage(boolean garage) {
 			this.garage = garage;
 		}
 		public int getTamanio() {
@@ -99,22 +101,23 @@ public class PropiedadBean {
 		public void setBanos(String banos) {
 			this.banos = banos;
 		}
-		public String getCalefaccion() {
+
+		public boolean isCalefaccion() {
 			return calefaccion;
 		}
-		public void setCalefaccion(String calefaccion) {
+		public void setCalefaccion(boolean calefaccion) {
 			this.calefaccion = calefaccion;
 		}
-		public String getParrillero() {
+		public boolean isParrillero() {
 			return parrillero;
 		}
-		public void setParrillero(String parrillero) {
+		public void setParrillero(boolean parrillero) {
 			this.parrillero = parrillero;
 		}
-		public String getPiscina() {
+		public boolean isPiscina() {
 			return piscina;
 		}
-		public void setPiscina(String piscina) {
+		public void setPiscina(boolean piscina) {
 			this.piscina = piscina;
 		}
 		public String getEstado() {
@@ -142,4 +145,9 @@ public class PropiedadBean {
 			this.imagen = imagen;
 		}
   		
+		public String isChecked(boolean checked)
+		{
+			if(checked == true) return "checked";
+			else return "not";
+		}
 }
