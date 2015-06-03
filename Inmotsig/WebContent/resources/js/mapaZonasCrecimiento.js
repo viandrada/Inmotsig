@@ -181,6 +181,15 @@ function cargarTabla(){
 	       	 
 	            jQuery('#table1').dataTable( {
 	    	        data: listaFinal,
+	    	        order: [[ 1, "desc" ]],
+	    	        language: {
+	    	            "lengthMenu": "Mostrar _MENU_ registros por pagina",
+	    	            "zeroRecords": "No se encontro nada - sorry",
+	    	            "info": "Mostrando pagina _PAGE_ de _PAGES_",
+	    	            "infoEmpty": "No hay registros disponibles",
+	    	            "infoFiltered": "(filtrado a partir de un total de _MAX_ registros)",
+	    	            "search": "Buscar zona "
+	    	        },
 	    	        columns: [
 	    	            { data: 'nombre' },
 	    	            { data: 'grado_interes' }
