@@ -12,7 +12,7 @@ import org.apache.commons.mail.SimpleEmail;
 public class EmailBean {
 
 	private String emailAdmin;
-	private String nombreUsuario = "Prueba";
+	private String nombreUsuario;
 	private String telefono;
 	private String emailUsuario;
 	private String consulta;
@@ -49,18 +49,26 @@ public class EmailBean {
 	
 	public void send()
 	{
-		boolean enviado = false;
+		//boolean enviado = false;
 		Email email = new SimpleEmail();
 		try {
 			email.setHostName("smtp.googlemail.com");
 			email.setSmtpPort(465);
-			email.setAuthenticator(new DefaultAuthenticator("username", "password"));
+			email.setAuthenticator(new DefaultAuthenticator("geogar.tsig@gmail.com", "geogar123"));
 			email.setSSLOnConnect(true);
+
 			email.setFrom(this.emailUsuario);
 			email.setSubject("TestMail");
 			email.setMsg(this.consulta);
 			email.addTo("victoria.andrada@gmail.com");
 			email.send();
+			
+			this.emailAdmin = null;
+			this.nombreUsuario = null;
+			this.telefono = null;
+			this.emailUsuario = null;
+			this.consulta = null;
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
