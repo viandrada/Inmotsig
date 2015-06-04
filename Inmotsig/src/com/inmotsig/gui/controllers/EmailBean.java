@@ -60,7 +60,7 @@ public class EmailBean {
 			email.setFrom(this.emailUsuario);
 			email.setSubject("TestMail");
 			email.setMsg(this.consulta);
-			email.addTo("victoria.andrada@gmail.com");
+			email.addTo(this.emailUsuario);
 			email.send();
 			
 			this.emailAdmin = null;

@@ -159,21 +159,21 @@ window.onload = function() {
 	   	   trigger: function() {
 	   		 		f.attributes.adminid="1" //SETEAR ADMIN
 		   	   		f.attributes.direccion=document.getElementById("direccion").value;
-		   	   		f.attributes.numapartam=document.getElementById("numAp").value;
+		   	   		f.attributes.numapartam=parseInt(document.getElementById("numAp").value);
 		   	   	    f.attributes.gidpadron=1234; //SETEAR PADRON
 		   	   	    f.attributes.tipoinmueb=document.getElementById("tipopropiedad").value;
 		   	    	f.attributes.tipooperac=document.getElementById("tipotransaccion").value;
-		   	    	f.attributes.precio=document.getElementById("precio").value;
-		   	    	f.attributes.cantdormit=document.getElementById("dormitorios").value;
+		   	    	f.attributes.precio=parseInt(document.getElementById("precio").value);
+		   	    	f.attributes.cantdormit=parseInt(document.getElementById("dormitorios").value);
 		   	    	f.attributes.garage=document.getElementById("garage").value;
-		   	    	f.attributes.tamano=document.getElementById("tamanio").value;
+		   	    	f.attributes.tamano=parseInt(document.getElementById("tamanio").value);
 		   	    	f.attributes.barrio=document.getElementById("barrio").value;
-		   	    	f.attributes.banos=document.getElementById("banos").value;
-		   	    	f.attributes.calefaccion=document.getElementById("calefaccion").value;
+		   	    	f.attributes.banos=parseInt(document.getElementById("banos").value);
+		   	    	f.attributes.calefaccio=document.getElementById("calefaccion").value;
 		   	    	f.attributes.parillero=document.getElementById("parrillero").value;
 		   	    	f.attributes.piscina=document.getElementById("piscina").value;
 		   	    	f.attributes.estado=document.getElementById("estado").value;
-		   	    	f.attributes.descripcion=document.getElementById("descripcion").value;
+		   	    	f.attributes.descripcio=document.getElementById("descripcion").value;
 		   	    	//SETEAR IMAGEN
 		   	    	
 		    	   		saveStrategy.save();

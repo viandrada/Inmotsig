@@ -109,7 +109,7 @@
 					<h:form class="form" id="detallesPropiedad">
 						<h:panelGroup class="row">
 							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-								<h:outputLabel for="operacion" class="control-label">Operacion: </h:outputLabel>
+								<h:outputLabel for="operacion" class="control-label">Operación: </h:outputLabel>
 								<h:outputText id="operacion" class="form-control"
 									value="#{propiedadBean.tipotransaccion}"></h:outputText>
 							</div>
@@ -155,7 +155,7 @@
 						</h:panelGroup>
 						<h:panelGroup class="row">
 							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-								<h:outputLabel for="calefaccion" class="control-label">Calefaccion: </h:outputLabel>
+								<h:outputLabel for="calefaccion" class="control-label">Calefacción: </h:outputLabel>
 								<input type="checkbox" value="#{propiedadBean.calefaccion}"
 									id="calefaccion" class="form-control" checked="checked"></input>
 							</div>
@@ -177,7 +177,7 @@
 						</h:panelGroup>
 						<h:panelGroup class="row">
 							<fieldset>
-								<legend>Descripcion</legend>
+								<legend>Descripción</legend>
 							</fieldset>
 						</h:panelGroup>
 						<h:panelGroup class="row">
@@ -190,7 +190,7 @@
 			</div>
 			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 				<h:panelGroup class="form-group">
-					<h3>Envienos su consulta.</h3>
+					<h3>Envíenos su consulta.</h3>
 					<h:form id="contacto">
 						<h:panelGroup class="row">
 							<h:panelGroup class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -218,8 +218,8 @@
 						</h:panelGroup>
 						<h:panelGroup class="row">
 							<h:panelGroup class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
-								<h:commandButton class="btn btn-success btn-block"
-									value="Enviar" onclick="#{emailBean.send()}"></h:commandButton>
+								<h:commandButton class="btn btn-success btn-block" type="submit"
+									value="Enviar" action="#{emailBean.send()}"></h:commandButton>
 							</h:panelGroup>
 						</h:panelGroup>
 					</h:form>
