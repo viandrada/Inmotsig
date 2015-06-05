@@ -1,7 +1,10 @@
 package com.inmotsig.gui.controllers;
 
+import java.io.IOException;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
 @ViewScoped
@@ -9,7 +12,7 @@ public class PropiedadBean {
 	
 		private int gid = 1;
 		private String adminid = "admin@admin.com"; //en realidad es el mail
-  		private String direccion = "Backer Street";
+  		private String direccion = "Cargando...";
   		private int numapartam = 221;
   	    private int gidpadron = 221; 
   	    private String tipopropiedad = "Apartamento";
@@ -149,5 +152,17 @@ public class PropiedadBean {
 		{
 			if(checked == true) return "checked";
 			else return "not";
+		}
+		
+		public String cargar()
+		{
+			//this.gid = Integer.parseInt(gid);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().dispatch("detallePropiedad.xhtml");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return "detallePropiedad";
 		}
 }

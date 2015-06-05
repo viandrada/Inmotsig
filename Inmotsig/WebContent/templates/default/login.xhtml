@@ -1,17 +1,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:h="http://xmlns.jcp.org/jsf/html"
-xmlns:f="http://java.sun.com/jsf/core"
-xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <ui:composition>
-     <div class="span3 offset2">
-        <h:form>
-                <h:outputText value="Email "></h:outputText>
-                <h:inputText value="#{loginBean.email}" required="true"><f:ajax/></h:inputText>
-                <h:outputText value="Password "></h:outputText>
-                <h:inputSecret value="#{loginBean.password}" required="true"><f:ajax/></h:inputSecret>
-           
-            <h:commandButton value="Login" action="#{loginBean.login}"></h:commandButton>
-       </h:form>
-      </div>
+	<div class="span3 offset2">
+		<h:panelGroup class="form-group">
+			<h:form class="form-inline" id="loginForm">
+				<h:inputText id="loginEmail" value="#{loginBean.email}" required="true" class="form-control" a:placeholder="Email">
+					<f:ajax />
+				</h:inputText>
+				<h:inputSecret value="#{loginBean.password}" required="true" class="form-control" a:placeholder="Password">
+					<f:ajax />
+				</h:inputSecret>
+
+				<h:commandButton value="Login" action="#{loginBean.login}" class="btn"></h:commandButton>
+			</h:form>
+		</h:panelGroup>
+	</div>
 </ui:composition>
 </html>

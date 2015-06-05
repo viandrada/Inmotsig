@@ -7,18 +7,18 @@
 		src="http://www.openlayers.org/api/OpenLayers.js">
     </script>
 	<div id="mapa" style="width: 90%; height: 800px;"></div>
-	<script>
-function abrir() {
-	window.open("http://localhost:8080/Inmotsig/detallePropiedad.xhtml")
-}
-</script>
+	<!-- script>
+    function abrir() {
+	 window.open("http://localhost:8080/Inmotsig/detallePropiedad.xhtml")
+    }
+    </script>
 	<h:form>
 		<h:commandButton value="Detalle" onclick="abrir()"></h:commandButton>
-	</h:form>
+	</h:form-->
 
 	<script type="text/javascript">
     window.onload = function() {
-    // esto es por un bug en para wfs
+ 
 			var _class = OpenLayers.Format.XML;
 			var originalWriteFunction = _class.prototype.write;
 		
@@ -113,8 +113,9 @@ function abrir() {
 		                    ("pop",
 		                    feature.geometry.getBounds().getCenterLonLat(),
 		                    null,
-		                    '<form >Direccion:<br/><input type="text" id="direccion2" value="'+feature.attributes.direccion+'" name="dir" />'+
-		                    '<br/>Numero de apartamento:<br/><input type="text" id="numAp2" value="'+feature.attributes.numApartamento+'" name="numApartamento" /> </form>',
+		                    '<form target="_blank" action="detallePropiedad.xhtml" >Direccion:<br/><input type="text" id="direccion2" value="'+feature.attributes.direccion+'" name="dir" />'+
+		                    '<input type="hidden" id="propGid" value="'+feature.attributes.gidpadron+'" name="gid" />'+
+		                    '<br/>Numero de apartamento:<br/><input type="text" id="numAp2" value="'+feature.attributes.numapartam+'" name="numApartamento" /> <input type="submit" value="Detalle" ></input></form>',
 		                    null,
 		                    true 
 		                    );
