@@ -8,9 +8,13 @@
 
 	<div id="mapa" style="width: 90%; height: 600px;"></div>
 
-
+	<style>
+      .olFramedCloudPopupContent {
+	    overflow: hidden;
+      }
+    </style>
 	<script type="text/javascript">
-
+	
 var wfsTasmaniaRoads; 
 var saveStrategy;
 saveStrategy = new OpenLayers.Strategy.Save();
@@ -80,23 +84,191 @@ window.onload = function() {
  		    	f.popup = new OpenLayers.Popup.FramedCloud
                 ("pop",
                 f.geometry.getBounds().getCenterLonLat(),
-                null,
-                                
-                '<form ><strong>Datos Propiedad: </strong><br/>Dirección: <input type="text" id="direccion" name="dir" />'+
-                '<br/>Número: <input type="text" id="numAp" name="numApartamento" />'+
-                '<br/>Tipo propiedad:  <select id="tipopropiedad" name="tprop"><option value="Casa">Casa</option><option value="Apartamento">Apartamento</option><option value="Terreno">Terreno</option></select>'+
-                '<br/>Tipo transacción:  <select id="tipotransaccion" name="ttrans"><option value="Compra">Compra</option><option value="Alquiler">Alquiler</option></select>'+
-                '<br/>Barrio: <select id="barrio" name="barr"><option value="Aguada">Aguada</option><option value="BarrioSur">Barrio Sur</option><option value="BellaVista">Bella Vista</option><option value="Buceo">Buceo</option><option value="BrazoOriental">Brazo Oriental</option><option value="Carrasco">Carrasco</option><option value="CarrascoNorte">Carrasco Norte</option><option value="Centro">Centro</option><option value="CiudadVieja">Ciudad Vieja</option><option value="Cordon">Cordon</option><option value="Goes">Goes</option><option value="JacintoVera">Jacinto Vera</option><option value="LaBlanqueada">La Blanqueada</option><option value="LaTeja">La Teja</option><option value="Malvin">Malvin</option><option value="MalvinNorte">Malvín Norte</option><option value="Maronas">Maroñas</option><option value="Palermo">Palermo</option><option value="ParqueBatlle">Parque Batlle</option><option value="ParqueRodo">Parque Rodo</option><option value="Pocitos">Pocitos</option><option value="Prado">Prado</option><option value="PuntaCarretas">Punta Carretas</option><option value="PuntaGorda">Punta Gorda</option><option value="Reducto">Reducto</option><option value="Sayago">Sayago</option><option value="TreCruces">Tres Cruces</option><option value="Union">Unión</option><option value="VillaDelCerro">Villa del Cerro</option></select>'+
-                '<br/>Precio: <input type="text" id="precio" name="pre" />'+
-                '<br/>Tamaño: <input type="text" id="tamanio" name="tam" />'+
-                '<br/>Dormitorios: <select id="dormitorios" name="dor"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select>'+ 
-                '<br/>Baños: <select id="banos" name="ban"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>'+ 
-                '<br/>Garage: <select id="garage" name="gar"><option value="No">No</option><option value="Si">Si</option></select>'+ 
-                '<br/>Calefacción: <select id="calefaccion" name="cale"><option value="No">No</option><option value="Si">Si</option></select>'+ 
-                '<br/>Parrillero: <select id="parrillero" name="parr"><option value="No">No</option><option value="Si">Si</option></select>'+ 
-                '<br/>Piscina: <select id="piscina" name="pis"><option value="No">No</option><option value="Si">Si</option></select>'+ 
-                '<br/>Estado: <select id="estado" name="est"><option value="Privada">Privada</option><option value="Publica">Publica</option></select>'+ 
-                '<br/>Descripción: <br/><textarea type="text" id="descripcion" name="des" rows="2" /></form>',
+                null,           
+                '<div class="form-group">'+
+	'<form class="form-horizontal">'+
+		'<div class="row">'+
+		     '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+			      '<strong>Datos Propiedad: </strong>'+
+		     '</div>'+
+		'</div>'+
+		
+		'<div class="row">'+
+		     '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">'+
+				  '<input class="form-control" type="text" id="direccion" name="dir" placeholder="Dirección"></input>'+
+		     '</div>'+
+		     '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">'+
+				  '<input class="form-control" placeholder="Nro de apto" type="text" id="numAp" name="numApartamento"/>'+
+		     '</div>'+
+		'</div>'+
+		
+		'<div class="row">'+
+		     '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+			      '<h5>Tipo propiedad:</h5>'+
+		     '</div>'+
+		     '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+			      '<select id="tipopropiedad" name="tprop" class="form-control">'+
+			           '<option value="Casa">Casa</option>'+
+				       '<option value="Apartamento">Apartamento</option>'+
+				       '<option value="Terreno">Terreno</option>'+
+			      '</select>'+
+		     '</div>'+
+		 '</div>'+
+		 
+		'<div class="row">'+
+		     '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+				'<h5>Tipo transacción:</h5>'+
+			 '</div>'+
+			 '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+				'<select id="tipotransaccion" name="ttrans" class="form-control">'+
+				    '<option value="Compra">Compra</option>'+
+				    '<option value="Alquiler">Alquiler</option>'+
+				'</select>'+
+			  '</div>'+
+		'</div>'+
+		
+		'<div class="row">'+
+		     '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+				'<h5>Barrio:</h5>'+
+			 '</div>'+
+			 '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+				'<select id="barrio" name="barr" class="form-control"><option value="Aguada">Aguada</option>'+
+				'<option value="BarrioSur">Barrio Sur</option>'+
+				'<option value="BellaVista">Bella Vista</option>'+
+				'<option value="Buceo">Buceo</option>'+
+				'<option value="BrazoOriental">Brazo Oriental</option>'+
+				'<option value="Carrasco">Carrasco</option>'+
+				'<option value="CarrascoNorte">Carrasco Norte</option>'+
+				'<option value="Centro">Centro</option>'+
+				'<option value="CiudadVieja">Ciudad Vieja</option>'+
+				'<option value="Cordon">Cordon</option>'+
+				'<option value="Goes">Goes</option>'+
+				'<option value="JacintoVera">Jacinto Vera</option>'+
+				'<option value="LaBlanqueada">La Blanqueada</option>'+
+				'<option value="LaTeja">La Teja</option>'+
+				'<option value="Malvin">Malvin</option>'+
+				'<option value="MalvinNorte">Malvín Norte</option>'+
+				'<option value="Maronas">Maroñas</option>'+
+				'<option value="Palermo">Palermo</option>'+
+				'<option value="ParqueBatlle">Parque Batlle</option>'+
+				'<option value="ParqueRodo">Parque Rodo</option>'+
+				'<option value="Pocitos">Pocitos</option>'+
+				'<option value="Prado">Prado</option>'+
+				'<option value="PuntaCarretas">Punta Carretas</option>'+
+				'<option value="PuntaGorda">Punta Gorda</option>'+
+				'<option value="Reducto">Reducto</option>'+
+				'<option value="Sayago">Sayago</option>'+
+				'<option value="TreCruces">Tres Cruces</option>'+
+				'<option value="Union">Unión</option>'+
+				'<option value="VillaDelCerro">Villa del Cerro</option>'+
+				'</select>'+
+			'</div>'+
+		'</div>'+
+		
+		'<div class="row">'+
+		     '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+				'<input class="form-control" type="text" id="precio" name="pre" placeholder="Precio" />'+
+			 '</div>'+
+			 '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+				'<input class="form-control" type="text" id="tamanio" name="tam" placeholder="Tamaño" />'+
+			 '</div>'+
+		'</div>'+
+		
+		'<div class="row">'+
+		    '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+		         '<h5>Dormitorios:</h5>'+
+		    '</div>'+
+		    '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+		         '<select id="dormitorios" name="dor" class="form-control">'+
+			         '<option value="0">0</option>'+
+				     '<option value="1">1</option>'+
+				     '<option value="2">2</option>'+
+				     '<option value="3">3</option>'+
+				     '<option value="4">4</option>'+
+				     '<option value="5">5</option>'+
+				     '<option value="6">6</option>'+
+				 '</select>'+
+			'</div>'+
+		'</div>'+
+		
+		'<div class="row">'+
+		     '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+			      '<h5>Baños:</h5>'+
+			 '</div>'+
+			 '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+			      '<select id="banos" name="ban" class="form-control">'+
+				      '<option value="0">0</option>'+
+				      '<option value="1">1</option>'+
+				      '<option value="2">2</option>'+
+				      '<option value="3">3</option>'+
+				      '<option value="4">4</option>'+
+				      '<option value="5">5</option>'+
+				   '</select>'+
+			 '</div>'+
+	    '</div>'+
+	    
+		'<div class="row">'+
+		     '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+		          '<h5>Garage:</h5>'+
+		     '</div>'+
+		     '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+				 '<select id="garage" name="gar" class="form-control">'+
+				    '<option value="No">No</option>'+
+				    '<option value="Si">Si</option></select>'+
+			 '</div>'+
+		'</div>'+
+		
+	    '<div class="row">'+
+		     '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+			     '<h5>Calefacción:</h5>'+
+			 '</div>'+
+			 '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+				'<select id="calefaccion" name="cale" class="form-control">'+
+				     '<option value="No">No</option>'+
+				     '<option value="Si">Si</option></select>'+
+			 '</div>'+
+		'</div>'+
+		
+		'<div class="row">'+
+	        '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+		         '<h5>Parrillero:</h5>'+
+		    '</div>'+
+		    '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+				 '<select id="parrillero" name="parr" class="form-control">'+
+				'<option value="No">No</option>'+
+				'<option value="Si">Si</option></select>'+
+			'</div>'+
+		'</div>'+
+		
+		'<div class="row">'+
+		    '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+			     '<h5>Piscina:</h5>'+
+			'</div>'+
+			'<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+				'<select id="piscina" name="pis" class="form-control">'+
+				'<option value="No">No</option>'+
+				'<option value="Si">Si</option></select>'+
+		     '</div>'+
+		'</div>'+
+		
+		'<div class="row">'+
+		    '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+		         '<h5>Estado:</h5>'+
+		    '</div>'+
+		    '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+				'<select id="estado" name="est" class="form-control">'+
+				'<option value="Privada">Privada</option>'+
+				'<option value="Publica">Publica</option></select>'+
+			'</div>'+
+		'</div>'+
+		
+		'<div class="row">'+
+		    '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">'+
+			    '<textarea type="text" id="descripcion" name="des" rows="2" placeholder="Descripción" class="form-control"/>'+
+			'</div>'+
+		'</div>'+
+	'</form>'+
+'</div>',
                 null,
                 true 
                 );
@@ -104,9 +276,6 @@ window.onload = function() {
 
 	};
 		  
-		    
-
-
 	var attributes = {direccion: "magallanes"};
 	var select = new OpenLayers.Control.SelectFeature(wfsTasmaniaRoads);
     mapa.addControl(select);
@@ -205,7 +374,6 @@ window.onload = function() {
      
 	}
 
-	
 </script>
 
 </ui:composition>
