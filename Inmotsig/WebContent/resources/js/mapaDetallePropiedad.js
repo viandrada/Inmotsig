@@ -1,20 +1,16 @@
 var QueryString;
 var comercios,liceos;
-var feauture,lon,lat;
+var feauture = new OpenLayers.Feature();
+var lon,lat,dist;
+var propiedad = new OpenLayers.Layer.Vector();
 var comercios =   new OpenLayers.Layer.Vector("WFS", {
 	 strategies: [ new OpenLayers.Strategy.BBOX() ],
 	  protocol: new OpenLayers.Protocol.WFS({
 	    url: "http://localhost:8080/geoserver/wfs", 
 	    featureType: "comercios",
 	    featureNS: "http://www.openplans.org/topp",
-	    geometryName: "geom",
-	    
-	  }),
-	  filter: new OpenLayers.Filter.Spatial({
-   		type: OpenLayers.Filter.Spatial.BBOX,
-   		value: new OpenLayers.Bounds(-56.18315665939941,-34.90032077215917,-56.144318272863764,-56.144318272863764),
-   		projection: new OpenLayers.Projection('EPSG:4326')
-   	    })
+	    geometryName: "geom"
+	  })
 });
 var liceos =   new OpenLayers.Layer.Vector("WFS", {
 	 strategies: [ new OpenLayers.Strategy.BBOX() ],
@@ -58,6 +54,38 @@ window.onload = function() {
 	// alert(QueryString);
 }
 
+comercios.events.on({
+	featureselected: function(event) {
+        var featurecomercio = event.feature;
+        var geom_1 = new OpenLayers.Geometry.Point(featurecomercio.geometry.x,featurecomercio.geometry.y);
+        var lonlat = new OpenLayers.LonLat(feauture.geometry.getCentroid().x, feauture.geometry.getCentroid().y);
+        lonlat.transform(new OpenLayers.Projection('EPSG:4326'), new OpenLayers.Projection('EPSG:3857'));
+        geom_2 = new OpenLayers.Geometry.Point(lonlat.lon,lonlat.lat);
+        dist = Math.round(geom_2.distanceTo(geom_1));
+        
+        featurecomercio.popup = new OpenLayers.Popup.FramedCloud
+        ("pop",
+        featurecomercio.geometry.getBounds().getCenterLonLat(),
+        null,
+        'Nombre:<br/><input type="text" id="direccion2" value="'+featurecomercio.attributes.nbre+'" name="dir" />'+
+        '<br/>' + '<input type="text" id="dist" value="'+ dist + '  metros' + ' " name="dist" />',
+        null,
+        true 
+        );
+     mapa.addPopup(featurecomercio.popup);
+     
+     
+    },
+   
+    featureunselected: function(event) {
+        var feature2 = event.feature;
+        mapa.removePopup(feature2.popup);
+        feature2.popup.destroy();
+        feature2.popup = null;
+    }
+
+});
+
 function cargarMapa() {
 	// esto es por un bug en para wfs
 	var _class = OpenLayers.Format.XML;
@@ -94,6 +122,16 @@ function cargarMapa() {
 		}),
 	});
      
+	var prop_Style = new OpenLayers.Style({
+		'fillColor': 'red',
+		'fillOpacity': .8,
+		'strokeColor': 'red',
+		'strokeWidth': 2,
+		'pointRadius': 7
+		});
+	var propiedad_vector_map = new OpenLayers.StyleMap({
+		'default': prop_Style
+		});
 	
 	var vector_style = new OpenLayers.Style({
 		'fillColor': '#669933',
@@ -117,30 +155,22 @@ function cargarMapa() {
 		'default': liceo_style
 		});
 	
+	propiedad.styleMap = propiedad_vector_map;
 	comercios.styleMap = vector_style_map;
 	liceos.styleMap = liceo_style_map;
-	// alert(propiedad);
+	
 	mapa.addLayer(osm);
 	mapa.addLayer(comercios);
 	mapa.addLayer(liceos);
 	mapa.addLayer(propiedad);
-	var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform
-	// from WGS
-	// 1984
-	var toProjection = new OpenLayers.Projection("EPSG:900913"); // to
-	// Spherical
-	// Mercator
-	// Projection
-	var position = new OpenLayers.LonLat(-56.21, -34.81).transform(
-			fromProjection, toProjection);
-
-	mapa.zoomToMaxExtent();
-	mapa.setCenter(position, 12);
 
 	mapa.addControl(new OpenLayers.Control.MousePosition({
 		numDigits : 6
 	}));
 	mapa.addControl(new OpenLayers.Control.ScaleLine());
+	var select = new OpenLayers.Control.SelectFeature(comercios);
+	mapa.addControl(select);
+	select.activate();
 }
 
 function agergarComercios(){
@@ -153,12 +183,15 @@ function agergarComercios(){
      minx = point.lon;
      miny = point.lat;
      var sum = 0.00585794448853;
+     
      var bounds_object = new OpenLayers.Bounds(minx +sum, miny + sum, minx - sum, miny - sum);
+     
      comercios.filter =new OpenLayers.Filter.Spatial({
  		type: OpenLayers.Filter.Spatial.BBOX,
 		value: bounds_object, // Bounds(minx, miny, maxx, maxy)
 		projection: new OpenLayers.Projection('EPSG:4326')
 	    });
+     
      liceos.filter =new OpenLayers.Filter.Spatial({
   		type: OpenLayers.Filter.Spatial.BBOX,
  		value: bounds_object, // Bounds(minx, miny, maxx, maxy)
@@ -166,6 +199,17 @@ function agergarComercios(){
  	    });
      comercios.refresh({force:true}); 
      liceos.refresh({force:true}); 
+     var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform
+ 	// from WGS
+ 	// 1984
+ 	var toProjection = new OpenLayers.Projection("EPSG:900913"); // to
+ 	// Spherical
+ 	// Mercator
+ 	var position = new OpenLayers.LonLat(lon, lat).transform(
+			fromProjection, toProjection);
+
+	mapa.zoomToMaxExtent();
+	mapa.setCenter(position, 15);
 }
 
 function cargarDatos() {
