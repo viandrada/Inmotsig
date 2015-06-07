@@ -6,7 +6,9 @@
 	<script type="text/javascript"
 		src="http://www.openlayers.org/api/OpenLayers.js">
     </script>
-	<div id="mapa" style="width: 90%; height: 800px;"></div>
+	<h:panelGroup class="container">
+		<div id="mapa" class="shadow" style="width: 90%; height: 800px;"></div>
+	</h:panelGroup>
 	<!-- script>
     function abrir() {
 	 window.open("http://localhost:8080/Inmotsig/detallePropiedad.xhtml")
@@ -113,9 +115,9 @@
 		                    ("pop",
 		                    feature.geometry.getBounds().getCenterLonLat(),
 		                    null,
-		                    '<form target="_blank" action="detallePropiedad.xhtml" >Direccion:<br/><input type="text" id="direccion2" value="'+feature.attributes.direccion+'" name="dir" />'+
+		                    '<form target="_blank" action="detallePropiedad.xhtml" class="form" >Direccion:<br/><input class="form-control" type="text" id="direccion2" value="'+feature.attributes.direccion+'" name="dir" />'+
 		                    '<input type="hidden" id="propGid" value="'+feature.attributes.gidpadron+'" name="gid" />'+
-		                    '<br/>Numero de apartamento:<br/><input type="text" id="numAp2" value="'+feature.attributes.numapartam+'" name="numApartamento" /> <input type="submit" value="Detalle" ></input></form>',
+		                    'Numero de apartamento:<input class="form-control" type="text" id="numAp2" value="'+feature.attributes.numapartam+'" name="numApartamento" /> <input class="form-control btn btn-default" type="submit" value="Ver más" ></input></form>',
 		                    null,
 		                    true 
 		                    );

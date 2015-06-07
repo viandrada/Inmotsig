@@ -5,204 +5,193 @@
 
 
 <ui:composition>
-
-
-	<h:outputScript target="header" name="js/menu.js"/>
-<br />
-	<!-- Build your select: -->
-	<label class="labelMenu anchoLabel">Tipo Operación</label>
-	<br />
-	<div class="btn-group">
-		<button type="button" id="operacion"
-			class="multiselect dropdown-toggle btn btn-default"
-			data-toggle="dropdown" title="Seleccionar">
-			<span class="multiselect-selected-text">Seleccionar</span> <b
-				class="caret"></b>
-		</button>
-		<ul class="multiselect-container dropdown-menu">
-			<li class="btn-group open"><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="compra" id="compra" /> Compra</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="alquiler" id="alquiler" /> Alquiler</label></a></li>
-		</ul>
-	</div>
-	<br />
-
-	<label class="labelMenu anchoLabel">Tipo Inmueble</label>
-	<br />
-	<div class="btn-group">
-		<button type="button"
-			class="multiselect dropdown-toggle btn btn-default"
-			data-toggle="dropdown" title="Casa">
-			<span class="multiselect-selected-text">Tipo Inmueble</span> <b class="caret"></b>
-		</button>
-		<ul class="multiselect-container dropdown-menu">
-			<li class=""><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="apartamento" id="apartamento"/> Apartamento</label></a></li>
-			<li class="active"><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="casa" id="casa"/> Casa</label></a></li>
-			<li class=""><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="terreno" id="terreno"/> Terreno</label></a></li>
-		</ul>
-	</div>
-	<br />
-
-	<label class="labelMenu anchoLabel">Barrio</label>
-	<br />
-	<div class="btn-group">
-		<button type="button"
-			class="multiselect dropdown-toggle btn btn-default"
-			data-toggle="dropdown" title="Seleccionar">
-			<span class="multiselect-selected-text">Seleccionar</span> <b
-				class="caret"></b>
-		</button>
-		<ul class="multiselect-container dropdown-menu">
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="pocitos" /> Pocitos</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="malvin" /> Malvin</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="cordon" /> Cordón</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="trescruces" /> Tres Cruces</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="aguada" /> Aguada</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="parquebatlle" /> Parque Batlle</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="carrasco" /> Carrasco</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="prado" /> Prado</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="union" /> Unión</label></a></li>
-		</ul>
-	</div>
-	<br />
-
-	<label class="labelMenu anchoLabel multiselect-selected-text">Rango de Precios</label>
-	<br />
-	<div class="btn-group">
-	 <form name="registration_form" id='registration_form'>
-        <div class="row">
-            <div class="form-group col-xs-6">
-                <label class="sr-only"></label>
-                <input id="minimo" class="form-control input-group-lg reg_name sinmargenabajo" type="text" name="minimo"
-                       title="Ingresa el precio mínimo"
-                       placeholder="Mínimo"/></div>
-            <div class="form-group col-xs-6">
-                <label class="sr-only"></label>
-                <input id="maximo" class="form-control input-group-lg reg_name sinmargenabajo" type="text" name="maximo"
-                       title="Ingresa el precio máximo"
-                       placeholder="Máximo"/></div>
-        </div></form>
-	</div>
-
-	<label class="labelMenu anchoLabel">Dormitorios</label>
-	<br />
-	<div class="btn-group">
-		<button type="button"
-			class="multiselect dropdown-toggle btn btn-default"
-			data-toggle="dropdown" title="Seleccionar">
-			<span class="multiselect-selected-text">Seleccionar</span> <b
-				class="caret"></b>
-		</button>
+	<h:panelGroup class="container">
+		<h:outputScript target="header" name="js/menu.js" />
+		<!-- Build your select: -->
+		<label class="labelMenu anchoLabel">Tipo Operación</label>
+			<button type="button" id="operacion"
+				class="multiselect dropdown-toggle btn btn-default"
+				data-toggle="dropdown" title="Seleccionar">
+				<span class="multiselect-selected-text">Seleccionar</span> <b
+					class="caret"></b>
+			</button>
+			<ul class="multiselect-container dropdown-menu">
+				<li class="btn-group open"><a tabindex="0"><label
+						class="checkbox"><input type="checkbox" value="compra"
+							id="compra" /> Compra</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="alquiler" id="alquiler" /> Alquiler</label></a></li>
+			</ul>
+		<label class="labelMenu anchoLabel">Tipo Inmueble</label>
 		
-		<ul class="multiselect-container dropdown-menu ">
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="dor1" id="dor1"/> 1</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="dor2" id="dor2"/> 2</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="dor3" id="dor3"/> 3</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="dor4" id="dor4"/> 4</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="dor4mas" id="dor4mas"/> Más de 4</label></a></li>
-		</ul>
-	</div>
-	<br />
+		<div class="btn-group">
+			<button type="button"
+				class="multiselect dropdown-toggle btn btn-default"
+				data-toggle="dropdown" title="Casa">
+				<span class="multiselect-selected-text">Tipo Inmueble</span> <b
+					class="caret"></b>
+			</button>
+			<ul class="multiselect-container dropdown-menu">
+				<li class=""><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="apartamento" id="apartamento" />
+							Apartamento</label></a></li>
+				<li class="active"><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="casa" id="casa" /> Casa</label></a></li>
+				<li class=""><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="terreno" id="terreno" /> Terreno</label></a></li>
+			</ul>
+		</div>
+		
 
-	<label class="labelMenu anchoLabel">Baños</label>
-	<br />
-	<div class="btn-group">
-		<button type="button"
-			class="multiselect dropdown-toggle btn btn-default"
-			data-toggle="dropdown" title="Seleccionar">
-			<span class="multiselect-selected-text">Seleccionar</span> <b
-				class="caret"></b>
-		</button>
-		<ul class="multiselect-container dropdown-menu">
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="bano1" id="bano1"/> 1</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="bano2" id="bano2"/> 2</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="bano3" id="bano3"/> 3</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="bano4" id="bano4"/> 4</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="bano4mas" id="bano4mas"/> Más de 4</label></a></li>
-		</ul>
-	</div>
-	<br />
+		<label class="labelMenu anchoLabel">Barrio</label>
+		
+		<div class="btn-group">
+			<button type="button"
+				class="multiselect dropdown-toggle btn btn-default"
+				data-toggle="dropdown" title="Seleccionar">
+				<span class="multiselect-selected-text">Seleccionar</span> <b
+					class="caret"></b>
+			</button>
+			<ul class="multiselect-container dropdown-menu">
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="pocitos" /> Pocitos</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="malvin" /> Malvin</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="cordon" /> Cordón</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="trescruces" /> Tres Cruces</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="aguada" /> Aguada</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="parquebatlle" /> Parque Batlle</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="carrasco" /> Carrasco</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="prado" /> Prado</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="union" /> Unión</label></a></li>
+			</ul>
+		</div>
+		
 
-	<label class="labelMenu anchoLabel">Tamaño</label>
-	<br />
-	<div class="btn-group">
-		<button type="button"
-			class="multiselect dropdown-toggle btn btn-default"
-			data-toggle="dropdown" title="Seleccionar">
-			<span class="multiselect-selected-text">Seleccionar</span> <b
-				class="caret"></b>
-		</button>
-		<ul class="multiselect-container dropdown-menu">
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="menos30" id="menos30"/> Menos de 30 mts²</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="entre30y60" id="entre30y60"/> 30 - 60 mts²</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="entre60y90" id="entre60y90"/> 60 - 90 mts²</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="entre90y120" id="entre90y120"/> 90 - 120 mts²</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="mas120" id="mas120"/> Más de 120 mts²</label></a></li>
-		</ul>
-	</div>
-	<br />
-	<label class="labelMenu anchoLabel">Otros</label>
-	<br />
-	<div class="btn-group">
-		<button type="button"
-			class="multiselect dropdown-toggle btn btn-default"
-			data-toggle="dropdown" title="Seleccionar" aria-expanded="false">
-			<span class="multiselect-selected-text">Seleccionar</span> <b
-				class="caret"></b>
-		</button>
-		<ul class="multiselect-container dropdown-menu">
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="calefaccion" /> Calefacción</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="garage" /> Garage</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="parrillero" /> Parrillero</label></a></li>
-			<li><a tabindex="0"><label class="checkbox"><input
-						type="checkbox" value="piscina" /> Piscina</label></a></li>
-		</ul>
-	</div>
-	<br />
+		<label class="labelMenu anchoLabel multiselect-selected-text">Rango
+			de Precios</label>
+		
+		<div class="btn-group">
+			<form name="registration_form" id='registration_form'>
+				<div class="row">
+					<div class="form-group col-xs-5">
+						<label class="sr-only"></label> <input id="minimo"
+							class="form-control input-group-lg reg_name sinmargenabajo"
+							type="text" name="minimo" title="Ingresa el precio mínimo"
+							placeholder="Mínimo" />
+					</div>
+					<div class="form-group col-xs-5">
+						<label class="sr-only"></label> <input id="maximo"
+							class="form-control input-group-lg reg_name sinmargenabajo"
+							type="text" name="maximo" title="Ingresa el precio máximo"
+							placeholder="Máximo" />
+					</div>
+				</div>
+			</form>
+		</div>
 
+		<label class="labelMenu anchoLabel">Dormitorios</label>
+		
+		<div class="btn-group">
+			<button type="button"
+				class="multiselect dropdown-toggle btn btn-default"
+				data-toggle="dropdown" title="Seleccionar">
+				<span class="multiselect-selected-text">Seleccionar</span> <b
+					class="caret"></b>
+			</button>
 
+			<ul class="multiselect-container dropdown-menu ">
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="dor1" id="dor1" /> 1</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="dor2" id="dor2" /> 2</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="dor3" id="dor3" /> 3</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="dor4" id="dor4" /> 4</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="dor4mas" id="dor4mas" /> Más de 4</label></a></li>
+			</ul>
+		</div>
+		
 
+		<label class="labelMenu anchoLabel">Baños</label>
+		<br />
+		<div class="btn-group">
+			<button type="button"
+				class="multiselect dropdown-toggle btn btn-default"
+				data-toggle="dropdown" title="Seleccionar">
+				<span class="multiselect-selected-text">Seleccionar</span> <b
+					class="caret"></b>
+			</button>
+			<ul class="multiselect-container dropdown-menu">
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="bano1" id="bano1" /> 1</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="bano2" id="bano2" /> 2</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="bano3" id="bano3" /> 3</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="bano4" id="bano4" /> 4</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="bano4mas" id="bano4mas" /> Más de 4</label></a></li>
+			</ul>
+		</div>
+		
 
-
-	<a href="#" class="btn btn-danger" id="buscarFiltros">Buscar <span><img
-			src="resources/images/lupa.png"/></span></a>
-
-
-
-
-
-
-
+		<label class="labelMenu anchoLabel">Tamaño</label>
+		
+		<div class="btn-group">
+			<button type="button"
+				class="multiselect dropdown-toggle btn btn-default"
+				data-toggle="dropdown" title="Seleccionar">
+				<span class="multiselect-selected-text">Seleccionar</span> <b
+					class="caret"></b>
+			</button>
+			<ul class="multiselect-container dropdown-menu">
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="menos30" id="menos30" /> Menos de 30 mts²</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="entre30y60" id="entre30y60" /> 30 - 60
+							mts²</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="entre60y90" id="entre60y90" /> 60 - 90
+							mts²</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="entre90y120" id="entre90y120" /> 90 - 120
+							mts²</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="mas120" id="mas120" /> Más de 120 mts²</label></a></li>
+			</ul>
+		</div>
+		<label class="labelMenu anchoLabel">Otros</label>
+		<div class="btn-group">
+			<button type="button"
+				class="multiselect dropdown-toggle btn btn-default"
+				data-toggle="dropdown" title="Seleccionar" aria-expanded="false">
+				<span class="multiselect-selected-text">Seleccionar</span> <b
+					class="caret"></b>
+			</button>
+			<ul class="multiselect-container dropdown-menu">
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="calefaccion" /> Calefacción</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="garage" /> Garage</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="parrillero" /> Parrillero</label></a></li>
+				<li><a tabindex="0"><label class="checkbox"><input
+							type="checkbox" value="piscina" /> Piscina</label></a></li>
+			</ul>
+		</div>
+		<a href="#" class="btn btn-danger" id="buscarFiltros">Buscar <span><img
+				src="resources/images/lupa.png" /></span></a>
+	</h:panelGroup>
 </ui:composition>
 </html>

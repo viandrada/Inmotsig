@@ -9,6 +9,7 @@
    background-color:#01836d;
    color:white;
    font-weight: bold;
+   opacity: 0.8;
    }
 .dropdown-menu>.active>a {
 background-color:#04B486; 

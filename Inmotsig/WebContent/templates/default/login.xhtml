@@ -4,19 +4,24 @@
 	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <ui:composition>
-	<div class="span3 offset2">
-		<h:panelGroup class="form-group">
-			<h:form class="form-inline" id="loginForm">
-				<h:inputText id="loginEmail" value="#{loginBean.email}" required="true" class="form-control" a:placeholder="Email">
+
+	<h:panelGroup class="form-group">
+		<h:form class="form-inline" id="loginForm">
+			<h:panelGroup class="row">
+				<h:inputText id="loginEmail" value="#{loginBean.email}"
+					required="true" class="form-control" a:placeholder="Email">
 					<f:ajax />
 				</h:inputText>
-				<h:inputSecret value="#{loginBean.password}" required="true" class="form-control" a:placeholder="Password">
+				<h:inputSecret value="#{loginBean.password}" required="true"
+					class="form-control" a:placeholder="Password">
 					<f:ajax />
 				</h:inputSecret>
 
-				<h:commandButton value="Login" action="#{loginBean.login}" class="btn"></h:commandButton>
-			</h:form>
-		</h:panelGroup>
-	</div>
+				<h:commandButton value="Login admin" action="#{loginBean.login}"
+					class="btn"></h:commandButton>
+			</h:panelGroup>
+		</h:form>
+	</h:panelGroup>
+
 </ui:composition>
 </html>
