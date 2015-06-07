@@ -1,4 +1,32 @@
 var QueryString;
+var comercios,liceos;
+var feauture,lon,lat;
+var comercios =   new OpenLayers.Layer.Vector("WFS", {
+	 strategies: [ new OpenLayers.Strategy.BBOX() ],
+	  protocol: new OpenLayers.Protocol.WFS({
+	    url: "http://localhost:8080/geoserver/wfs", 
+	    featureType: "comercios",
+	    featureNS: "http://www.openplans.org/topp",
+	    geometryName: "geom",
+	    
+	  }),
+	  filter: new OpenLayers.Filter.Spatial({
+   		type: OpenLayers.Filter.Spatial.BBOX,
+   		value: new OpenLayers.Bounds(-56.18315665939941,-34.90032077215917,-56.144318272863764,-56.144318272863764),
+   		projection: new OpenLayers.Projection('EPSG:4326')
+   	    })
+});
+var liceos =   new OpenLayers.Layer.Vector("WFS", {
+	 strategies: [ new OpenLayers.Strategy.BBOX() ],
+	  protocol: new OpenLayers.Protocol.WFS({
+	    url: "http://localhost:8080/geoserver/wfs", 
+	    featureType: "secundaria",
+	    featureNS: "http://www.openplans.org/topp",
+	    geometryName: "geom",
+	    
+	  }),
+	 
+}); 
 window.onload = function() {
 
 	// Para obtener el gid de la propiedad desde la pagina anterior y cargar el
@@ -65,11 +93,37 @@ function cargarMapa() {
 			value : QueryString.gid
 		}),
 	});
-
+     
+	
+	var vector_style = new OpenLayers.Style({
+		'fillColor': '#669933',
+		'fillOpacity': .8,
+		'strokeColor': '#aaee77',
+		'strokeWidth': 2,
+		'pointRadius': 7
+		});
+	var vector_style_map = new OpenLayers.StyleMap({
+		'default': vector_style
+		});
+	
+	var liceo_style = new OpenLayers.Style({
+		'fillColor': 'blue',
+		'fillOpacity': .8,
+		'strokeColor': 'blue',
+		'strokeWidth': 2,
+		'pointRadius': 7
+		});
+	var liceo_style_map = new OpenLayers.StyleMap({
+		'default': liceo_style
+		});
+	
+	comercios.styleMap = vector_style_map;
+	liceos.styleMap = liceo_style_map;
 	// alert(propiedad);
 	mapa.addLayer(osm);
+	mapa.addLayer(comercios);
+	mapa.addLayer(liceos);
 	mapa.addLayer(propiedad);
-
 	var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform
 	// from WGS
 	// 1984
@@ -87,6 +141,31 @@ function cargarMapa() {
 		numDigits : 6
 	}));
 	mapa.addControl(new OpenLayers.Control.ScaleLine());
+}
+
+function agergarComercios(){
+	
+	 lon = feauture.geometry.getCentroid().x;
+     lat = feauture.geometry.getCentroid().y;
+     var minx, miny;
+     var point = new OpenLayers.LonLat(lon, lat)
+     //point.transform(new OpenLayers.Projection('EPSG:3857'), new OpenLayers.Projection('EPSG:4326'));
+     minx = point.lon;
+     miny = point.lat;
+     var sum = 0.00585794448853;
+     var bounds_object = new OpenLayers.Bounds(minx +sum, miny + sum, minx - sum, miny - sum);
+     comercios.filter =new OpenLayers.Filter.Spatial({
+ 		type: OpenLayers.Filter.Spatial.BBOX,
+		value: bounds_object, // Bounds(minx, miny, maxx, maxy)
+		projection: new OpenLayers.Projection('EPSG:4326')
+	    });
+     liceos.filter =new OpenLayers.Filter.Spatial({
+  		type: OpenLayers.Filter.Spatial.BBOX,
+ 		value: bounds_object, // Bounds(minx, miny, maxx, maxy)
+ 		projection: new OpenLayers.Projection('EPSG:4326')
+ 	    });
+     comercios.refresh({force:true}); 
+     liceos.refresh({force:true}); 
 }
 
 function cargarDatos() {
@@ -107,6 +186,8 @@ function cargarDatos() {
 						console.log(response);
 						for (var int = 0; int < response.features.length; int++) {
 							if (response.features[int].data.gidpadron == QueryString.gid) {
+								feauture = response.features[int];
+								agergarComercios();
 								// Cargar datos en vista
 								if (typeof response.features[int].attributes.direccion === "undefined") {
 									document.getElementById("direccion").innerHTML = "No hay dirección disponible."
