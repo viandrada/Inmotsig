@@ -47,7 +47,7 @@ public class EmailBean {
 		this.consulta = consulta;
 	}
 	
-	public void send()
+	public String send()
 	{
 		//boolean enviado = false;
 		Email email = new SimpleEmail();
@@ -57,10 +57,10 @@ public class EmailBean {
 			email.setAuthenticator(new DefaultAuthenticator("geogar.tsig@gmail.com", "geogar123"));
 			email.setSSLOnConnect(true);
 
-			email.setFrom(this.emailUsuario);
-			email.setSubject("TestMail");
-			email.setMsg(this.consulta);
-			email.addTo(this.emailUsuario);
+			email.setFrom("geogar.tsig@gmail.com");
+			email.setSubject("Nueva consulta de "+ this.nombreUsuario);
+			email.setMsg("Contacto: "+this.emailUsuario + "\n" + this.consulta);
+			email.addTo(this.emailAdmin);
 			email.send();
 			
 			this.emailAdmin = null;
@@ -73,6 +73,7 @@ public class EmailBean {
 			System.out.println(e.getMessage());
 		}
 	
+		return "/detallePropiedad.xhtml?faces-redirect=true&includeViewParams=true";
 		//return enviado;
 	}
 }

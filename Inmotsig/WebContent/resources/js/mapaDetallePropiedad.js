@@ -257,6 +257,8 @@ function cargarDatos() {
 										.getElementById("detallesPropiedad:parrillero").value = response.features[int].attributes.parrillero;
 								document
 										.getElementById("detallesPropiedad:piscina").value = response.features[int].attributes.piscina;
+								document
+								.getElementById("contacto:emailAdmin").value = response.features[int].attributes.adminid;
 
 								if (typeof response.features[int].attributes.descripcio === "undefined") {
 									document.getElementById("descripcion").innerHTML = "No hay descripción disponible."

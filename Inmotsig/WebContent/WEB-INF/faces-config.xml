@@ -17,6 +17,7 @@
     <navigation-case>
     <from-outcome>detallePropiedad</from-outcome>
     <to-view-id>/detallePropiedad.xhtml</to-view-id>
+    <redirect include-view-params="true"/>
   </navigation-case>
   </navigation-rule>
   <navigation-rule>
