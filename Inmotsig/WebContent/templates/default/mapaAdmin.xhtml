@@ -6,7 +6,7 @@
 		src="http://www.openlayers.org/api/OpenLayers.js">
     </script>
 
-	<div id="mapa" style="width: 90%; height: 600px;"></div>
+	<div id="mapa" style="width: 99%; height: 560px;"></div>
 
 	<style>
       .olFramedCloudPopupContent {
@@ -272,6 +272,9 @@ window.onload = function() {
                 null,
                 true 
                 );
+ 		    	
+ 		    	//Aca llamar a la capa padron para obtener la direcicon a partir del punto donde se hizo click
+ 		    	
              mapa.addPopup(f.popup); 
 
 	};

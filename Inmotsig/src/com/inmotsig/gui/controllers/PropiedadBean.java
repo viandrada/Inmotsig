@@ -19,13 +19,13 @@ public class PropiedadBean {
   	    private String tipotransaccion = "Venta";
    		private int precio = 50000;
    		private String dormitorios = "3";
-   		private boolean garage = true;
+   		private boolean garage;
    		private int tamanio = 100;
    		private String barrio = "West End";
    		private String banos = "1";
-   		private boolean calefaccion = true;
-   		private boolean parrillero = false;
-   		private boolean piscina = false;
+   		private boolean calefaccion;
+   		private boolean parrillero;
+   		private boolean piscina;
    		private String estado = "publica";
    		private String imagen = "";
    		private String descripcion = "Excelente oportunidad";

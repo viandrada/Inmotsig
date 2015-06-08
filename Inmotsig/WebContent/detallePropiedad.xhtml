@@ -157,23 +157,23 @@
 							<h:panelGroup class="row">
 								<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 									<h:outputLabel for="calefaccion" class="control-label">Calefacción: </h:outputLabel>
-									<input type="checkbox" value="#{propiedadBean.calefaccion}"
-										id="calefaccion" class="form-control" checked="checked"></input>
+									<!-- input type="checkbox" value="#{propiedadBean.calefaccion}"
+										id="calefaccion" class="form-control" checked="checked"></input-->
+									<h:selectBooleanCheckbox id="calefaccion" value="#{propiedadBean.calefaccion}" class="form-control" disabled="true"/>
 								</div>
 								<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 									<h:outputLabel for="garage" class="control-label">Garage: </h:outputLabel>
-									<input type="checkbox" value="#{propiedadBean.garage}"
-										id="garage" class="form-control" checked="checked"></input>
+									<h:selectBooleanCheckbox id="garage" value="#{propiedadBean.garage}" class="form-control" disabled="true"/>
 								</div>
 								<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 									<h:outputLabel for="parrillero" class="control-label">Parrillero: </h:outputLabel>
 									<h:selectBooleanCheckbox value="#{propiedadBean.parrillero}"
-										id="parrillero" class="form-control" readonly="true"></h:selectBooleanCheckbox>
+										id="parrillero" class="form-control" disabled="true"></h:selectBooleanCheckbox>
 								</div>
 								<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 									<h:outputLabel for="piscina" class="control-label">Piscina: </h:outputLabel>
 									<h:selectBooleanCheckbox value="#{propiedadBean.piscina}"
-										id="piscina" class="form-control" readonly="true"></h:selectBooleanCheckbox>
+										id="piscina" class="form-control" disabled="true"></h:selectBooleanCheckbox>
 								</div>
 							</h:panelGroup>
 							<h:panelGroup class="row">

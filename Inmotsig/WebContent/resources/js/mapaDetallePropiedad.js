@@ -1,28 +1,28 @@
 var QueryString;
-var comercios,liceos;
+var comercios, liceos;
 var feauture = new OpenLayers.Feature();
-var lon,lat,dist;
+var lon, lat, dist;
 var propiedad = new OpenLayers.Layer.Vector();
-var comercios =   new OpenLayers.Layer.Vector("WFS", {
-	 strategies: [ new OpenLayers.Strategy.BBOX() ],
-	  protocol: new OpenLayers.Protocol.WFS({
-	    url: "http://localhost:8080/geoserver/wfs", 
-	    featureType: "comercios",
-	    featureNS: "http://www.openplans.org/topp",
-	    geometryName: "geom"
-	  })
+var comercios = new OpenLayers.Layer.Vector("WFS", {
+	strategies : [ new OpenLayers.Strategy.BBOX() ],
+	protocol : new OpenLayers.Protocol.WFS({
+		url : "http://localhost:8080/geoserver/wfs",
+		featureType : "comercios",
+		featureNS : "http://www.openplans.org/topp",
+		geometryName : "geom"
+	})
 });
-var liceos =   new OpenLayers.Layer.Vector("WFS", {
-	 strategies: [ new OpenLayers.Strategy.BBOX() ],
-	  protocol: new OpenLayers.Protocol.WFS({
-	    url: "http://localhost:8080/geoserver/wfs", 
-	    featureType: "secundaria",
-	    featureNS: "http://www.openplans.org/topp",
-	    geometryName: "geom",
-	    
-	  }),
-	 
-}); 
+var liceos = new OpenLayers.Layer.Vector("WFS", {
+	strategies : [ new OpenLayers.Strategy.BBOX() ],
+	protocol : new OpenLayers.Protocol.WFS({
+		url : "http://localhost:8080/geoserver/wfs",
+		featureType : "secundaria",
+		featureNS : "http://www.openplans.org/topp",
+		geometryName : "geom",
+
+	}),
+
+});
 window.onload = function() {
 
 	// Para obtener el gid de la propiedad desde la pagina anterior y cargar el
@@ -55,34 +55,33 @@ window.onload = function() {
 }
 
 comercios.events.on({
-	featureselected: function(event) {
-        var featurecomercio = event.feature;
-        var geom_1 = new OpenLayers.Geometry.Point(featurecomercio.geometry.x,featurecomercio.geometry.y);
-        var lonlat = new OpenLayers.LonLat(feauture.geometry.getCentroid().x, feauture.geometry.getCentroid().y);
-        lonlat.transform(new OpenLayers.Projection('EPSG:4326'), new OpenLayers.Projection('EPSG:3857'));
-        geom_2 = new OpenLayers.Geometry.Point(lonlat.lon,lonlat.lat);
-        dist = Math.round(geom_2.distanceTo(geom_1));
-        
-        featurecomercio.popup = new OpenLayers.Popup.FramedCloud
-        ("pop",
-        featurecomercio.geometry.getBounds().getCenterLonLat(),
-        null,
-        'Nombre:<br/><input type="text" id="direccion2" value="'+featurecomercio.attributes.nbre+'" name="dir" />'+
-        '<br/>' + '<input type="text" id="dist" value="'+ dist + '  metros' + ' " name="dist" />',
-        null,
-        true 
-        );
-     mapa.addPopup(featurecomercio.popup);
-     
-     
-    },
-   
-    featureunselected: function(event) {
-        var feature2 = event.feature;
-        mapa.removePopup(feature2.popup);
-        feature2.popup.destroy();
-        feature2.popup = null;
-    }
+	featureselected : function(event) {
+		var featurecomercio = event.feature;
+		var geom_1 = new OpenLayers.Geometry.Point(featurecomercio.geometry.x,
+				featurecomercio.geometry.y);
+		var lonlat = new OpenLayers.LonLat(feauture.geometry.getCentroid().x,
+				feauture.geometry.getCentroid().y);
+		lonlat.transform(new OpenLayers.Projection('EPSG:4326'),
+				new OpenLayers.Projection('EPSG:3857'));
+		geom_2 = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
+		dist = Math.round(geom_2.distanceTo(geom_1));
+
+		featurecomercio.popup = new OpenLayers.Popup.FramedCloud("pop",
+				featurecomercio.geometry.getBounds().getCenterLonLat(), null,
+				'Nombre:<br/><input type="text" id="direccion2" value="'
+						+ featurecomercio.attributes.nbre + '" name="dir" />'
+						+ '<br/>' + '<input type="text" id="dist" value="'
+						+ dist + '  metros' + ' " name="dist" />', null, true);
+		mapa.addPopup(featurecomercio.popup);
+
+	},
+
+	featureunselected : function(event) {
+		var feature2 = event.feature;
+		mapa.removePopup(feature2.popup);
+		feature2.popup.destroy();
+		feature2.popup = null;
+	}
 
 });
 
@@ -121,44 +120,44 @@ function cargarMapa() {
 			value : QueryString.gid
 		}),
 	});
-     
+
 	var prop_Style = new OpenLayers.Style({
-		'fillColor': 'red',
-		'fillOpacity': .8,
-		'strokeColor': 'red',
-		'strokeWidth': 2,
-		'pointRadius': 7
-		});
+		'fillColor' : 'red',
+		'fillOpacity' : .8,
+		'strokeColor' : 'red',
+		'strokeWidth' : 2,
+		'pointRadius' : 7
+	});
 	var propiedad_vector_map = new OpenLayers.StyleMap({
-		'default': prop_Style
-		});
-	
+		'default' : prop_Style
+	});
+
 	var vector_style = new OpenLayers.Style({
-		'fillColor': '#669933',
-		'fillOpacity': .8,
-		'strokeColor': '#aaee77',
-		'strokeWidth': 2,
-		'pointRadius': 7
-		});
+		'fillColor' : '#669933',
+		'fillOpacity' : .8,
+		'strokeColor' : '#aaee77',
+		'strokeWidth' : 2,
+		'pointRadius' : 7
+	});
 	var vector_style_map = new OpenLayers.StyleMap({
-		'default': vector_style
-		});
-	
+		'default' : vector_style
+	});
+
 	var liceo_style = new OpenLayers.Style({
-		'fillColor': 'blue',
-		'fillOpacity': .8,
-		'strokeColor': 'blue',
-		'strokeWidth': 2,
-		'pointRadius': 7
-		});
+		'fillColor' : 'blue',
+		'fillOpacity' : .8,
+		'strokeColor' : 'blue',
+		'strokeWidth' : 2,
+		'pointRadius' : 7
+	});
 	var liceo_style_map = new OpenLayers.StyleMap({
-		'default': liceo_style
-		});
-	
+		'default' : liceo_style
+	});
+
 	propiedad.styleMap = propiedad_vector_map;
 	comercios.styleMap = vector_style_map;
 	liceos.styleMap = liceo_style_map;
-	
+
 	mapa.addLayer(osm);
 	mapa.addLayer(comercios);
 	mapa.addLayer(liceos);
@@ -173,40 +172,46 @@ function cargarMapa() {
 	select.activate();
 }
 
-function agergarComercios(){
-	
-	 lon = feauture.geometry.getCentroid().x;
-     lat = feauture.geometry.getCentroid().y;
-     var minx, miny;
-     var point = new OpenLayers.LonLat(lon, lat)
-     //point.transform(new OpenLayers.Projection('EPSG:3857'), new OpenLayers.Projection('EPSG:4326'));
-     minx = point.lon;
-     miny = point.lat;
-     var sum = 0.00585794448853;
-     
-     var bounds_object = new OpenLayers.Bounds(minx +sum, miny + sum, minx - sum, miny - sum);
-     
-     comercios.filter =new OpenLayers.Filter.Spatial({
- 		type: OpenLayers.Filter.Spatial.BBOX,
-		value: bounds_object, // Bounds(minx, miny, maxx, maxy)
-		projection: new OpenLayers.Projection('EPSG:4326')
-	    });
-     
-     liceos.filter =new OpenLayers.Filter.Spatial({
-  		type: OpenLayers.Filter.Spatial.BBOX,
- 		value: bounds_object, // Bounds(minx, miny, maxx, maxy)
- 		projection: new OpenLayers.Projection('EPSG:4326')
- 	    });
-     comercios.refresh({force:true}); 
-     liceos.refresh({force:true}); 
-     var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform
- 	// from WGS
- 	// 1984
- 	var toProjection = new OpenLayers.Projection("EPSG:900913"); // to
- 	// Spherical
- 	// Mercator
- 	var position = new OpenLayers.LonLat(lon, lat).transform(
-			fromProjection, toProjection);
+function agergarComercios() {
+
+	lon = feauture.geometry.getCentroid().x;
+	lat = feauture.geometry.getCentroid().y;
+	var minx, miny;
+	var point = new OpenLayers.LonLat(lon, lat)
+	// point.transform(new OpenLayers.Projection('EPSG:3857'), new
+	// OpenLayers.Projection('EPSG:4326'));
+	minx = point.lon;
+	miny = point.lat;
+	var sum = 0.00585794448853;
+
+	var bounds_object = new OpenLayers.Bounds(minx + sum, miny + sum, minx
+			- sum, miny - sum);
+
+	comercios.filter = new OpenLayers.Filter.Spatial({
+		type : OpenLayers.Filter.Spatial.BBOX,
+		value : bounds_object, // Bounds(minx, miny, maxx, maxy)
+		projection : new OpenLayers.Projection('EPSG:4326')
+	});
+
+	liceos.filter = new OpenLayers.Filter.Spatial({
+		type : OpenLayers.Filter.Spatial.BBOX,
+		value : bounds_object, // Bounds(minx, miny, maxx, maxy)
+		projection : new OpenLayers.Projection('EPSG:4326')
+	});
+	comercios.refresh({
+		force : true
+	});
+	liceos.refresh({
+		force : true
+	});
+	var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform
+	// from WGS
+	// 1984
+	var toProjection = new OpenLayers.Projection("EPSG:900913"); // to
+	// Spherical
+	// Mercator
+	var position = new OpenLayers.LonLat(lon, lat).transform(fromProjection,
+			toProjection);
 
 	mapa.zoomToMaxExtent();
 	mapa.setCenter(position, 15);
@@ -239,26 +244,96 @@ function cargarDatos() {
 									document.getElementById("direccion").innerHTML = response.features[int].attributes.direccion;
 								}
 
-								document
-										.getElementById("detallesPropiedad:operacion").innerHTML = response.features[int].attributes.tipooperac;
-								document
-										.getElementById("detallesPropiedad:precio").innerHTML = response.features[int].attributes.precio;
-								document
-										.getElementById("detallesPropiedad:tipoPropiedad").innerHTML = response.features[int].attributes.tipoinmueb;
-								document
-										.getElementById("detallesPropiedad:superficieEdificada").innerHTML = response.features[int].attributes.tamano;
-								document
-										.getElementById("detallesPropiedad:dormitorios").innerHTML = response.features[int].attributes.cantdormit;
-								document
-										.getElementById("detallesPropiedad:banos").innerHTML = response.features[int].attributes.banos;
-								document.getElementById("calefaccion").value = response.features[int].attributes.calefaccio;
-								document.getElementById("garage").value = response.features[int].attributes.garage;
-								document
-										.getElementById("detallesPropiedad:parrillero").value = response.features[int].attributes.parrillero;
-								document
-										.getElementById("detallesPropiedad:piscina").value = response.features[int].attributes.piscina;
-								document
-								.getElementById("contacto:emailAdmin").value = response.features[int].attributes.adminid;
+								if (typeof response.features[int].attributes.tipooperac === "undefined") {
+									document
+											.getElementById("detallesPropiedad:operacion").innerHTML = "Dato no disponible."
+								} else {
+									document
+											.getElementById("detallesPropiedad:operacion").innerHTML = response.features[int].attributes.tipooperac;
+								}
+
+								if (typeof response.features[int].attributes.precio === "undefined") {
+									document
+											.getElementById("detallesPropiedad:precio").innerHTML = "Dato no disponible."
+								} else {
+									document
+											.getElementById("detallesPropiedad:precio").innerHTML = response.features[int].attributes.precio;
+								}
+
+								if (typeof response.features[int].attributes.tipoinmueb === "undefined") {
+									document
+											.getElementById("detallesPropiedad:tipoPropiedad").innerHTML = "Dato no disponible."
+								} else {
+									document
+											.getElementById("detallesPropiedad:tipoPropiedad").innerHTML = response.features[int].attributes.tipoinmueb;
+								}
+
+								if (typeof response.features[int].attributes.tamano === "undefined") {
+									document
+											.getElementById("detallesPropiedad:superficieEdificada").innerHTML = "Dato no disponible."
+								} else {
+									document
+											.getElementById("detallesPropiedad:superficieEdificada").innerHTML = response.features[int].attributes.tamano;
+								}
+
+								if (typeof response.features[int].attributes.cantdormit === "undefined") {
+									document
+											.getElementById("detallesPropiedad:dormitorios").innerHTML = "Dato no disponible."
+								} else {
+									document
+											.getElementById("detallesPropiedad:dormitorios").innerHTML = response.features[int].attributes.cantdormit;
+								}
+
+								if (typeof response.features[int].attributes.banos === "undefined") {
+									document
+											.getElementById("detallesPropiedad:banos").innerHTML = "Dato no disponible."
+								} else {
+									document
+											.getElementById("detallesPropiedad:banos").innerHTML = response.features[int].attributes.banos;
+								}
+
+								if (typeof response.features[int].attributes.calefaccio === "undefined") {
+									document.getElementById("detallesPropiedad:calefaccion").removeAttribute("checked");
+								} else {
+									if (response.features[int].attributes.calefaccio == "Si") {
+										document.getElementById("detallesPropiedad:calefaccion").setAttribute("checked", "checked");
+									}
+								}
+
+								if (typeof response.features[int].attributes.garage === "undefined") {
+									document
+											.getElementById("detallesPropiedad:garage").removeAttribute("checked");
+								} else {
+									if (response.features[int].attributes.garage == "Si") {
+										document.getElementById("detallesPropiedad:garage").setAttribute("checked", "checked");
+									}
+								}
+
+								if (typeof response.features[int].attributes.parillero === "undefined") {
+									document
+											.getElementById("detallesPropiedad:parrillero").removeAttribute("checked");
+								} else {
+									if (response.features[int].attributes.parillero == "Si") {
+										document.getElementById("detallesPropiedad:parrillero").setAttribute("checked", "checked");
+									}
+								}
+
+								if (typeof response.features[int].attributes.piscina === "undefined") {
+									document
+											.getElementById("detallesPropiedad:piscina").removeAttribute("checked");
+								} else {
+									if (response.features[int].attributes.piscina == "Si") {
+										document.getElementById("detallesPropiedad:piscina").setAttribute("checked", "checked");
+									}
+								}
+
+								if (typeof response.features[int].attributes.adminid === "undefined") {
+									document
+											.getElementById("contacto:emailAdmin").value = "geogar.tsig@gmail.com"
+								} else {
+									document
+											.getElementById("contacto:emailAdmin").value = response.features[int].attributes.adminid;
+								}
 
 								if (typeof response.features[int].attributes.descripcio === "undefined") {
 									document.getElementById("descripcion").innerHTML = "No hay descripción disponible."
