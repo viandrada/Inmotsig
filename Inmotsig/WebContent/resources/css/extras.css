@@ -32,3 +32,16 @@ width:220px;
 }
 
 .top-buffer { margin-top:20px; }
+
+#tablaProps{
+	
+	color:rgb(232, 97, 47);
+}
+
+#table1_wrapper{
+	background-color: rgb(54, 46, 35);
+	opacity:0.9;
+	padding:4px;
+	font-size: 1.2em;
+	
+}

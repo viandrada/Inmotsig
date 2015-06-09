@@ -7,14 +7,16 @@
 		src="http://www.openlayers.org/api/OpenLayers.js" />
 	<script type="text/javascript"
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
-	<script type="text/javascript" src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js" />
 	<h:outputScript>var image = "${resource['images/casaIcon.png']}";</h:outputScript>
+	<h:outputScript>var imagenPublica = "${resource['images/casaIconPublica.png']}";</h:outputScript>
+	<h:outputScript>var imagenPrivada = "${resource['images/casaIconPrivada.png']}";</h:outputScript>
+	<h:outputScript>var imagenReservada = "${resource['images/casaIconReservada.png']}";</h:outputScript>
 	<h:outputScript name="js/reportePropiedades.js" />
-<h:panelGroup id="registroPropiedadesContent">
-	<h:panelGroup class="container">
-		<div id="mapa" class="shadow" style="width: 90%; height: 800px;"></div>
-	</h:panelGroup>
-<h:dataTable></h:dataTable>
-</h:panelGroup>
+
+
+	<div id="mapa" class="shadow" style="width: 90%; height: 700px;"></div>
+
+	<h:dataTable></h:dataTable>
+
 </ui:composition>
 </html>

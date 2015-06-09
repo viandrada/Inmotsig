@@ -74,8 +74,10 @@
 							<h:form>
 								<h:commandLink
 									action="#{navigationBean.goRegistroAdmin('reportePropiedades.xhtml')}"
-									value="Propiedades" class="list-group-item"></h:commandLink>
-								<a href="#" class="list-group-item">Reporte 2</a>
+									value="Propiedades activas (mapa)" class="list-group-item"></h:commandLink>
+								<h:commandLink
+									action="#{navigationBean.goRegistroAdmin('reportePropiedadesTabla.xhtml')}"
+									value="Todas las propiedades" class="list-group-item"></h:commandLink>
 							</h:form>
 						</div>
 					</div>
