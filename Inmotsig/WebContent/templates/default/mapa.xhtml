@@ -19,6 +19,239 @@
 	</h:form-->
 
 	<script type="text/javascript">
+	
+	var saveStrategy = new OpenLayers.Strategy.Save();
+	var mapa;
+	 var filterStrategy;
+	 var filterX;
+
+	
+	
+	 
+	 saveStrategy = new OpenLayers.Strategy.Save();
+
+	  var filterTipoOp = new OpenLayers.Filter.Comparison({
+	             type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	             property: "tipooperac",
+	             value: "aconcagua"
+	         });
+	  var filterTipoInm = new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.EQUAL_TO,
+          property: "tipoinmueb",
+          value: "casa"
+      });
+	  var filterBarrio = new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.EQUAL_TO,
+          property: "barrio",
+          value: "union"
+      });
+	  var filterPrecio= new OpenLayers.Filter.Comparison({
+		    type: OpenLayers.Filter.Comparison.BETWEEN,
+		    property: "precio",
+		    lowerBoundary: 1,
+		    upperBoundary: 50000
+		});
+	  var filterBanos = new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.EQUAL_TO,
+          property: "banos",
+          value: "1"
+      });
+	  var filterBano4Mas = new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.GREATER_THAN,
+          property: "banos",
+          value: "4"
+      }); 
+	  var filterDorm = new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.EQUAL_TO,
+          property: "cantdormit",
+          value: "1"
+      });
+	  var filterDorm4Mas = new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.GREATER_THAN,
+          property: "cantdormit",
+          value: "4"
+      }); 
+	  var filterTamano = new OpenLayers.Filter.Comparison({
+		    type: OpenLayers.Filter.Comparison.BETWEEN,
+		    property: "tamano",
+		    lowerBoundary: "1",
+		    upperBoundary: "50000"
+		});
+	  var filterTamanoMas120 = new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.GREATER_THAN,
+          property: "tamano",
+          value: "120"
+      }); 
+	  
+	  var filterCalefaccion = new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.EQUAL_TO,
+          property: "calefaccio",
+          value: "Si"
+      });
+	  var filterGarage = new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.EQUAL_TO,
+          property: "garage",
+          value: "Si"
+      });
+	  var filterPiscina = new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.EQUAL_TO,
+          property: "piscina",
+          value: "Si"
+      });
+	  var filterParrillero = new OpenLayers.Filter.Comparison({
+          type: OpenLayers.Filter.Comparison.EQUAL_TO,
+          property: "parillero",
+          value: "Si"
+      });
+	  
+	  var filterAnd;
+	  
+	  filterStrategy= new OpenLayers.Strategy.Filter();
+	  
+	  var wfsTasmaniaRoads = new OpenLayers.Layer.Vector("WFS", {
+		  strategies: [new OpenLayers.Strategy.BBOX(),saveStrategy,filterStrategy],
+		  style: {
+		        externalGraphic: 'http://publicdomainvectors.org/photos/sweet_home.png', 
+		        graphicWidth: 21, 
+		        graphicHeight: 25,
+		        graphicYOffset: -24
+		    },
+		  protocol: new OpenLayers.Protocol.WFS({
+		    url: "http://localhost:8080/geoserver/wfs", 
+		 	featureType: "propiedad",
+		    featureNS: "http://www.openplans.org/topp",
+		    geometryName: "geom"
+		    
+		  })
+	});
+	  
+	document.getElementById("buscarFiltros").onclick=function(){
+		var filtros=new Array();
+
+		if(document.getElementById("compra").checked){
+			filterTipoOp.value="Compra";
+			filtros.push(filterTipoOp);
+		};
+		if(document.getElementById("alquiler").checked){
+			filterTipoOp.value="Alquiler";
+			filtros.push(filterTipoOp);
+		};
+		
+		if(document.getElementById("casa").checked){
+			filterTipoInm.value="Casa";
+			filtros.push(filterTipoInm);
+		};
+		if(document.getElementById("apartamento").checked){
+			filterTipoInm.value="Apartamento";
+			filtros.push(filterTipoInm);
+		};
+		if(document.getElementById("terreno").checked){
+			filterTipoInm.value="Terreno";
+			filtros.push(filterTipoInm);
+		};
+		
+		//falta el filtro de barrios
+		if(!(document.getElementById("minimo").value=="")){
+			filterPrecio.lowerBoundary=parseInt(document.getElementById("minimo").value);
+			filterPrecio.upperBoundary=parseInt(document.getElementById("maximo").value);
+			filtros.push(filterPrecio);
+		}
+		
+		
+		if(document.getElementById("dor1").checked){
+			filterDorm.value="1";
+			filtros.push(filterDorm);
+		};
+		if(document.getElementById("dor2").checked){
+			filterDorm.value="2";
+			filtros.push(filterDorm);
+		};
+		if(document.getElementById("dor3").checked){
+			filterDorm.value="3";
+			filtros.push(filterDorm);
+		};
+		if(document.getElementById("dor4").checked){
+			filterDorm.value="4";
+			filtros.push(filterDorm);
+		};
+		
+		if(document.getElementById("dor4mas").checked){
+			filtros.push(filterDorm4Mas);
+		};
+		
+		if(document.getElementById("bano1").checked){
+			filterBano.value="1";
+			filtros.push(filterBano);
+		};
+		if(document.getElementById("bano2").checked){
+			filterBano.value="2";
+			filtros.push(filterBano);
+		};
+		if(document.getElementById("bano3").checked){
+			filterBano.value="3";
+			filtros.push(filterBano);
+		};
+		if(document.getElementById("bano4").checked){
+			filterBano.value="4";
+			filtros.push(filterBano);
+		};
+		if(document.getElementById("bano4mas").checked){
+			filtros.push(filterBano4Mas);
+		};
+		
+		if(document.getElementById("menos30").checked){
+			filterTamano.lowerBoundary="0";
+			filtertamano.upperBoundary="30";
+			filtros.push(filterTamano);
+		};
+		if(document.getElementById("entre30y60").checked){
+			filterTamano.lowerBoundary="30";
+			filtertamano.upperBoundary="60";
+			filtros.push(filterTamano);
+		};
+		if(document.getElementById("entre60y90").checked){
+			filterTamano.lowerBoundary="60";
+			filtertamano.upperBoundary="90";
+			filtros.push(filterTamano);
+		};
+		if(document.getElementById("entre90y120").checked){
+			filterTamano.lowerBoundary="90";
+			filtertamano.upperBoundary="120";
+			filtros.push(filterTamano);
+		};
+		if(document.getElementById("mas120").checked){
+			filtros.push(filterTamanoMas120);
+		};
+		
+		if(document.getElementById("calefaccion").checked){
+			filtros.push(filterCalefaccion);
+		};
+		if(document.getElementById("garage").checked){
+			filtros.push(filterGarage);
+		};
+		if(document.getElementById("parrillero").checked){
+			filtros.push(filterParrillero);
+		};
+		if(document.getElementById("piscina").checked){
+			filtros.push(filterPiscina);
+		};
+
+
+
+
+	
+		 
+		
+		
+		filterAnd=new OpenLayers.Filter.Logical({
+			  type: OpenLayers.Filter.Logical.AND,
+		  	  filters:filtros
+		  });
+		filterStrategy.setFilter(filterAnd);
+		wfsTasmaniaRoads.refresh({force:true});	
+	};	  
+	
+	
     window.onload = function() {
  
 			var _class = OpenLayers.Format.XML;
@@ -41,65 +274,7 @@
 	    	
 	            mapa = new OpenLayers.Map("mapa");
 				var osm  = new OpenLayers.Layer.OSM();	
-/*
-	 			var wms = new OpenLayers.Layer.WMS("nada",
-			    "http://localhost:8080/geoserver/wms", {
-				layers : 'tsig_p3:parcelasnuevas',
-				transparent: 'false',
-				format: 'image/png',
-				isBaseLayer: 'true',
-				
-			});
-				*/		
-			var saveStrategy = new OpenLayers.Strategy.Save();
-			var wfsTasmaniaRoads = new OpenLayers.Layer.Vector("WFS", {
-				  strategies: [new OpenLayers.Strategy.BBOX(),saveStrategy],
-				  protocol: new OpenLayers.Protocol.WFS({
-				    url: "http://localhost:8080/geoserver/wfs", 
-				    featureType: "propiedad",
-				    featureNS: "http://www.openplans.org/topp",
-				    geometryName: "geom"
-				    
-				  })
-			}); 
-			
-			
-			var panel = new OpenLayers.Control.Panel({
-                displayClass: "olControlEditingToolbar"
-            });
-		    var draw = new OpenLayers.Control.DrawFeature(
-		    		wfsTasmaniaRoads, OpenLayers.Handler.Point,
-		                {
-		                    handlerOptions: {freehand: false, multi: true},
-		                    displayClass: "olControlDrawFeaturePoint"
-		                    
-		                }
-		    );
-		    
-		    draw.events.register('featureadded',draw ,agregarDatos);
-		    var formText="sin inicializar";		
-		    var f;
-		    function agregarDatos(e){
- 		    	f=e.feature;
- 		    	
- 		    	f.popup = new OpenLayers.Popup.FramedCloud
-                ("pop",
-                f.geometry.getBounds().getCenterLonLat(),
-                null,
-                                
-                '<form >Direccion:<br/><input type="text" id="direccion" name="dir" />'+
-                '<br/>Numero de apartamento:<br/><input type="text" id="numAp" name="numApartamento" /> </form>',
-                null,
-                true 
-                );
-             mapa.addPopup(f.popup); 
 
-		    };
-		  
-
-					var attributes = {direccion: "emilio"};
-
-		            
 		            var select = new OpenLayers.Control.SelectFeature(wfsTasmaniaRoads);
             		mapa.addControl(select);
             		select.activate();
@@ -135,23 +310,7 @@
 		            });
 		            
 
-		       var save=  new OpenLayers.Control.Button({displayClass: 'saveButton',
-		    	   trigger: function() {
-		    	   		alert("guardando");
-		    	   		f.attributes.direccion=document.getElementById("direccion").value;
-		    	   		f.attributes.numApartamento=parseInt(document.getElementById("numAp").value);
-		    	   		f.attributes.adminId="admin";
-		    	   		f.attributes.gidPadron=1234;
-		    	   		saveStrategy.save()
-		    	   		}, title: 'Save changes' 
-		    	   	});
-		       
-		       
-		       panel.addControls([select,draw,save]);
-		       mapa.addControl(panel);  
- 			
-			
-			  //mapa.addLayer(wms);			
+		    
 			 mapa.addLayer(osm);
 			var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
 		    var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
