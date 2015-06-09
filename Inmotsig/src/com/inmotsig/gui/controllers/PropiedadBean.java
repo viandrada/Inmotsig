@@ -6,6 +6,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import com.sun.xml.internal.ws.wsdl.writer.document.Part;
+
 @ManagedBean
 @ViewScoped
 public class PropiedadBean {
@@ -153,7 +155,7 @@ public class PropiedadBean {
 			if(checked == true) return "checked";
 			else return "not";
 		}
-		
+
 		public String cargar()
 		{
 			//this.gid = Integer.parseInt(gid);
