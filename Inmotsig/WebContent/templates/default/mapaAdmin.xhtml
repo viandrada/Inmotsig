@@ -336,7 +336,7 @@ window.onload = function() {
 
 	var save=  new OpenLayers.Control.Button({displayClass: 'saveButton',
 	   	   trigger: function() {
-	   		 		f.attributes.adminid="1" //SETEAR ADMIN
+	   		 		f.attributes.adminid="#{loginBean.email}";
 		   	   		f.attributes.direccion=document.getElementById("direccion").value;
 		   	   		f.attributes.numapartam=parseInt(document.getElementById("numAp").value);
 		   	   	    f.attributes.gidpadron=1234; //SETEAR PADRON
