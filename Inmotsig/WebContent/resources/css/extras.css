@@ -1,47 +1,55 @@
+.labelMenu {
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 4px 12px;
+	margin-bottom: 0px;
+	font-size: 14px;
+	font-weight: normal;
+	background-color: #01836d;
+	color: white;
+	font-weight: bold;
+	opacity: 0.8;
+}
 
- .labelMenu{
-   border: 1px solid #ccc;
-   border-radius: 4px;
-   padding:4px 12px;
-   margin-bottom:0px;
-   font-size:14px;
-   font-weight:normal;
-   background-color:#01836d;
-   color:white;
-   font-weight: bold;
-   opacity: 0.8;
-   }
 .dropdown-menu>.active>a {
-background-color:#04B486; 
-}
-.btn-danger{
-margin-left:60px;
-}
-.btn-default{
-width:220px;
+	background-color: #04B486;
 }
 
-.anchoLabel{
-	width:220px;
+.btn-danger {
+	margin-left: 60px;
 }
 
-.menuAdminHeader{
-  color: white;
-  background-color: #01836d;
-  border-color: #ddd;
+.btn-default {
+	width: 220px;
 }
 
-.top-buffer { margin-top:20px; }
-
-#tablaProps{
-	
-	color:rgb(232, 97, 47);
+.anchoLabel {
+	width: 220px;
 }
 
-#table1_wrapper{
+.menuAdminHeader {
+	color: white;
+	background-color: #01836d;
+	border-color: #ddd;
+}
+
+.top-buffer {
+	margin-top: 20px;
+}
+
+#tablaProps {
+	color: rgb(232, 97, 47);
+}
+
+#table1_wrapper {
 	background-color: rgb(54, 46, 35);
-	opacity:0.9;
-	padding:4px;
+	opacity: 0.9;
+	padding: 4px;
 	font-size: 1.2em;
-	
+}
+
+#legendMap {
+	background-color: rgb(1, 131, 109);
+	opacity: 0.8;
+	color:black;
 }

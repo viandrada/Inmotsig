@@ -13,10 +13,34 @@
 	<h:outputScript>var imagenReservada = "${resource['images/casaIconReservada.png']}";</h:outputScript>
 	<h:outputScript name="js/reportePropiedades.js" />
 
-
-	<div id="mapa" class="shadow" style="width: 90%; height: 700px;"></div>
-
-	<h:dataTable></h:dataTable>
+	<h:panelGroup class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+		<div id="mapa" class="shadow" style="width: 100%; height: 700px;"></div>
+	</h:panelGroup>
+	<h:panelGroup class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="legendMap">
+		<h:panelGroup>
+			<h:panelGroup class="row">
+				<h:graphicImage value="resources/images/casaIconPublica.png"
+					height="25" width="18"></h:graphicImage>
+				<h:panelGroup>
+					<h:outputLabel>Pública</h:outputLabel>
+				</h:panelGroup>
+			</h:panelGroup>
+			<h:panelGroup class="row">
+				<h:graphicImage value="resources/images/casaIconPrivada.png"
+					height="25" width="18"></h:graphicImage>
+				<h:panelGroup>
+					<h:outputLabel>Privada</h:outputLabel>
+				</h:panelGroup>
+			</h:panelGroup>
+			<h:panelGroup class="row">
+				<h:graphicImage value="resources/images/casaIconReservada.png"
+					height="25" width="18"></h:graphicImage>
+				<h:panelGroup>
+					<h:outputLabel>Reservada</h:outputLabel>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup >
+	</h:panelGroup>
 
 </ui:composition>
 </html>

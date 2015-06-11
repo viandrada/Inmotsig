@@ -16,6 +16,11 @@ function cargarMapa() {
 
 		return child;
 	}
+	
+	var node = document.getElementById("mapa");
+	while (node.hasChildNodes()) {
+	    node.removeChild(node.lastChild);
+	}
 
 	_class.prototype.write = patchedWriteFunction;
 	// aca termina lo del bug
@@ -36,15 +41,8 @@ function cargarMapa() {
 
 	mapa = new OpenLayers.Map("mapa");
 
-	var wmsTasmania = new OpenLayers.Layer.WMS("Montevideo calles",
-			"http://localhost:8080/geoserver/wms", {
-				layers : 'tsig_p3:montevideo_ejes',
-				transparent : 'false',
-				format : 'image/png',
-				isBaseLayer : 'true',
-
-			});
-
+	var osm = new OpenLayers.Layer.OSM();
+	
 	var panel = new OpenLayers.Control.Panel({
 		displayClass : "olControlEditingToolbar"
 	});
@@ -73,12 +71,11 @@ function cargarMapa() {
 				null, true);
 		mapa.addPopup(f.popup);
 
-	}
-	;
+	};
 
-	/*var attributes = {
-		direccion : "emilio"
-	};*/
+	/*
+	 * var attributes = { direccion : "emilio" };
+	 */
 	var select = new OpenLayers.Control.SelectFeature(wfsTasmaniaRoads);
 	mapa.addControl(select);
 	select.activate();
@@ -124,9 +121,7 @@ function cargarMapa() {
 	panel.addControls([ select, draw, save ]);
 	mapa.addControl(panel);
 
-	mapa.addLayer(wmsTasmania);
-
-	mapa.addLayer(wfsTasmaniaRoads);
+	// mapa.addLayer(wmsTasmania);
 
 	info = new OpenLayers.Control.WMSGetFeatureInfo({
 		url : 'http://localhost:8080/geoserver/wfs',
@@ -143,11 +138,25 @@ function cargarMapa() {
 	mapa.addControl(info);
 	info.activate();
 
+	mapa.addLayer(osm);
+	var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform
+																	// from WGS
+																	// 1984
+	var toProjection = new OpenLayers.Projection("EPSG:900913"); // to
+																	// Spherical
+																	// Mercator
+																	// Projection
+	var position = new OpenLayers.LonLat(-56.21, -34.81).transform(
+			fromProjection, toProjection);
+
+	mapa.addLayer(wfsTasmaniaRoads);
+
 	mapa.zoomToMaxExtent();
-	var lonlat = new OpenLayers.LonLat(-56.21, -34.81).transform(
+	var lonlat = new OpenLayers.LonLat(-56.1880518, -34.8527097).transform(
 			new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection(
 					"EPSG:32721"));
-	mapa.setCenter(lonlat, 12);
+	// mapa.setCenter(lonlat, 12);
+	mapa.setCenter(position, 12);
 
 	mapa.addControl(new OpenLayers.Control.LayerSwitcher(true));
 	mapa.addControl(new OpenLayers.Control.MousePosition({
@@ -157,63 +166,68 @@ function cargarMapa() {
 
 }
 
-function cargarTabla(){
+function cargarTabla() {
 	var wfs = new OpenLayers.Protocol.WFS({
-	    url: "http://localhost:8080/geoserver/wfs",
-	    featureType: "zonascrecimiento",
-	    featureNS: "http://www.openplans.org/topp",
-	    geometryName: "geom"});
+		url : "http://localhost:8080/geoserver/wfs",
+		featureType : "zonascrecimiento",
+		featureNS : "http://www.openplans.org/topp",
+		geometryName : "geom"
+	});
 
-	
-	wfs.read({
-	    callback: function(response) {
-	        if(response.features.length > 0) {
-	            console.log(response.features[0].data);
-	            var lista = [];
-	            var listaFinal = new Array();
-	            for (var int = 0; int < response.features.length; int++) {
-	            	var obj = {nombre: response.features[int].data.nombre, grado_interes: response.features[int].data.grado_interes };
-	            	//var data = response.features[int].data;
-	            	listaFinal.push(obj);
+	wfs
+			.read({
+				callback : function(response) {
+					if (response.features.length > 0) {
+						console.log(response.features[0].data);
+						var lista = [];
+						var listaFinal = new Array();
+						for (var int = 0; int < response.features.length; int++) {
+							var obj = {
+								nombre : response.features[int].data.nombre,
+								grado_interes : response.features[int].data.grado_interes
+							};
+							// var data = response.features[int].data;
+							listaFinal.push(obj);
+						}
+
+						jQuery('#tablaZonas').html(
+								'<table id="table1" class="table"></table>');
+
+						jQuery('#table1')
+								.dataTable(
+										{
+											data : listaFinal,
+											order : [ [ 1, "desc" ] ],
+											language : {
+												"lengthMenu" : "Mostrar _MENU_ registros por pagina",
+												"zeroRecords" : "No se encontro nada - sorry",
+												"info" : "Mostrando pagina _PAGE_ de _PAGES_",
+												"infoEmpty" : "No hay registros disponibles",
+												"infoFiltered" : "(filtrado a partir de un total de _MAX_ registros)",
+												"search" : "Buscar zona "
+											},
+											columns : [ {
+												data : 'nombre'
+											}, {
+												data : 'grado_interes'
+											} ]
+										});
+						// document.getElementById("zonasGuardadas").value =
+						// response.features;
+						// document.getElementById("table1").value =
+						// response.features;
+					} else {
+						console.log('Whoops, no features returned!');
+					}
 				}
-	            
-	            jQuery('#tablaZonas').html( '<table id="table1" class="table"></table>' );
-	       	 
-	            jQuery('#table1').dataTable( {
-	    	        data: listaFinal,
-	    	        order: [[ 1, "desc" ]],
-	    	        language: {
-	    	            "lengthMenu": "Mostrar _MENU_ registros por pagina",
-	    	            "zeroRecords": "No se encontro nada - sorry",
-	    	            "info": "Mostrando pagina _PAGE_ de _PAGES_",
-	    	            "infoEmpty": "No hay registros disponibles",
-	    	            "infoFiltered": "(filtrado a partir de un total de _MAX_ registros)",
-	    	            "search": "Buscar zona "
-	    	        },
-	    	        columns: [
-	    	            { data: 'nombre' },
-	    	            { data: 'grado_interes' }
-	    	        ]
-	    	    } );
-	            //document.getElementById("zonasGuardadas").value = response.features;
-	            //document.getElementById("table1").value = response.features;
-	        } else {
-	            console.log('Whoops, no features returned!');
-	        }
-	    }
-	});
-	
-	/*var yourFilter = new OpenLayers.Filter.Comparison({
-	    type: OpenLayers.Filter.Comparison.EQUAL_TO,
-	    property: yourPropertyName,
-	    value: yourPropertyValue
-	});
+			});
 
-	protocol.read({
-	    flter: yourFilter,
-	    callback: yourCallback
-	});*/
-	
-	   
-	
+	/*
+	 * var yourFilter = new OpenLayers.Filter.Comparison({ type:
+	 * OpenLayers.Filter.Comparison.EQUAL_TO, property: yourPropertyName, value:
+	 * yourPropertyValue });
+	 * 
+	 * protocol.read({ flter: yourFilter, callback: yourCallback });
+	 */
+
 }
