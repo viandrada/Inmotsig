@@ -251,7 +251,17 @@
 		wfsTasmaniaRoads.refresh({force:true});	
 	};	  
 	
-	
+	var geolocate = new OpenLayers.Control.Geolocate({
+	    eventListeners: {
+	    	"locationupdated": locateMarker,
+	        "locationfailed": function() {
+	            console.log('Location detection failed');
+	        }
+	    }
+	 });
+	 var geoLocate ;
+	var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+	  var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
     window.onload = function() {
  
 			var _class = OpenLayers.Format.XML;
@@ -311,25 +321,32 @@
 		            
 
 		    
-			 mapa.addLayer(osm);
-			var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
-		    var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
-		    var position       = new OpenLayers.LonLat(-56.21,-34.81).transform( fromProjection, toProjection);
+			  mapa.addLayer(osm);
+			  var position       = new OpenLayers.LonLat(-56.21,-34.81).transform( fromProjection, toProjection);
   			  mapa.addLayer(wfsTasmaniaRoads);
   			  
 			  mapa.zoomToMaxExtent();
 			  
-			  var lonlat = new OpenLayers.LonLat(-56.21,-34.81).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:32721"));
-	  	      mapa.setCenter(position,12);
+			 // var lonlat = new OpenLayers.LonLat(-56.21,-34.81).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:32721"));
+	  	      //mapa.setCenter(position,12);
 	  	      
 			  mapa.addControl(new OpenLayers.Control.LayerSwitcher(true));
 			  mapa.addControl(new OpenLayers.Control.MousePosition({ numDigits: 6 }));
 			  mapa.addControl(new OpenLayers.Control.ScaleLine());
 
-     
+			
+			 geolocate.activate();
+		     //mapa.addLayer(wms);	
+		     mapa.addControl(geolocate);	
+		     mapa.setCenter(geoLocate,15);
+		    
+		    
+		    
 	}
 
-	
+    function locateMarker(event) {
+        geoLocate = new OpenLayers.LonLat(event.point.x, event.point.y).transform(new OpenLayers.Projection("EPSG:3857"),new OpenLayers.Projection("EPSG:4326"));;
+    }
 </script>
 
 </ui:composition>
