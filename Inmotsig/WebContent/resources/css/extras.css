@@ -54,6 +54,12 @@
 	color:black;
 }
 
+#legendMapZonas {
+	background-color: white;
+	opacity: 0.8;
+	color:black;
+}
+
 .saveButtonControl{
 	background-image:url("#{resource['images:Disk-Blue.png']}");
 	  background-repeat: no-repeat;
