@@ -16,27 +16,72 @@ function cargarMapa() {
 
 		return child;
 	}
-	
+	_class.prototype.write = patchedWriteFunction;
+	// aca termina lo del bug
+
 	var node = document.getElementById("mapa");
 	while (node.hasChildNodes()) {
 	    node.removeChild(node.lastChild);
 	}
-
-	_class.prototype.write = patchedWriteFunction;
-	// aca termina lo del bug
-
-	var wfsTasmaniaRoads;
+	
+	var zonas;
 	var saveStrategy;
 	saveStrategy = new OpenLayers.Strategy.Save();
+	
+	/*Estilos*/
+	var style = new OpenLayers.Style();
 
-	wfsTasmaniaRoads = new OpenLayers.Layer.Vector("WFS", {
+	var baja = new OpenLayers.Rule({
+	  filter: new OpenLayers.Filter.Comparison({
+	      type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	      property: "demanda",
+	      value: "baja",
+	  }),
+	  symbolizer: {fillColor: "green",
+	               fillOpacity: 0.5, strokeColor: "black"}
+	});
+
+	var media = new OpenLayers.Rule({
+	  filter: new OpenLayers.Filter.Comparison({
+	      type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	      property: "demanda",
+	      value: "media",
+	  }),
+	  symbolizer: {fillColor: "red",
+	               fillOpacity: 0.7, strokeColor: "black"}
+	});
+	
+	var alta = new OpenLayers.Rule({
+		  filter: new OpenLayers.Filter.Comparison({
+		      type: OpenLayers.Filter.Comparison.EQUAL_TO,
+		      property: "demanda",
+		      value: "alta",
+		  }),
+		  symbolizer: {fillColor: "blue",
+		               fillOpacity: 0.7, strokeColor: "black"}
+		});
+	
+	var todas = new OpenLayers.Rule({
+		// apply this rule if no others apply
+		elseFilter : true,
+		symbolizer : {
+			fillColor: "grey",
+            fillOpacity: 0.7, strokeColor: "black"
+		}
+	});
+
+	style.addRules([baja, media, alta, todas]);
+	/*fin estilo*/
+
+	zonas = new OpenLayers.Layer.Vector("WFS", {
 		strategies : [ new OpenLayers.Strategy.BBOX(), saveStrategy ],
 		protocol : new OpenLayers.Protocol.WFS({
 			url : "http://localhost:8080/geoserver/wfs",
 			featureType : "zonascrecimiento",
 			featureNS : "http://www.openplans.org/topp",
 			geometryName : "geom",
-		})
+		}),
+		styleMap : new OpenLayers.StyleMap(style)
 	});
 
 	mapa = new OpenLayers.Map("mapa");
@@ -47,7 +92,7 @@ function cargarMapa() {
 		displayClass : "olControlEditingToolbar"
 	});
 
-	var draw = new OpenLayers.Control.DrawFeature(wfsTasmaniaRoads,
+	var draw = new OpenLayers.Control.DrawFeature(zonas,
 			OpenLayers.Handler.Polygon, {
 				handlerOptions : {
 					freehand : false,
@@ -62,7 +107,6 @@ function cargarMapa() {
 	var f;
 	function agregarDatos(e) {
 		f = e.feature;
-
 		f.popup = new OpenLayers.Popup.FramedCloud(
 				"pop",
 				f.geometry.getBounds().getCenterLonLat(),
@@ -76,7 +120,7 @@ function cargarMapa() {
 	/*
 	 * var attributes = { direccion : "emilio" };
 	 */
-	var select = new OpenLayers.Control.SelectFeature(wfsTasmaniaRoads);
+	var select = new OpenLayers.Control.SelectFeature(zonas);
 	mapa.addControl(select);
 	select.activate();
 
@@ -85,7 +129,7 @@ function cargarMapa() {
 	}
 	;
 
-	wfsTasmaniaRoads.events.on({
+	zonas.events.on({
 		featureselected : function(event) {
 			var feature = event.feature;
 			feature.popup = new OpenLayers.Popup.FramedCloud("pop",
@@ -104,7 +148,8 @@ function cargarMapa() {
 		}
 
 	});
-
+	
+//Boton de guardar
 	var save = new OpenLayers.Control.Button({
 		displayClass : 'saveButton',
 		trigger : function() {
@@ -120,8 +165,6 @@ function cargarMapa() {
 
 	panel.addControls([ select, draw, save ]);
 	mapa.addControl(panel);
-
-	// mapa.addLayer(wmsTasmania);
 
 	info = new OpenLayers.Control.WMSGetFeatureInfo({
 		url : 'http://localhost:8080/geoserver/wfs',
@@ -149,7 +192,7 @@ function cargarMapa() {
 	var position = new OpenLayers.LonLat(-56.21, -34.81).transform(
 			fromProjection, toProjection);
 
-	mapa.addLayer(wfsTasmaniaRoads);
+	mapa.addLayer(zonas);
 
 	mapa.zoomToMaxExtent();
 	var lonlat = new OpenLayers.LonLat(-56.1880518, -34.8527097).transform(

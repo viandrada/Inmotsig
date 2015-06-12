@@ -1,103 +1,125 @@
 window.onload = function() {
-    "use strict";
-    cargarMapa();
-};
-var zonas;
-function cargarMapa() {
-    // esto es por un bug en para wfs
-    "use strict";
-    var _class = OpenLayers.Format.XML;
-    var originalWriteFunction = _class.prototype.write;
+	init();
+}
+var map, zonas, controls;
+var saveStrategy;
+function init() {
+	map = new OpenLayers.Map('map');
 
-    var patchedWriteFunction = function() {
-        var child = originalWriteFunction.apply(this, arguments);
+	var osm = new OpenLayers.Layer.OSM();
 
-        // NOTE: Remove the rogue namespaces as one block of text.
-        child = child.replace(new RegExp('xmlns:NS\\d+="" NS\\d+:', 'g'), '');
+	
+	saveStrategy = new OpenLayers.Strategy.Save();
+	
 
-        return child;
-        };
+	
+	/*Estilos*/
+	var style = new OpenLayers.Style();
 
-    _class.prototype.write = patchedWriteFunction;
-    // aca termina lo del bug
-
-    var saveStrategy;
-    saveStrategy = new OpenLayers.Strategy.Save({
-        auto : true
-        });
-
-    zonas = new OpenLayers.Layer.Vector("WFS", {
-        strategies : [ new OpenLayers.Strategy.BBOX(), saveStrategy ],
-            protocol : new OpenLayers.Protocol.WFS({
-            url : "http://localhost:8080/geoserver/wfs",
-            featureType : "zonascrecimiento",
-            featureNS : "http://www.openplans.org/topp",
-            geometryName : "geom",
-            })
-    });
-
-    var mapa = new OpenLayers.Map("mapa");
-
-    var osm = new OpenLayers.Layer.OSM();
-
-    var select = new OpenLayers.Control.SelectFeature(zonas);
-    mapa.addControl(select);
-    select.activate();
-
-    /*Link en donde explica como hacer el commit al delete:
-     * http://workshops.boundlessgeo.com/geoext/_sources/wfs/wfst.txt*/
-    zonas.events.on({
-        featureselected : function(event) {
-            var feature = event.feature;
-            /*
-             * feature.popup = new OpenLayers.Popup.FramedCloud( "pop",
-             * feature.geometry.getBounds().getCenterLonLat(), null, '<form
-             * class="form" >Nombre:<br/><input class="form-control"
-             * type="text" id="nombreZona" value="'+feature.attributes.nombre+'"
-             * name="nombreZona" />'+ '<input class="form-control btn
-             * btn-default" type="button" value="Eliminar" ></input></form>',
-             * null, true); mapa.addPopup(feature.popup);
-             */
-
-            var txt;
-            var r = confirm("Seguro que desea eliminar esta zona?");
-            if (r == true) {
-                zonas.removeFeatures(feature);
-               /* var node = document.getElementById("mapa");
-                while (node.hasChildNodes()) {
-                    node.removeChild(node.lastChild);
-                    }
-                cargarMapa();*/
-                if (feature.state != OpenLayers.State.INSERT) {
-                    feature.state = OpenLayers.State.DELETE;
-                    zonas.addFeatures([feature]);
-                }
-                //saveStrategy.save();
-                //zonas.refresh({force: true});
-                
-                } else {
-				txt = "You pressed Cancel!";
-			}
-		},
-
-		// destroy popup when feature is no longer selected. Prevents
-		// showing 2 Popups at the same time
-		featureunselected : function(event) {
-			var feature = event.feature;
-			/*
-			 * mapa.removePopup(feature.popup); feature.popup.destroy();
-			 * feature.popup = null;
-			 */
-		}
-
+	var baja = new OpenLayers.Rule({
+	  filter: new OpenLayers.Filter.Comparison({
+	      type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	      property: "demanda",
+	      value: "baja",
+	  }),
+	  symbolizer: {fillColor: "green",
+	               fillOpacity: 0.5, strokeColor: "black"}
 	});
 
-	function onPopupClose(evt) {
-		selectControl.unselect(selectedFeature);
-	}
-	;
+	var media = new OpenLayers.Rule({
+	  filter: new OpenLayers.Filter.Comparison({
+	      type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	      property: "demanda",
+	      value: "media",
+	  }),
+	  symbolizer: {fillColor: "red",
+	               fillOpacity: 0.7, strokeColor: "black"}
+	});
+	
+	var alta = new OpenLayers.Rule({
+		  filter: new OpenLayers.Filter.Comparison({
+		      type: OpenLayers.Filter.Comparison.EQUAL_TO,
+		      property: "demanda",
+		      value: "alta",
+		  }),
+		  symbolizer: {fillColor: "blue",
+		               fillOpacity: 0.7, strokeColor: "black"}
+		});
+	
+	var todas = new OpenLayers.Rule({
+		// apply this rule if no others apply
+		elseFilter : true,
+		symbolizer : {
+			fillColor: "grey",
+            fillOpacity: 0.7, strokeColor: "black"
+		}
+	});
 
-	mapa.addLayer(osm);
+	style.addRules([baja, media, alta, todas]);
+	/*fin estilo*/
+
+	
+	zonas = new OpenLayers.Layer.Vector("Zonas", {
+		strategies : [ new OpenLayers.Strategy.BBOX(), saveStrategy ],
+		protocol : new OpenLayers.Protocol.WFS({
+			url : "http://localhost:8080/geoserver/wfs",
+			featureType : "zonascrecimiento",
+			featureNS : "http://www.openplans.org/topp",
+			geometryName : "geom",
+		}),
+		styleMap : new OpenLayers.StyleMap(style)
+	});
+
+	map.addLayers([ osm, zonas ]);
+	map.addControl(new OpenLayers.Control.LayerSwitcher());
+	map.addControl(new OpenLayers.Control.MousePosition());
+
+	if (console && console.log) {
+		function report(event) {
+			console.log(event.type, event.feature ? event.feature.id
+					: event.components);
+		}
+		zonas.events.on({
+			"beforefeaturemodified" : report,
+			"featuremodified" : report,
+			"afterfeaturemodified" : report,
+			"vertexmodified" : report,
+			"sketchmodified" : report,
+			"sketchstarted" : report,
+			"sketchcomplete" : report
+		});
+	}
+	controls = {
+		polygon : new OpenLayers.Control.DrawFeature(zonas,
+				OpenLayers.Handler.Polygon),
+		modify : new OpenLayers.Control.ModifyFeature(zonas)
+	};
+
+	for ( var key in controls) {
+		map.addControl(controls[key]);
+	}
+	
+	var panel = new OpenLayers.Control.Panel({
+		displayClass : "olControlEditingToolbar"
+	});
+	
+	//Boton de guardar
+	var save = new OpenLayers.Control.Button({
+		displayClass : 'saveButtonControl',
+		trigger : function() {
+			//f.attributes.nombre = document.getElementById("nombreZona2").value;
+			//f.attributes.grado_interes = 0;
+			saveStrategy.save();
+			//mapa.removePopup(f.popup);
+			//f.popup.destroy();
+			//f.popup = null;
+		},
+		title : 'Save changes'
+	});
+
+	//panel.addControls([ save ]);
+	//map.addControl(panel);
+
 	var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform
 	// from WGS
 	// 1984
@@ -108,22 +130,59 @@ function cargarMapa() {
 	var position = new OpenLayers.LonLat(-56.21, -34.81).transform(
 			fromProjection, toProjection);
 
-	mapa.addLayer(zonas);
+	map.zoomToMaxExtent();
+	map.setCenter(position, 12);
+	document.getElementById('noneToggle').checked = true;
+}
 
-	mapa.zoomToMaxExtent();
-	var lonlat = new OpenLayers.LonLat(-56.1880518, -34.8527097).transform(
-			new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection(
-					"EPSG:32721"));
-	// mapa.setCenter(lonlat, 12);
-	mapa.setCenter(position, 12);
+function update() {
+	// reset modification mode
+	controls.modify.mode = OpenLayers.Control.ModifyFeature.RESHAPE;
+	var rotate = document.getElementById("rotate").checked;
+	if (rotate) {
+		controls.modify.mode |= OpenLayers.Control.ModifyFeature.ROTATE;
+	}
+	var resize = document.getElementById("resize").checked;
+	if (resize) {
+		controls.modify.mode |= OpenLayers.Control.ModifyFeature.RESIZE;
+		var keepAspectRatio = document.getElementById("keepAspectRatio").checked;
+		if (keepAspectRatio) {
+			controls.modify.mode &= ~OpenLayers.Control.ModifyFeature.RESHAPE;
+		}
+	}
+	var drag = document.getElementById("drag").checked;
+	if (drag) {
+		controls.modify.mode |= OpenLayers.Control.ModifyFeature.DRAG;
+	}
+	if (rotate || drag) {
+		controls.modify.mode &= ~OpenLayers.Control.ModifyFeature.RESHAPE;
+	}
+	controls.modify.createVertices = document.getElementById("createVertices").checked;
+	var sides = parseInt(document.getElementById("sides").value);
+	sides = Math.max(3, isNaN(sides) ? 0 : sides);
+	controls.regular.handler.sides = sides;
+	var irregular = document.getElementById("irregular").checked;
+	controls.regular.handler.irregular = irregular;
+}
 
-	mapa.addControl(new OpenLayers.Control.LayerSwitcher(true));
-	mapa.addControl(new OpenLayers.Control.MousePosition({
-		numDigits : 6
-	}));
-	mapa.addControl(new OpenLayers.Control.ScaleLine());
-
-	function eliminar(feature) {
-		zonas.removeFeatures(feature);
+function toggleControl(element) {
+	for (key in controls) {
+		var control = controls[key];
+		if (element.value == key && element.checked) {
+			control.activate();
+		} else {
+			control.deactivate();
+		}
 	}
 }
+
+function save() {
+	//f.attributes.nombre = document.getElementById("nombreZona2").value;
+	//f.attributes.grado_interes = 0;
+	saveStrategy.save();
+	//mapa.removePopup(f.popup);
+	//f.popup.destroy();
+	//f.popup = null;
+}
+
+
