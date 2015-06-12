@@ -74,6 +74,8 @@ function init() {
 	map.addControl(new OpenLayers.Control.LayerSwitcher());
 	map.addControl(new OpenLayers.Control.MousePosition());
 
+	
+	
 	if (console && console.log) {
 		function report(event) {
 			console.log(event.type, event.feature ? event.feature.id
@@ -82,16 +84,52 @@ function init() {
 		zonas.events.on({
 			"beforefeaturemodified" : report,
 			"featuremodified" : report,
-			"afterfeaturemodified" : report,
+			"afterfeaturemodified" : agregarDatos,
 			"vertexmodified" : report,
 			"sketchmodified" : report,
 			"sketchstarted" : report,
-			"sketchcomplete" : report
+			"sketchcomplete" : agregarDatos,
+			"featureselected":function(event) {
+				var feature = event.feature;
+				feature.popup = new OpenLayers.Popup.FramedCloud("pop",
+						feature.geometry.getBounds().getCenterLonLat(), null,
+						'<form >Nombre:<br/><input type="text" id="nombreZona2" value="'
+								+ feature.attributes.nombre
+								+ '" name="nombreZona2" />', null, true);
+				map.addPopup(feature.popup);
+			},
+			"featureunselected":function(event) {
+				var feature = event.feature;
+				map.removePopup(feature.popup);
+				feature.popup.destroy();
+				feature.popup = null;
+			}
 		});
 	}
+	
+	var select = new OpenLayers.Control.SelectFeature(zonas);
+	map.addControl(select);
+	select.activate();
+	
+	function agregarDatos(e) {
+		f = e.feature;
+		f.popup = new OpenLayers.Popup.FramedCloud(
+				"pop",
+				f.geometry.getBounds().getCenterLonLat(),
+				null,
+				'<form >Nombre de la zona:<br/><input type="text" id="nombreZona2"  value= "'+f.attributes.nombre+'" name="nombreZona" /></form>',
+				null, true);
+		map.addPopup(f.popup);
+
+	};
+	
 	controls = {
 		polygon : new OpenLayers.Control.DrawFeature(zonas,
-				OpenLayers.Handler.Polygon),
+				OpenLayers.Handler.Polygon,{
+					handlerOptions : {
+						freehand : false,
+						multi : true
+					}}),
 		modify : new OpenLayers.Control.ModifyFeature(zonas)
 	};
 
@@ -107,12 +145,12 @@ function init() {
 	var save = new OpenLayers.Control.Button({
 		displayClass : 'saveButtonControl',
 		trigger : function() {
-			//f.attributes.nombre = document.getElementById("nombreZona2").value;
-			//f.attributes.grado_interes = 0;
+			f.attributes.nombre = document.getElementById("nombreZona2").value;
+			f.attributes.grado_interes = 0;
 			saveStrategy.save();
-			//mapa.removePopup(f.popup);
-			//f.popup.destroy();
-			//f.popup = null;
+			map.removePopup(f.popup);
+			f.popup.destroy();
+			f.popup = null;
 		},
 		title : 'Save changes'
 	});
@@ -157,12 +195,12 @@ function update() {
 	if (rotate || drag) {
 		controls.modify.mode &= ~OpenLayers.Control.ModifyFeature.RESHAPE;
 	}
-	controls.modify.createVertices = document.getElementById("createVertices").checked;
-	var sides = parseInt(document.getElementById("sides").value);
-	sides = Math.max(3, isNaN(sides) ? 0 : sides);
-	controls.regular.handler.sides = sides;
-	var irregular = document.getElementById("irregular").checked;
-	controls.regular.handler.irregular = irregular;
+	//controls.modify.createVertices = document.getElementById("createVertices").checked;
+	//var sides = parseInt(document.getElementById("sides").value);
+	//sides = Math.max(3, isNaN(sides) ? 0 : sides);
+	//controls.regular.handler.sides = sides;
+	//var irregular = document.getElementById("irregular").checked;
+	//controls.regular.handler.irregular = irregular;
 }
 
 function toggleControl(element) {
@@ -177,12 +215,14 @@ function toggleControl(element) {
 }
 
 function save() {
-	//f.attributes.nombre = document.getElementById("nombreZona2").value;
-	//f.attributes.grado_interes = 0;
+	f.attributes.nombre = document.getElementById("nombreZona2").value;
+	f.attributes.grado_interes = 0;
+	f.attributes.demanda = "No definida";
 	saveStrategy.save();
-	//mapa.removePopup(f.popup);
-	//f.popup.destroy();
-	//f.popup = null;
+	
+	map.removePopup(f.popup);
+	f.popup.destroy();
+	f.popup = null;
 }
 
 

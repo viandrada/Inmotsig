@@ -21,6 +21,50 @@ function cargarMapa() {
     _class.prototype.write = patchedWriteFunction;
     // aca termina lo del bug
 
+    /*Estilos*/
+	var style = new OpenLayers.Style();
+
+	var baja = new OpenLayers.Rule({
+	  filter: new OpenLayers.Filter.Comparison({
+	      type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	      property: "demanda",
+	      value: "baja",
+	  }),
+	  symbolizer: {fillColor: "green",
+	               fillOpacity: 0.5, strokeColor: "black"}
+	});
+
+	var media = new OpenLayers.Rule({
+	  filter: new OpenLayers.Filter.Comparison({
+	      type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	      property: "demanda",
+	      value: "media",
+	  }),
+	  symbolizer: {fillColor: "red",
+	               fillOpacity: 0.7, strokeColor: "black"}
+	});
+	
+	var alta = new OpenLayers.Rule({
+		  filter: new OpenLayers.Filter.Comparison({
+		      type: OpenLayers.Filter.Comparison.EQUAL_TO,
+		      property: "demanda",
+		      value: "alta",
+		  }),
+		  symbolizer: {fillColor: "blue",
+		               fillOpacity: 0.7, strokeColor: "black"}
+		});
+	
+	var todas = new OpenLayers.Rule({
+		// apply this rule if no others apply
+		elseFilter : true,
+		symbolizer : {
+			fillColor: "grey",
+            fillOpacity: 0.7, strokeColor: "black"
+		}
+	});
+
+	style.addRules([baja, media, alta, todas]);
+	
     var saveStrategy;
     saveStrategy = new OpenLayers.Strategy.Save({
         auto : true
@@ -33,7 +77,8 @@ function cargarMapa() {
             featureType : "zonascrecimiento",
             featureNS : "http://www.openplans.org/topp",
             geometryName : "geom",
-            })
+            }),
+            styleMap : new OpenLayers.StyleMap(style)
     });
 
     var mapa = new OpenLayers.Map("mapa");
@@ -61,6 +106,7 @@ function cargarMapa() {
 
             var txt;
             var r = confirm("Seguro que desea eliminar esta zona?");
+            //var r = confirmBox();
             if (r == true) {
                 zonas.removeFeatures(feature);
                /* var node = document.getElementById("mapa");
@@ -126,4 +172,20 @@ function cargarMapa() {
 	function eliminar(feature) {
 		zonas.removeFeatures(feature);
 	}
+	
+	function confirmBox() {
+		jQuery( "#dialog-confirm" ).dialog({
+	      resizable: false,
+	      height:140,
+	      modal: true,
+	      buttons: {
+	        "Delete all items": function() {
+	        	jQuery( this ).dialog( "close" );
+	        },
+	        Cancel: function() {
+	        	jQuery( this ).dialog( "close" );
+	        }
+	      }
+	    });
+	  }
 }

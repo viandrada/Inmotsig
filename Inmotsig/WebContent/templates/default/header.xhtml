@@ -5,33 +5,44 @@
 <ui:composition>
 	<h:panelGroup class="container">
 		<h:panelGroup class="row">
-			<h:panelGroup class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+			<h:panelGroup class="col-xs-3 col-sm-3 col-md-3 col-lg-3 hidden-xs">
 				<h:panelGroup>
-					<button type="button" class="navbar-toggle" data-toggle="collapse"
-						data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
+				</h:panelGroup>
+				<h:panelGroup>
 					<a href="#"><img class="img-responsive"
 						src="resources/images/logoFinal.png" /></a>
 				</h:panelGroup>
 			</h:panelGroup>
-			<h:panelGroup class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+			<h:panelGroup class="col-xs-6 col-sm-5 col-md-5 col-lg-5">
 			</h:panelGroup>
-			<h:panelGroup
-				class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+			<h:panelGroup>
+				<button class="navbar-toggle" data-toggle="collapse"
+					data-target="loginPanel">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<!-- button type="button" class="btn btn-default hidden-sm vissible-xs hidden-md hidden-lg" id="toggle-login"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></button-->
 				<h:panelGroup>
-					<h:panelGroup id="loginPanel" rendered="#{loginBean.shownLogin}">
+					<h:panelGroup class="col-sm-4 col-md-4 col-lg-4"
+						id="loginPanel" rendered="#{loginBean.shownLogin}">
 						<ui:include src="login.xhtml" />
 					</h:panelGroup>
-					<h:panelGroup id="logoutPanel" rendered="#{!loginBean.shownLogin}">
+					<h:panelGroup
+						class="col-xs-6 col-sm-2 col-md-2 col-lg-2 col-md-offset-2 col-lg-offset-2"
+						id="logoutPanel" rendered="#{!loginBean.shownLogin}">
 						<ui:include src="logout.xhtml" />
 					</h:panelGroup>
 				</h:panelGroup>
 			</h:panelGroup>
 		</h:panelGroup>
 	</h:panelGroup>
+	        <script>
+            $('#toggle-login').click(function(){
+                $('#loginPanel').toggle();
+            });
+        </script> 
 </ui:composition>
 </html>
 
