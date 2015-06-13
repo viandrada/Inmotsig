@@ -19,7 +19,19 @@
 	
 var wfsTasmaniaRoads; 
 var saveStrategy;
+var dista;
 saveStrategy = new OpenLayers.Strategy.Save();
+
+rambla =   new OpenLayers.Layer.Vector("Rambla", {
+	 strategies: [new OpenLayers.Strategy.BBOX(),saveStrategy],
+	  protocol: new OpenLayers.Protocol.WFS({
+	    url: "http://localhost:8080/geoserver/wfs", 
+	    featureType: "rambla",
+	    featureNS: "http://www.openplans.org/topp",
+	    geometryName: "geom"
+	    
+	  })
+}); 
 
 
 wfsTasmaniaRoads = new OpenLayers.Layer.Vector("WFS", {
@@ -31,7 +43,6 @@ wfsTasmaniaRoads = new OpenLayers.Layer.Vector("WFS", {
 	    geometryName: "geom",
 	  })
 }); 
-
 
 window.onload = function() {
 // esto es por un bug en para wfs
@@ -53,16 +64,7 @@ window.onload = function() {
 	
 	
 	mapa = new OpenLayers.Map("mapa");
-/*
-	var wmsTasmania=new OpenLayers.Layer.WMS("nada",
-					"http://localhost:8080/geoserver/wms", {
-				layers : 'tsig_p3:parcelasnuevas',
-				transparent: 'false',
-				format: 'image/png',
-				isBaseLayer: 'true',
-				
-	});
-			*/
+
 	var osm  = new OpenLayers.Layer.OSM();	
 	var panel = new OpenLayers.Control.Panel({
                 displayClass: "olControlEditingToolbar"
@@ -82,6 +84,8 @@ window.onload = function() {
 	var f;
 	function agregarDatos(e){
  		    	f=e.feature;
+
+ 		    	
  		    	
  		    	f.popup = new OpenLayers.Popup.FramedCloud
                 ("pop",
@@ -336,31 +340,50 @@ window.onload = function() {
 
 	var save=  new OpenLayers.Control.Button({displayClass: 'saveButton',
 	   	   trigger: function() {
-	   		 		f.attributes.adminid="#{loginBean.email}";
-		   	   		f.attributes.direccion=document.getElementById("direccion").value;
-		   	   		f.attributes.numapartam=parseInt(document.getElementById("numAp").value);
-		   	   	    f.attributes.gidpadron=1234; //SETEAR PADRON
-		   	   	    f.attributes.tipoinmueb=document.getElementById("tipopropiedad").value;
-		   	    	f.attributes.tipooperac=document.getElementById("tipotransaccion").value;
-		   	    	f.attributes.precio=parseInt(document.getElementById("precio").value);
-		   	    	f.attributes.cantdormit=parseInt(document.getElementById("dormitorios").value);
-		   	    	f.attributes.garage=document.getElementById("garage").value;
-		   	    	f.attributes.tamano=parseInt(document.getElementById("tamanio").value);
-		   	    	f.attributes.barrio=document.getElementById("barrio").value;
-		   	    	f.attributes.banos=parseInt(document.getElementById("banos").value);
-		   	    	f.attributes.calefaccio=document.getElementById("calefaccion").value;
-		   	    	f.attributes.parillero=document.getElementById("parrillero").value;
-		   	    	f.attributes.piscina=document.getElementById("piscina").value;
-		   	    	f.attributes.estado=document.getElementById("estado").value;
-		   	    	f.attributes.descripcio=document.getElementById("descripcion").value;
-		   	    	//SETEAR IMAGEN
-		   	    	
-		    	   		saveStrategy.save();
-		    	   		mapa.removePopup(f.popup);
-		                f.popup.destroy();
-		                f.popup = null;
-		    	   		}, title: 'Save changes' 
-		    	 });
+	   		
+	   		var geom_1 = new OpenLayers.Geometry.Point(f.geometry.getBounds().getCenterLonLat().lon,f.geometry.getBounds().getCenterLonLat().lat)
+            var minDistance = rambla.features[0].geometry.distanceTo(geom_1, {details: false, edge: true});
+            var index = 0,index2 = 0;
+
+			//<![CDATA[
+		    for (var i = 1; i <=  rambla.features.length - 1; i++) {
+               var dist = rambla.features[i].geometry.distanceTo(geom_1, {details: false, edge: true});
+               if (dist < minDistance) {
+                  	 index = i;
+                 	 minDistance = dist; 
+               	} 	
+          		 }
+         		
+              	var d = geom_1.distanceTo(rambla.features[index].geometry,{details: true, edge: true});
+              	var line = new OpenLayers.Geometry.LineString([geom_1, new OpenLayers.Geometry.Point(d.x1,d.y1)]);
+              	dista = Math.round(line.getGeodesicLength("EPSG:3857"));
+           	//]]>
+   		 		f.attributes.adminid="#{loginBean.email}";
+	   	   		f.attributes.direccion=document.getElementById("direccion").value;
+	   	   		f.attributes.numapartam=parseInt(document.getElementById("numAp").value);
+	   	   	    f.attributes.gidpadron=1234; //SETEAR PADRON
+	   	   	    f.attributes.tipoinmueb=document.getElementById("tipopropiedad").value;
+	   	    	f.attributes.tipooperac=document.getElementById("tipotransaccion").value;
+	   	    	f.attributes.precio=parseInt(document.getElementById("precio").value);
+	   	    	f.attributes.cantdormit=parseInt(document.getElementById("dormitorios").value);
+	   	    	f.attributes.garage=document.getElementById("garage").value;
+	   	    	f.attributes.tamano=parseInt(document.getElementById("tamanio").value);
+	   	    	f.attributes.barrio=document.getElementById("barrio").value;
+	   	    	f.attributes.banos=parseInt(document.getElementById("banos").value);
+	   	    	f.attributes.calefaccio=document.getElementById("calefaccion").value;
+	   	    	f.attributes.parillero=document.getElementById("parrillero").value;
+	   	    	f.attributes.piscina=document.getElementById("piscina").value;
+	   	    	f.attributes.estado=document.getElementById("estado").value;
+	   	    	f.attributes.descripcio=document.getElementById("descripcion").value;
+	   	    	f.attributes.DistRambla= dista;
+		   	    //SETEAR IMAGEN
+	   	    	
+	    	   		saveStrategy.save();
+	    	   		mapa.removePopup(f.popup);
+	                f.popup.destroy();
+	                f.popup = null;
+	    	   		}, title: 'Save changes' 
+	    	 });
 		       
 		       
 	panel.addControls([select,draw,save]);
@@ -369,12 +392,14 @@ window.onload = function() {
 			
 	//mapa.addLayer(wmsTasmania);			
 	mapa.addLayer(osm);
+	
 	var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
     var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
     var position       = new OpenLayers.LonLat(-56.21,-34.81).transform( fromProjection, toProjection);
   	mapa.addLayer(wfsTasmaniaRoads);
+  	mapa.addLayer(rambla);
   	mapa.zoomToMaxExtent();
-  	var lonlat = new OpenLayers.LonLat(-56.21,-34.81).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:32721"));
+  	
 	mapa.setCenter(position,12);
 	
 	mapa.addControl(new OpenLayers.Control.LayerSwitcher(true));
