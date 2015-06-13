@@ -20,7 +20,7 @@
 			<ul id="controlToggle" class="list-group">
 				<li class="list-group-item"><input type="image" name="type"
 					value="Guardar" id="buttonSave" onclick="save();"
-					checked="checked" class="saveButtonControl" src="resources/images/Disk-Blue.png"/><label><span> Guardar</span></label></li>
+					checked="checked" class="saveButtonControl" src="${resource['images/Disk-Blue.png']}"/><label><span> Guardar</span></label></li>
 				<li class="list-group-item"><input type="radio" name="type"
 					value="none" id="noneToggle" onclick="toggleControl(this);"
 					checked="checked" /><label for="polygonToggle"><span
@@ -57,28 +57,28 @@
 		<h:panelGroup class="col-xs-2 col-sm-2 col-md-2 col-lg-2" id="legendMapZonas">
 		<h:panelGroup>
 			<h:panelGroup class="row">
-				<h:graphicImage value="resources/images/rounded_square-green.png"
+				<h:graphicImage value="${resource['images/rounded_square-green.png']}"
 					height="25" width="25"></h:graphicImage>
 				<h:panelGroup>
 					<h:outputLabel>Alta</h:outputLabel>
 				</h:panelGroup>
 			</h:panelGroup>
 			<h:panelGroup class="row">
-				<h:graphicImage value="resources/images/rounded_square-blue.png"
+				<h:graphicImage value="${resource['images/rounded_square-blue.png']}"
 					height="25" width="25"></h:graphicImage>
 				<h:panelGroup>
 					<h:outputLabel>Media</h:outputLabel>
 				</h:panelGroup>
 			</h:panelGroup>
 			<h:panelGroup class="row">
-				<h:graphicImage value="resources/images/rounded_square-red.png"
+				<h:graphicImage value="${resource['images/rounded_square-red.png']}"
 					height="25" width="25"></h:graphicImage>
 				<h:panelGroup>
 					<h:outputLabel>Baja</h:outputLabel>
 				</h:panelGroup>
 			</h:panelGroup>
 						<h:panelGroup class="row">
-				<h:graphicImage value="resources/images/rounded_square-grey.png"
+				<h:graphicImage value="${resource['images/rounded_square-grey.png']}"
 					height="25" width="25"></h:graphicImage>
 				<h:panelGroup>
 					<h:outputLabel>Sin determinar</h:outputLabel>
