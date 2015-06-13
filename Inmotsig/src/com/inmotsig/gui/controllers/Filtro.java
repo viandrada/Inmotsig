@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter(servletNames={"Faces Servlet"}) // Must match <servlet-name> of your FacesServlet.
+@WebFilter(servletNames={"Faces Servlet"}) //  Must match <servlet-name> of your FacesServlet.
 public class Filtro implements Filter {
 
     @Override

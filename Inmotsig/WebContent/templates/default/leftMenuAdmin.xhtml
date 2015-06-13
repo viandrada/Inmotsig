@@ -52,11 +52,12 @@
 					<div id="collapse3" class="panel-collapse collapse in">
 						<div>
 							<h:form>
-								<h:commandLink value="Agregar"
-									action="#{navigationBean.goRegistroAdmin('zonaCrecimiento.xhtml')}"
+								
+								<h:commandLink value="Agregar - Modificar"
+									action="#{navigationBean.goRegistroAdmin('zonaCrecimientoModificar.xhtml')}"
 									class="list-group-item"></h:commandLink>
 								<h:commandLink value="Eliminar"
-									action="#{navigationBean.goRegistroAdmin('zonaCrecimientoModificar.xhtml')}"
+									action="#{navigationBean.goRegistroAdmin('zonaCrecimientoEliminar.xhtml')}"
 									class="list-group-item"></h:commandLink>
 							</h:form>
 						</div>
@@ -81,6 +82,9 @@
 								<h:commandLink
 									action="#{navigationBean.goRegistroAdmin('reportePropiedadesTabla.xhtml')}"
 									value="Todas las propiedades" class="list-group-item"></h:commandLink>
+								<h:commandLink
+									action="#{navigationBean.goRegistroAdmin('reporteZonasTabla.xhtml')}"
+									value="Todas las zonas" class="list-group-item"></h:commandLink>
 							</h:form>
 						</div>
 					</div>

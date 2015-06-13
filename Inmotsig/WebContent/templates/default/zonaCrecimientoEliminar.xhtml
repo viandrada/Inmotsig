@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+	
+	<h:outputScript name="${resource['js/jQuery.dataTables.min.js']}" />
+	<h:outputScript name="${resource['js/mapaZonasCrecimientoEliminar.js']}" />
+	<script type="text/javascript"
+		src="http://www.openlayers.org/api/OpenLayers.js" />
+	<h:outputScript name="js/mapaZonasCrecimientoEliminar.js" />
+	<h:panelGroup>
+		<h3>Haga click sobre una zona para eliminar</h3>
+		<div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+			<div id="mapa" style="width: 100%; height: 600px;"></div>
+		</div>
+	</h:panelGroup>
+	<h:panelGroup class="col-xs-12 col-sm-2 col-md-2 col-lg-2"
+		id="legendMapZonas">
+		<h:panelGroup>
+			<h:panelGroup class="row">
+				<h:graphicImage value="${resource['images/rounded_square-green.png']}"
+					height="25" width="25"></h:graphicImage>
+				<h:panelGroup>
+					<h:outputLabel>Alta</h:outputLabel>
+				</h:panelGroup>
+			</h:panelGroup>
+			<h:panelGroup class="row">
+				<h:graphicImage value="${resource['images/rounded_square-blue.png']}"
+					height="25" width="25"></h:graphicImage>
+				<h:panelGroup>
+					<h:outputLabel>Media</h:outputLabel>
+				</h:panelGroup>
+			</h:panelGroup>
+			<h:panelGroup class="row">
+				<h:graphicImage value="${resource['images/rounded_square-red.png']}"
+					height="25" width="25"></h:graphicImage>
+				<h:panelGroup>
+					<h:outputLabel>Baja</h:outputLabel>
+				</h:panelGroup>
+			</h:panelGroup>
+			<h:panelGroup class="row">
+				<h:graphicImage value="${resource['images/rounded_square-grey.png']}"
+					height="25" width="25"></h:graphicImage>
+				<h:panelGroup>
+					<h:outputLabel>Sin determinar</h:outputLabel>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+</ui:composition>
+</html>

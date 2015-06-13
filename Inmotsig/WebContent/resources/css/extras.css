@@ -41,6 +41,11 @@
 	color: rgb(232, 97, 47);
 }
 
+#tablaZonas {
+	color: rgb(232, 97, 47);
+}
+
+
 #table1_wrapper {
 	background-color: rgb(54, 46, 35);
 	opacity: 0.9;
@@ -52,4 +57,19 @@
 	background-color: rgb(1, 131, 109);
 	opacity: 0.8;
 	color:black;
+}
+
+#legendMapZonas {
+	background-color: white;
+	opacity: 0.8;
+	color:black;
+}
+
+.saveButtonControl{
+	background-image:url("#{resource['images:Disk-Blue.png']}");
+	  background-repeat: no-repeat;
+  margin: 0 0 5px 5px;
+  width: 24px;
+  height: 22px;
+  cursor: pointer;
 }

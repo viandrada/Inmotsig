@@ -3,6 +3,7 @@ package com.inmotsig.gui.controllers;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.validation.constraints.NotNull;
 
 import com.inmotsig.ejb.service.AdministradorBean;
@@ -105,7 +106,7 @@ public class RegistroBean {
 
 		if (ok) {
 			System.out.println("Alta exitosa");
-			return "indexAdmin.xhtml?faces-redirect=true";
+			return "/secured/indexAdmin.xhtml?faces-redirect=true";
 		} else {
 			System.out.println("Error. El admin no fue dado de alta.");
 			return null;

@@ -27,6 +27,7 @@ public class LoginBean {
     private String password;
     private String redirect;
     private boolean shownLogin;
+    private boolean logueado;
     
  
 	public String getEmail() {
@@ -71,6 +72,16 @@ public class LoginBean {
 	public void setShownLogin(boolean shownLogin) {
 		this.shownLogin = shownLogin;
 	}
+	
+	
+
+	public boolean isLogueado() {
+		return logueado;
+	}
+
+	public void setLogueado(boolean logueado) {
+		this.logueado = logueado;
+	}
 
 	public String login() {
 		this.admin.setEmail(this.email);
@@ -79,6 +90,7 @@ public class LoginBean {
 		if(ok){
 			this.redirect = "Login OK!";
 		    this.shownLogin = false;
+		    this.logueado = true;
 		    return "success";
 		}
 		else{System.out.println("Todo mal");
