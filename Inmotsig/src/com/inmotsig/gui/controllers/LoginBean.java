@@ -1,5 +1,8 @@
 package com.inmotsig.gui.controllers;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -85,7 +88,29 @@ public class LoginBean {
 
 	public String login() {
 		this.admin.setEmail(this.email);
-		this.admin.setPassword(this.password);
+		
+		/*Encriptar password para compararlo con el encriptado de la BD*/
+		MessageDigest digest;
+		try {
+			digest = MessageDigest.getInstance("MD5");
+			byte[] hashedBytes = digest.digest((this.password).getBytes());
+			
+			StringBuffer stringBuffer = new StringBuffer();
+	        for (int i = 0; i < hashedBytes.length; i++) {
+	            stringBuffer.append(Integer.toString((hashedBytes[i] & 0xff) + 0x100, 16)
+	                    .substring(1));
+	        }
+			String md5Hash = stringBuffer.toString();
+			this.admin.setPassword(md5Hash);
+			System.out.println("Password encriptado");
+			System.out.println(md5Hash);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        /*Fin de encriptar password*/
+		
+		//this.admin.setPassword(this.password);
 		boolean ok = service.loginAdmin(this.getAdministrador());
 		if(ok){
 			this.redirect = "Login OK!";

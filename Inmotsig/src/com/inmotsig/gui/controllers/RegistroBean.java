@@ -1,10 +1,13 @@
 package com.inmotsig.gui.controllers;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import com.inmotsig.ejb.service.AdministradorBean;
 import com.inmotsig.entities.Administrador;
@@ -17,7 +20,9 @@ public class RegistroBean {
 	private String nombre;
 	@NotNull(message = "El apellido es requerido.")
 	private String apellido;
+	/*Regex sacada de: http://howtodoinjava.com/2014/11/11/java-regex-validate-email-address/*/
 	@NotNull(message = "El email es requerido.")
+	@Pattern(regexp="^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", message="Email no válido.")
 	private String email;
 	@NotNull(message = "El teléfono es requerido.")
 	private String telefono;
@@ -100,7 +105,29 @@ public class RegistroBean {
 		this.admin.setApellido(this.apellido);
 		this.admin.setEmail(this.email);
 		this.admin.setTelefono(this.telefono);
-		this.admin.setPassword(this.password);
+		
+		/*Encriptar password -> http://www.codejava.net/coding/how-to-calculate-md5-and-sha-hash-values-in-java*/
+		MessageDigest digest;
+		try {
+			digest = MessageDigest.getInstance("MD5");
+			byte[] hashedBytes = digest.digest((this.password).getBytes());
+			
+			StringBuffer stringBuffer = new StringBuffer();
+	        for (int i = 0; i < hashedBytes.length; i++) {
+	            stringBuffer.append(Integer.toString((hashedBytes[i] & 0xff) + 0x100, 16)
+	                    .substring(1));
+	        }
+			String md5Hash = stringBuffer.toString();
+			this.admin.setPassword(md5Hash);
+			System.out.println("Password encriptado");
+			System.out.println(md5Hash);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        /*Fin de encriptar password*/
+        
+		//this.admin.setPassword(this.password);
 
 		boolean ok = service.altaAdmin(this.getAdmin());
 
@@ -112,5 +139,12 @@ public class RegistroBean {
 			return null;
 		}
 	}
+	
+	public boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+ }
 
 }
