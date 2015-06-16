@@ -275,6 +275,9 @@ window.onload = function() {
 		'</div>'+
 		'<div class="row">'+
 		     '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">'+
+              '<input id="imagen" multiple="multiple" type="file" class="form-control" value="" onchange="showImagen2()"/> '+
+		      '<input style="display:none" id="imagen2" multiple="multiple" type="file" class="form-control" value="" onchange="showImagen3()"/>'+
+		      '<input style="display:none" id="imagen3" multiple="multiple" type="file" class="form-control" value="" />'+
 		         '<input type="file" class="form-control" value=""/>'+
 		      '</div>'+
 	    '</div>'+
@@ -370,11 +373,17 @@ window.onload = function() {
 	   	    	f.attributes.tamano=parseInt(document.getElementById("tamanio").value);
 	   	    	f.attributes.barrio=document.getElementById("barrio").value;
 	   	    	f.attributes.banos=parseInt(document.getElementById("banos").value);
-	   	    	f.attributes.calefaccio=document.getElementById("calefaccion").value;
+	   	    	f.attributes.calefaccion=document.getElementById("calefaccion").value;
 	   	    	f.attributes.parillero=document.getElementById("parrillero").value;
 	   	    	f.attributes.piscina=document.getElementById("piscina").value;
 	   	    	f.attributes.estado=document.getElementById("estado").value;
-	   	    	f.attributes.descripcio=document.getElementById("descripcion").value;
+	   	    	f.attributes.descripcion=document.getElementById("descripcion").value;
+                 var campoImagen = document.getElementById("imagen").value;
+	   	    	f.attributes.imagen=campoImagen.substring(campoImagen.lastIndexOf("\\")+1);
+	   	    	 var campoImagen2 = document.getElementById("imagen2").value;
+	   	    	f.attributes.imagen2=campoImagen2.substring(campoImagen2.lastIndexOf("\\")+1);
+	   	    	var campoImagen3 = document.getElementById("imagen3").value;
+	   	    	f.attributes.imagen3=campoImagen3.substring(campoImagen3.lastIndexOf("\\")+1);	   	    	
 	   	    	f.attributes.DistRambla= dista;
 		   	    //SETEAR IMAGEN
 	   	    	
@@ -409,6 +418,12 @@ window.onload = function() {
      
 	}
 
+function showImagen2() {
+document.getElementById("imagen2").style.display ="block";
+}
+function showImagen3() {
+document.getElementById("imagen3").style.display ="block";
+}
 </script>
 
 </ui:composition>
