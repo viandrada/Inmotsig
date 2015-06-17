@@ -15,12 +15,53 @@
 	    overflow-y: auto;
       }
     </style>
+    <script type="text/javascript">
+  	//<![CDATA[	
+    function comparar(x,y){
+    		if(x==y){
+    			return 0;
+    		}
+    		if(x<y){
+    			return 1;
+    		}
+    		if(x>y){
+    			return -1;
+    		}
+    	}
+    	//]]>
+    </script>
+    
 	<script type="text/javascript">
 	
 var wfsTasmaniaRoads,comercios,liceos,paradas; 
 var saveStrategy;
 var dista,distaComercio,distaLiceo,distaParada;
 saveStrategy = new OpenLayers.Strategy.Save();
+
+var lonlat4 = new OpenLayers.LonLat(-56.21, -34.81).transform(
+		new OpenLayers.Projection("EPSG:4326"),
+		new OpenLayers.Projection("EPSG:32721"));
+var sum3 = 0.000785794448853;
+var bound1 = new OpenLayers.Bounds(lonlat4.lon + sum3, lonlat4.lat + sum3, lonlat4.lon
+- sum3, lonlat4.lat - sum3);
+var filterP=new OpenLayers.Filter.Spatial({
+    type: OpenLayers.Filter.Spatial.BBOX,
+    value: bound1,
+    projection : new OpenLayers.Projection('EPSG:4326')
+});
+
+var wfsPadrones = new OpenLayers.Layer.Vector("WFS", {
+	  strategies: [new OpenLayers.Strategy.BBOX()],
+	
+	  protocol: new OpenLayers.Protocol.WFS({
+	    url: "http://localhost:8080/geoserver/wfs", 
+	 	featureType: "padronesdireccion",
+	    featureNS: "http://www.openplans.org/topp",
+	    geometryName: "geom"
+	  }),
+	  filter:filterP  
+});
+
 
 rambla =   new OpenLayers.Layer.Vector("Rambla", {
 	 strategies: [new OpenLayers.Strategy.BBOX(),],
@@ -100,30 +141,14 @@ comercios.filter = filterComercios;
 comercios.styleMap = vector_style_map;
 
 
-var lonlat4 = new OpenLayers.LonLat(-56.21, -34.81);
-var sum3 = 0.000785794448853;
-var bound1 = new OpenLayers.Bounds(lonlat4.lon + sum3, lonlat4.lat + sum3, lonlat4.lon- sum3, lonlat4.lat - sum3);
-var filterP=new OpenLayers.Filter.Spatial({
-    type: OpenLayers.Filter.Spatial.BBOX,
-    value: bound1,
-    projection : new OpenLayers.Projection('EPSG:4326')
-});
-/*
-var wfsPadrones = new OpenLayers.Layer.Vector("WFS", {
-      strategies: [new OpenLayers.Strategy.BBOX()],
-    
-      protocol: new OpenLayers.Protocol.WFS({
-        url: "http://localhost:8080/geoserver/wfs", 
-         featureType: "padronesdireccion",
-        featureNS: "http://www.openplans.org/topp",
-        geometryName: "geom"
-      }),
-      filter:filterP  
-});
-
-*/
 wfsTasmaniaRoads = new OpenLayers.Layer.Vector("WFS", {
 	  strategies: [new OpenLayers.Strategy.BBOX(),saveStrategy],
+	  style: {
+	        externalGraphic: 'http://publicdomainvectors.org/photos/sweet_home.png', 
+	        graphicWidth: 21, 
+	        graphicHeight: 25,
+	        graphicYOffset: -24
+	    },
 	  protocol: new OpenLayers.Protocol.WFS({
 	    url: "http://localhost:8080/geoserver/wfs", 
 	    featureType: "propiedad",
@@ -213,7 +238,48 @@ window.onload = function() {
                paradas.refresh({force:true});
              //  wfsPadrones.refresh({force:true});
 
-           
+				lon2 = f.geometry.getBounds().getCenterLonLat().lon;
+ 		       lat2 = f.geometry.getBounds().getCenterLonLat().lat;
+ 		       var minx2, miny2;
+ 		       var point2 = new OpenLayers.LonLat(lon2, lat2);
+ 		       point2.transform(new OpenLayers.Projection('EPSG:3857'),
+ 		   		new OpenLayers.Projection('EPSG:4326'));
+ 		       minx2 = point2.lon;
+ 		       miny2 = point2.lat;
+ 		       var sum2 = 0.000385794448853;
+
+ 		       var bounds_object2 = new OpenLayers.Bounds(minx2 + sum2, miny2 + sum2, minx2 - sum2, miny2 - sum2);
+
+
+ 		                 wfsPadrones.filter=new OpenLayers.Filter.Spatial({
+ 		                 type: OpenLayers.Filter.Spatial.BBOX,
+ 		                 value: bounds_object2,
+ 		                 //projection : new OpenLayers.Projection('EPSG:4326')
+ 		                 });
+ 		                
+ 		                 wfsPadrones.refresh({force:true});
+ 		    	
+
+ 		                 
+ 		                 setTimeout(function(){
+				
+			                var fMinD=wfsPadrones.features[0];
+			                
+						var geom_1 = new OpenLayers.Geometry.Point(fMinD.geometry.x, fMinD.geometry.y);
+						var geom_2 = new OpenLayers.Geometry.Point(lon, lat);
+						var dist= geom_1.distanceTo(geom_2);    
+						alert(dist);
+						var fAux;
+			        for(var i=1;comparar(i,wfsPadrones.features.length-1)==1;i++ ){
+			        	fAux=wfsPadrones.features[i];
+			        	geom_1 = new OpenLayers.Geometry.Point(fAux.geometry.x, fAux.geometry.y);
+			        	if(comparar(geom_2.distanceTo(geom_1),dist)==1){
+			    			dist=geom_2.distanceTo(geom_1);
+			    			fMinD=wfsPadrones.features[i];
+			    		};
+			    	};
+			    	
+			    	f.move(fMinD.geometry.getBounds().getCenterLonLat());           
                
  		    	f.popup = new OpenLayers.Popup.FramedCloud
                 ("pop",
@@ -229,10 +295,10 @@ window.onload = function() {
 		
 		'<div class="row">'+
 		     '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">'+
-				  '<input class="form-control" type="text" id="direccion" name="dir" placeholder="Dirección"></input>'+
+				  '<input class="form-control" type="text" value="'+fMinD.attributes.nom_calle+'" id="direccion" name="dir" placeholder="Dirección"></input>'+
 		     '</div>'+
 		     '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">'+
-				  '<input class="form-control" placeholder="Nro de apto" type="text" id="numAp" name="numApartamento"/>'+
+				  '<input class="form-control" placeholder="Nro de apto" value="'+fMinD.attributes.num_puerta+'" type="text" id="numAp" name="numApartamento"/>'+
 		     '</div>'+
 		'</div>'+
 		
@@ -417,7 +483,9 @@ window.onload = function() {
  		    	
  		    	//Aca llamar a la capa padron para obtener la direcicon a partir del punto donde se hizo click
  		    	
-             mapa.addPopup(f.popup); 
+             mapa.addPopup(f.popup);
+
+ 		                }, 600); 
 
 	};
 		  
@@ -586,7 +654,7 @@ window.onload = function() {
 			
 	//mapa.addLayer(wmsTasmania);			
 	mapa.addLayer(osm);
-	
+	mapa.addLayer(wfsPadrones);
 	var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
     var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
     var position       = new OpenLayers.LonLat(-56.21,-34.81).transform( fromProjection, toProjection);
