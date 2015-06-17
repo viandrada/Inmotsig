@@ -17,13 +17,13 @@
     </style>
 	<script type="text/javascript">
 	
-var wfsTasmaniaRoads; 
+var wfsTasmaniaRoads,comercios,liceos,paradas; 
 var saveStrategy;
-var dista;
+var dista,distaComercio,distaLiceo,distaParada;
 saveStrategy = new OpenLayers.Strategy.Save();
 
 rambla =   new OpenLayers.Layer.Vector("Rambla", {
-	 strategies: [new OpenLayers.Strategy.BBOX(),saveStrategy],
+	 strategies: [new OpenLayers.Strategy.BBOX(),],
 	  protocol: new OpenLayers.Protocol.WFS({
 	    url: "http://localhost:8080/geoserver/wfs", 
 	    featureType: "rambla",
@@ -33,7 +33,95 @@ rambla =   new OpenLayers.Layer.Vector("Rambla", {
 	  })
 }); 
 
+var style = new OpenLayers.Style({
+	'fillColor': '#669933',
+	'fillOpacity': .5,
+	'strokeColor': '#aaee77',
+	'strokeWidth': 3,
+	'pointRadius': 2	
+	});
 
+var vector_style_map = new OpenLayers.StyleMap({
+	'default': style
+	});
+
+var filterComercios=new OpenLayers.Filter.Spatial({
+    type: OpenLayers.Filter.Spatial.BBOX,
+    value:new OpenLayers.Bounds(1,1,1,1),
+    projection : new OpenLayers.Projection('EPSG:4326')
+});
+
+comercios =   new OpenLayers.Layer.Vector("Comercios", {
+	 strategies: [new OpenLayers.Strategy.BBOX(),],
+	  protocol: new OpenLayers.Protocol.WFS({
+	    url: "http://localhost:8080/geoserver/wfs", 
+	    featureType: "comercios",
+	    featureNS: "http://www.openplans.org/topp",
+	    geometryName: "geom"
+	    
+	  })
+	  
+}); 
+comercios.filter = filterComercios;
+comercios.styleMap = vector_style_map;
+
+liceos =   new OpenLayers.Layer.Vector("Liceos", {
+	 strategies: [new OpenLayers.Strategy.BBOX(),],
+	  protocol: new OpenLayers.Protocol.WFS({
+	    url: "http://localhost:8080/geoserver/wfs", 
+	    featureType: "secundaria",
+	    featureNS: "http://www.openplans.org/topp",
+	    geometryName: "geom"
+	    
+	  })
+	  
+}); 
+
+paradas =   new OpenLayers.Layer.Vector("Paradas", {
+	 strategies: [new OpenLayers.Strategy.BBOX(),],
+	  protocol: new OpenLayers.Protocol.WFS({
+	    url: "http://localhost:8080/geoserver/wfs", 
+	    featureType: "paradas",
+	    featureNS: "http://www.openplans.org/topp",
+	    geometryName: "geom"
+	    
+	  })
+	  
+}); 
+
+
+paradas.filter = filterComercios;
+paradas.styleMap = vector_style_map;
+
+liceos.filter = filterComercios;
+liceos.styleMap = vector_style_map;
+
+comercios.filter = filterComercios;
+comercios.styleMap = vector_style_map;
+
+
+var lonlat4 = new OpenLayers.LonLat(-56.21, -34.81);
+var sum3 = 0.000785794448853;
+var bound1 = new OpenLayers.Bounds(lonlat4.lon + sum3, lonlat4.lat + sum3, lonlat4.lon- sum3, lonlat4.lat - sum3);
+var filterP=new OpenLayers.Filter.Spatial({
+    type: OpenLayers.Filter.Spatial.BBOX,
+    value: bound1,
+    projection : new OpenLayers.Projection('EPSG:4326')
+});
+/*
+var wfsPadrones = new OpenLayers.Layer.Vector("WFS", {
+      strategies: [new OpenLayers.Strategy.BBOX()],
+    
+      protocol: new OpenLayers.Protocol.WFS({
+        url: "http://localhost:8080/geoserver/wfs", 
+         featureType: "padronesdireccion",
+        featureNS: "http://www.openplans.org/topp",
+        geometryName: "geom"
+      }),
+      filter:filterP  
+});
+
+*/
 wfsTasmaniaRoads = new OpenLayers.Layer.Vector("WFS", {
 	  strategies: [new OpenLayers.Strategy.BBOX(),saveStrategy],
 	  protocol: new OpenLayers.Protocol.WFS({
@@ -85,8 +173,48 @@ window.onload = function() {
 	function agregarDatos(e){
  		    	f=e.feature;
 
- 		    	
- 		    	
+ 		    	lon = f.geometry.getBounds().getCenterLonLat().lon;
+ 		    	lat = f.geometry.getBounds().getCenterLonLat().lat;
+ 		    	var minx, miny;
+ 		    	var point = new OpenLayers.LonLat(lon, lat);
+ 		    	point.transform(new OpenLayers.Projection('EPSG:3857'),
+						new OpenLayers.Projection('EPSG:4326'));
+ 		    	minx = point.lon;
+ 		    	miny = point.lat;
+ 		    	var sum = 0.005585794448853;
+
+ 		    	var bounds_object = new OpenLayers.Bounds(minx + sum, miny + sum, minx - sum, miny - sum);
+
+/*
+               wfsPadrones.filter=new OpenLayers.Filter.Spatial({
+               type: OpenLayers.Filter.Spatial.BBOX,
+               value: bounds_object,
+               //projection : new OpenLayers.Projection('EPSG:4326')
+               });
+*/
+               comercios.filter=new OpenLayers.Filter.Spatial({
+                   type: OpenLayers.Filter.Spatial.BBOX,
+                   value: bounds_object,
+                   //projection : new OpenLayers.Projection('EPSG:4326')
+                   });
+				liceos.filter=new OpenLayers.Filter.Spatial({
+				    type: OpenLayers.Filter.Spatial.BBOX,
+				    value: bounds_object,
+				    //projection : new OpenLayers.Projection('EPSG:4326')
+				    });
+				paradas.filter=new OpenLayers.Filter.Spatial({
+				    type: OpenLayers.Filter.Spatial.BBOX,
+				    value: bounds_object,
+				    //projection : new OpenLayers.Projection('EPSG:4326')
+				    });
+
+               comercios.refresh({force:true});
+               liceos.refresh({force:true});
+               paradas.refresh({force:true});
+             //  wfsPadrones.refresh({force:true});
+
+           
+               
  		    	f.popup = new OpenLayers.Popup.FramedCloud
                 ("pop",
                 f.geometry.getBounds().getCenterLonLat(),
@@ -343,7 +471,10 @@ window.onload = function() {
 	   		
 	   		var geom_1 = new OpenLayers.Geometry.Point(f.geometry.getBounds().getCenterLonLat().lon,f.geometry.getBounds().getCenterLonLat().lat)
             var minDistance = rambla.features[0].geometry.distanceTo(geom_1, {details: false, edge: true});
-            var index = 0,index2 = 0;
+	   		var minDistanceComercio = comercios.features[0].geometry.distanceTo(geom_1, {details: false, edge: true});
+	   		var minDistanceLiceos = liceos.features[0].geometry.distanceTo(geom_1, {details: false, edge: true});
+	   		var minDistanceParada = paradas.features[0].geometry.distanceTo(geom_1, {details: false, edge: true});
+	        var index = 0,index2 = 0;
 
 			//<![CDATA[
 		    for (var i = 1; i <=  rambla.features.length - 1; i++) {
@@ -352,12 +483,59 @@ window.onload = function() {
                   	 index = i;
                  	 minDistance = dist; 
                	} 	
-          		 }
-         		
-              	var d = geom_1.distanceTo(rambla.features[index].geometry,{details: true, edge: true});
-              	var line = new OpenLayers.Geometry.LineString([geom_1, new OpenLayers.Geometry.Point(d.x1,d.y1)]);
-              	dista = Math.round(line.getGeodesicLength("EPSG:3857"));
+            }
+		    var d = geom_1.distanceTo(rambla.features[index].geometry,{details: true, edge: true});
+           	var line = new OpenLayers.Geometry.LineString([geom_1, new OpenLayers.Geometry.Point(d.x1,d.y1)]);
+           	dista = Math.round(line.getGeodesicLength("EPSG:3857"));
+           	
+            if (comercios.features.length > 1)
+            {
+              
+			    for (var i = 1; i <=  comercios.features.length - 1; i++) {
+		               var dist = comercios.features[i].geometry.distanceTo(geom_1, {details: false, edge: true});
+		               if (dist < minDistanceComercio) {
+		            	   minDistanceComercio = dist; 
+		            	   index = i
+		               	} 	
+		            }
+	         		
+	           	var d = geom_1.distanceTo(comercios.features[index].geometry,{details: true, edge: true});
+	           	var line = new OpenLayers.Geometry.LineString([geom_1, new OpenLayers.Geometry.Point(d.x1,d.y1)]);
+	           	distaComercio = Math.round(line.getGeodesicLength("EPSG:3857"));
+            }
+            
+            if (liceos.features.length > 1)
+            {
+                
+	            for (var i = 1; i <=  liceos.features.length - 1; i++) {
+		               var dist = liceos.features[i].geometry.distanceTo(geom_1, {details: false, edge: true});
+		               if (dist < minDistanceLiceos) {
+		            	   minDistanceLiceos = dist; 
+		            	   index = i
+		               	} 	
+		            }
+	      		
+	        	var d = geom_1.distanceTo(liceos.features[index].geometry,{details: true, edge: true});
+	        	var line = new OpenLayers.Geometry.LineString([geom_1, new OpenLayers.Geometry.Point(d.x1,d.y1)]);
+	        	distaLiceo = Math.round(line.getGeodesicLength("EPSG:3857"));
+            }
+
+            if (paradas.features.length > 1)
+           {
+	        	for (var i = 1; i <=  paradas.features.length - 1; i++) {
+		               var dist = paradas.features[i].geometry.distanceTo(geom_1, {details: false, edge: true});
+		               if (dist < minDistanceParada) {
+		            	   minDistanceParada = dist; 
+		            	   index = i
+		               	} 	
+		            }
+	   		
+		     	var d = geom_1.distanceTo(paradas.features[index].geometry,{details: true, edge: true});
+		     	var line = new OpenLayers.Geometry.LineString([geom_1, new OpenLayers.Geometry.Point(d.x1,d.y1)]);
+		     	distaParada = Math.round(line.getGeodesicLength("EPSG:3857"));
+	   	   }
            	//]]>
+           	
    		 		f.attributes.adminid="#{loginBean.email}";
 	   	   		f.attributes.direccion=document.getElementById("direccion").value;
 	   	   		f.attributes.numapartam=parseInt(document.getElementById("numAp").value);
@@ -376,6 +554,9 @@ window.onload = function() {
 	   	    	f.attributes.estado=document.getElementById("estado").value;
 	   	    	f.attributes.descripcio=document.getElementById("descripcion").value;
 	   	    	f.attributes.DistRambla= dista;
+	   	    	f.attributes.DistComercio= distaComercio;
+	   	    	f.attributes.DistParada= distaParada;
+	   	    	f.attributes.DistLiceo= distaLiceo;
 		   	    //SETEAR IMAGEN
 	   	    	
 	    	   		saveStrategy.save();
@@ -398,8 +579,12 @@ window.onload = function() {
     var position       = new OpenLayers.LonLat(-56.21,-34.81).transform( fromProjection, toProjection);
   	mapa.addLayer(wfsTasmaniaRoads);
   	mapa.addLayer(rambla);
+  	//mapa.addLayer(wfsPadrones);
+  	mapa.addLayer(comercios);
+  	mapa.addLayer(liceos);
+  	mapa.addLayer(paradas);
   	mapa.zoomToMaxExtent();
-  	
+ 
 	mapa.setCenter(position,12);
 	
 	mapa.addControl(new OpenLayers.Control.LayerSwitcher(true));
