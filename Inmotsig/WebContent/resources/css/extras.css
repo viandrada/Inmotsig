@@ -24,7 +24,11 @@
 }
 
 .anchoLabel {
-	width: 220px;
+	width: 150px;
+}
+.anchoLabel2 {
+	width: 110px;
+	margin-right:0px;
 }
 
 .menuAdminHeader {
