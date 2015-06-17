@@ -192,6 +192,7 @@
 
 		comercios.events.on({
 			featureselected : function(event) {
+				feauture = propiedad.getFeatureByFid(QueryString.gid);
 				var featurecomercio = event.feature;
 				var geom_1 = new OpenLayers.Geometry.Point(featurecomercio.geometry.x,
 						featurecomercio.geometry.y);
@@ -226,6 +227,7 @@
 
 		liceos.events.on({
 			featureselected : function(event) {
+				feauture = propiedad.getFeatureByFid(QueryString.gid);
 				var featureLiceo = event.feature;
 				var geom_1 = new OpenLayers.Geometry.Point(featureLiceo.geometry.x,
 						featureLiceo.geometry.y);
@@ -260,6 +262,7 @@
 
 		paradas.events.on({
 			featureselected : function(event) {
+				feauture = propiedad.getFeatureByFid(QueryString.gid);
 				var featureParadas = event.feature;
 				var geom_1 = new OpenLayers.Geometry.Point(featureParadas.geometry.x,
 						featureParadas.geometry.y);
@@ -371,11 +374,12 @@
 				value : bounds_object, // Bounds(minx, miny, maxx, maxy)
 			//	projection : new OpenLayers.Projection('EPSG:4326')
 			});
-			/*propiedad.filter = new OpenLayers.Filter.FeatureId({
+			
+			propiedad.filter = new OpenLayers.Filter.FeatureId({
 				fids: [QueryString.gid]
 			})
 			propiedad.refresh({force:true});
-			*/
+			
 			comercios.refresh({
 				force : true
 			});
@@ -389,6 +393,7 @@
 			point.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:3857"))
 			mapa.zoomToMaxExtent();
 			mapa.setCenter(point, 15);
+			
 		}
 
 		function cargarDatos() {
@@ -516,6 +521,30 @@
 										} else {
 											document.getElementById("descripcion").innerHTML = feauture.attributes.descripcio;
 										}
+
+										if (typeof feauture.attributes.imagen === "undefined") {
+											document.getElementById("imagen").innerHTML = ""
+											} else {
+
+											document.getElementById("imagen").src = "\\Inmotsig\\resources\\images\\" + feauture.attributes.imagen;
+
+											}
+										if (typeof feauture.attributes.imagen === "undefined") {
+										document.getElementById("imagen2").innerHTML = ""
+										} else {
+
+										document.getElementById("imagen2").src = "\\Inmotsig\\resources\\images\\" + feauture.attributes.imagen2;
+
+										}
+										if (typeof feauture.attributes.imagen === "undefined") {
+										document.getElementById("imagen3").innerHTML = ""
+										} else {
+
+										document.getElementById("imagen3").src = "\\Inmotsig\\resources\\images\\" + feauture.attributes.imagen3;
+
+										}
+												
+										
                                         
 
 								/*	}
@@ -550,7 +579,9 @@
 					<h:panelGroup class="row">
 						<div id="mapa" style="width: 100%; height: 700px;"></div>
 					</h:panelGroup>
-	                
+	                <h:graphicImage id="imagenSinCarrusel" style="width:90%; height:90%;"
+										class="img-responsive img-thumbnail"
+										value=""></h:graphicImage>
 				</h:panelGroup>
 				<h:panelGroup class="row">
 					<!-- Carrusel -->
@@ -575,7 +606,7 @@
 									<div class="carousel-caption"></div>
 								</div>
 								<div class="item">
-                                <h:graphicImage id="imagen2" style="width:90%; height:90%;"
+									<h:graphicImage id="imagen2" style="width:90%; height:90%;"
 										class="img-responsive img-thumbnail"
 										value="resources/images/fondo3.jpg"></h:graphicImage>
 									<div class="carousel-caption"></div>
@@ -586,6 +617,7 @@
 										class="img-responsive img-thumbnail"
 										value="resources/images/fondo3.jpg"></h:graphicImage>
 									<div class="carousel-caption"></div>
+									
 								</div>
 							</div>
 
