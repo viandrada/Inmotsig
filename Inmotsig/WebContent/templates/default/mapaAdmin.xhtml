@@ -402,11 +402,14 @@ window.onload = function() {
 			'</div>'+
 		'</div>'+
 		'<div class="row">'+
-		     '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">'+
-		         '<input type="file" class="form-control" value=""/>'+
-		      '</div>'+
-	    '</div>'+
-	'</form>'+
+	     '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">'+
+         '<input id="imagen" multiple="multiple" type="file" class="form-control" value="" onchange="showImagen2()"/> '+
+	      '<input style="display:none" id="imagen2" multiple="multiple" type="file" class="form-control" value="" onchange="showImagen3()"/>'+
+	      '<input style="display:none" id="imagen3" multiple="multiple" type="file" class="form-control" value="" />'+
+	         
+	      '</div>'+
+   '</div>'+
+'</form>'+
 '</div>',
                 null,
                 true 
@@ -490,6 +493,7 @@ window.onload = function() {
            	
             if (comercios.features.length > 1)
             {
+            	index = 0
                  minDistanceComercio = comercios.features[0].geometry.distanceTo(geom_1, {details: false, edge: true});
 			    for (var i = 1; i <=  comercios.features.length - 1; i++) {
 		               var dist = comercios.features[i].geometry.distanceTo(geom_1, {details: false, edge: true});
@@ -507,7 +511,7 @@ window.onload = function() {
             if (liceos.features.length > 1)
             {
             	minDistanceLiceos = liceos.features[0].geometry.distanceTo(geom_1, {details: false, edge: true});
-                
+            	index = 0
 	            for (var i = 1; i <=  liceos.features.length - 1; i++) {
 		               var dist = liceos.features[i].geometry.distanceTo(geom_1, {details: false, edge: true});
 		               if (dist < minDistanceLiceos) {
@@ -523,6 +527,7 @@ window.onload = function() {
 
             if (paradas.features.length > 1)
            {
+            	index = 0
             	minDistanceParada = paradas.features[0].geometry.distanceTo(geom_1, {details: false, edge: true});
 	        	for (var i = 1; i <=  paradas.features.length - 1; i++) {
 		               var dist = paradas.features[i].geometry.distanceTo(geom_1, {details: false, edge: true});
@@ -559,6 +564,12 @@ window.onload = function() {
 	   	    	f.attributes.DistComercio= distaComercio;
 	   	    	f.attributes.DistParada= distaParada;
 	   	    	f.attributes.DistLiceo= distaLiceo;
+	   	        var campoImagen = document.getElementById("imagen").value;
+	   	    	f.attributes.imagen=campoImagen.substring(campoImagen.lastIndexOf("\\")+1);
+	   	    	 var campoImagen2 = document.getElementById("imagen2").value;
+	   	    	f.attributes.imagen2=campoImagen2.substring(campoImagen2.lastIndexOf("\\")+1);
+	   	    	var campoImagen3 = document.getElementById("imagen3").value;
+	   	    	f.attributes.imagen3=campoImagen3.substring(campoImagen3.lastIndexOf("\\")+1);	   	
 		   	    //SETEAR IMAGEN
 	   	    	
 	    	   		saveStrategy.save();
@@ -596,6 +607,12 @@ window.onload = function() {
      
 	}
 
+function showImagen2() {
+document.getElementById("imagen2").style.display ="block";
+}
+function showImagen3() {
+document.getElementById("imagen3").style.display ="block";
+}
 </script>
 
 </ui:composition>
