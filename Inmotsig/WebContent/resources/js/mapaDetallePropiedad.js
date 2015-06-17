@@ -440,7 +440,28 @@ var QueryString;
 										} else {
 											document.getElementById("descripcion").innerHTML = response.features[int].attributes.descripcio;
 										}
+                                        if (typeof response.features[int].attributes.imagen === "undefined") {
+											document.getElementById("imagen").innerHTML = ""
+										} else {
 
+											document.getElementById("imagen").src = "\\Inmotsig\\resources\\images\\" + response.features[int].attributes.imagen;
+											
+										}
+										if (typeof response.features[int].attributes.imagen === "undefined") {
+											document.getElementById("imagen2").innerHTML = ""
+										} else {
+
+											document.getElementById("imagen2").src = "\\Inmotsig\\resources\\images\\" + response.features[int].attributes.imagen2;
+											
+										}
+										if (typeof response.features[int].attributes.imagen === "undefined") {
+											document.getElementById("imagen3").innerHTML = ""
+										} else {
+
+											document.getElementById("imagen3").src = "\\Inmotsig\\resources\\images\\" + response.features[int].attributes.imagen3;
+											
+										}
+										
 									}
 								}
 

@@ -516,6 +516,7 @@
 										} else {
 											document.getElementById("descripcion").innerHTML = feauture.attributes.descripcio;
 										}
+                                        
 
 								/*	}
 								}
@@ -549,6 +550,7 @@
 					<h:panelGroup class="row">
 						<div id="mapa" style="width: 100%; height: 700px;"></div>
 					</h:panelGroup>
+	                
 				</h:panelGroup>
 				<h:panelGroup class="row">
 					<!-- Carrusel -->
@@ -567,15 +569,22 @@
 							<!-- Wrapper for slides -->
 							<div class="carousel-inner" role="listbox">
 								<div class="item active">
-									<h:graphicImage style="width:90%; height:90%;"
+									<h:graphicImage id="imagen" style="width:90%; height:90%;"
 										class="img-responsive img-thumbnail"
-										value="resources/images/bakerStreet3.jpg"></h:graphicImage>
+										value="resources/images/fondo3.jpg"></h:graphicImage>
 									<div class="carousel-caption"></div>
 								</div>
 								<div class="item">
-									<h:graphicImage style="width:90%; height:90%;"
+                                <h:graphicImage id="imagen2" style="width:90%; height:90%;"
 										class="img-responsive img-thumbnail"
-										value="resources/images/bakerStreet2.jpg"></h:graphicImage>
+										value="resources/images/fondo3.jpg"></h:graphicImage>
+									<div class="carousel-caption"></div>
+									
+								</div>
+								<div class="item">
+									<h:graphicImage id="imagen3" style="width:90%; height:90%;"
+										class="img-responsive img-thumbnail"
+										value="resources/images/fondo3.jpg"></h:graphicImage>
 									<div class="carousel-caption"></div>
 								</div>
 							</div>
