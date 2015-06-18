@@ -1,5 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition>
@@ -10,12 +10,12 @@
 	<div id="mapa" style="width: 99%; height: 560px;"></div>
 
 	<style>
-      .olFramedCloudPopupContent {
-	    overflow-x: hidden;
-	    overflow-y: auto;
-      }
-    </style>
-    <script type="text/javascript">
+.olFramedCloudPopupContent {
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+</style>
+	<script type="text/javascript">
   	//<![CDATA[	
     function comparar(x,y){
     		if(x==y){
@@ -30,7 +30,7 @@
     	}
     	//]]>
     </script>
-    
+
 	<script type="text/javascript">
 	
 var wfsTasmaniaRoads,comercios,liceos,paradas; 
@@ -646,9 +646,53 @@ window.onload = function() {
 	                f.popup = null;
 	    	   		}, title: 'Save changes' 
 	    	 });
+	var DeleteFeature = OpenLayers.Class(OpenLayers.Control, {
+	     initialize: function(layer, options) {
+	     OpenLayers.Control.prototype.initialize.apply(this, [options]);
+	     this.layer = layer;
+	     this.handler = new OpenLayers.Handler.Feature(
+	     this, layer, {click: this.clickFeature}
+	     );
+	     },
+	     clickFeature: function(feature) {
+	      // if feature doesn't have a fid, destroy it
+	     if(feature.fid == undefined) {
+	     this.layer.destroyFeatures([feature]);
+	     } else {
+	     feature.state = OpenLayers.State.DELETE;
+	     this.layer.events.triggerEvent("afterfeaturemodified", {feature: feature});
+	     feature.renderIntent = "select";
+	     this.layer.drawFeature(feature);
+	     saveStrategy.save();
+	     }
+	     },
+	     setMap: function(map) {
+	     this.handler.setMap(map);
+	     OpenLayers.Control.prototype.setMap.apply(this, arguments);
+	     },
+	     CLASS_NAME: "OpenLayers.Control.DeleteFeature"
+	     });
+
+	     var del = new DeleteFeature(wfsTasmaniaRoads, {title: "Delete Feature"});
+	     
+	  var drag = new OpenLayers.Control.DragFeature(wfsTasmaniaRoads, {
+		  title: "Move Feature",
+		    clickFeature: function(feature){
+		    	
+		    
+		    	
+		    	
+		    	feature.state = OpenLayers.State.UPDATE;
+				saveStrategy.save();
+		    },
+			onComplete: function(feature) { 
+				
+				feature.state = OpenLayers.State.UPDATE;
+				saveStrategy.save();
+				}
+		});	       
 		       
-		       
-	panel.addControls([select,draw,save]);
+	panel.addControls([drag,del,select,draw,save]);
 	mapa.addControl(panel);  
  			
 			

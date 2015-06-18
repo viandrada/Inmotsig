@@ -105,10 +105,29 @@
       });
 	  var filterRambla= new OpenLayers.Filter.Comparison({
 		    type: OpenLayers.Filter.Comparison.BETWEEN,
-		    property: "DistRambla",
+		    property: "distrambla",
 		    lowerBoundary: 1,
 		    upperBoundary: 50000
 		});
+	  var filterParada= new OpenLayers.Filter.Comparison({
+		    type: OpenLayers.Filter.Comparison.BETWEEN,
+		    property: "distparada",
+		    lowerBoundary: 1,
+		    upperBoundary: 50000
+		});
+	  var filterLiceo= new OpenLayers.Filter.Comparison({
+		    type: OpenLayers.Filter.Comparison.BETWEEN,
+		    property: "distliceo",
+		    lowerBoundary: 1,
+		    upperBoundary: 50000
+		});
+	  var filterComercio= new OpenLayers.Filter.Comparison({
+		    type: OpenLayers.Filter.Comparison.BETWEEN,
+		    property: "distcomercio",
+		    lowerBoundary: 1,
+		    upperBoundary: 50000
+		});
+		
 	  
 	  var filterAnd;
 	  
@@ -140,18 +159,29 @@
 				filterRambla.lowerBoundary=0;
 				filterRambla.upperBoundary=parseInt(document.getElementById("distRambla").value);
 				filtros.push(filterRambla);
-			}
+			};
+			if(!(document.getElementById("distParada").value=="")){
+				filterParada.lowerBoundary=0;
+				filterParada.upperBoundary=parseInt(document.getElementById("distParada").value);
+				filtros.push(filterParada);
+			};
+			if(!(document.getElementById("distComercio").value=="")){
+				filterComercio.lowerBoundary=0;
+				filterComercio.upperBoundary=parseInt(document.getElementById("distComercio").value);
+				filtros.push(filterComercio);
+			};
+			if(!(document.getElementById("distLiceo").value=="")){
+				filterLiceo.lowerBoundary=0;
+				filterLiceo.upperBoundary=parseInt(document.getElementById("distLiceo").value);
+				filtros.push(filterLiceo);
+			};
 			
 			
-			filterAnd=new OpenLayers.Filter.Logical({
-				  type: OpenLayers.Filter.Logical.AND,
-			  	  filters:filtros
-			  });
-			filterStrategy.setFilter(filterAnd);
-			wfsTasmaniaRoads.refresh({force:true});	
+			
+			
 
 			//FILTROS BASICOS SOBRE YA FILTRADA DISTANCIAS
-			document.getElementById("buscarFiltros").onclick=function(){
+			
 				
 
 				if(document.getElementById("compra").checked){
@@ -261,18 +291,19 @@
 				if(document.getElementById("piscina").checked){
 					filtros.push(filterPiscina);
 				};
+				
 				filterAnd=new OpenLayers.Filter.Logical({
 					  type: OpenLayers.Filter.Logical.AND,
 				  	  filters:filtros
 				  });
 				filterStrategy.setFilter(filterAnd);
 				wfsTasmaniaRoads.refresh({force:true});	
-	      }
+	      
 					
 			
       };	  
 
-	  //FILTROS BASICOS
+	  //FILTROS BASICOS 
 	document.getElementById("buscarFiltros").onclick=function(){
 		var filtros=new Array();
 
@@ -384,7 +415,7 @@
 			filtros.push(filterPiscina);
 		};
 
-		//FILTROS DISTANCIAS ADEMAS DE LOS BASICOS
+		//FILTROS DISTANCIAS SOBRE YA FILTRADO BASICOS
 		  document.getElementById("buscarFiltrosDist").onclick=function(){
 			
 				
@@ -446,7 +477,7 @@
 			
 	
 	
-	    	
+	    	
 	            mapa = new OpenLayers.Map("mapa");
 				var osm  = new OpenLayers.Layer.OSM();	
 
@@ -471,8 +502,7 @@
 		                    null,
 		                    true 
 		                    );
-		                 mapa.addPopup(feature.popup);
-		                 
+		                 mapa.addPopup(feature.popup);  
 		                },
 
 		                <!-- destroy popup when feature is no longer selected. Prevents showing 2 Popups at the same time-->
@@ -484,7 +514,9 @@
 		                }
 		         
 		            });
-   
+		            
+
+		    
 			  mapa.addLayer(osm);
 			  var position       = new OpenLayers.LonLat(-56.21,-34.81).transform( fromProjection, toProjection);
   			  mapa.addLayer(wfsTasmaniaRoads);
@@ -494,9 +526,9 @@
 			 // var lonlat = new OpenLayers.LonLat(-56.21,-34.81).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:32721"));
 	  	      //mapa.setCenter(position,12);
 	  	      
-			  mapa.addControl(new OpenLayers.Control.LayerSwitcher(true));
-			  mapa.addControl(new OpenLayers.Control.MousePosition({ numDigits: 6 }));
-			  mapa.addControl(new OpenLayers.Control.ScaleLine());
+			  mapa.addControl(new OpenLayers.Control.LayerSwitcher(true));
+			  mapa.addControl(new OpenLayers.Control.MousePosition({ numDigits: 6 }));
+			  mapa.addControl(new OpenLayers.Control.ScaleLine());
 
 			
 			 geolocate.activate();
@@ -509,13 +541,8 @@
 	}
 
     function locateMarker(event) {
-        geoLocate = new OpenLayers.LonLat(event.point.x, event.point.y).transform(new OpenLayers.Projection("EPSG:3857"),new OpenLayers.Projection("EPSG:4326"));
+        geoLocate = new OpenLayers.LonLat(event.point.x, event.point.y).transform(new OpenLayers.Projection("EPSG:3857"),new OpenLayers.Projection("EPSG:4326"));;
     }
-    
-    function sumarVisita(feature){
-    	console.log(feature);
-    }
-    		 
 </script>
 
 </ui:composition>
