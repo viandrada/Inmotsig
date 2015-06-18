@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+
+<ui:composition>
+	<h:panelGroup class="container  col-xs-12">
+		<h:outputScript target="header" name="js/menu.js" />
+		<!-- Build your select: -->
+	
+		<label class="labelMenu anchoLabel2">Rambla</label>
+		<div class="btn-group">
+			<form name="registration_form" id='registration_form'>
+				
+					<div class=" col-xs-5">
+						<label class="sr-only"></label> <input id="distRambla"
+							class="form-control input-group-lg reg_name sinmargenabajo"
+							type="text" name="distRambla" title="Ingresa la distancia maxima a la rambla"
+							placeholder="mts" />
+				</div>
+			</form>
+		</div>
+		<label class="labelMenu anchoLabel2">Comercios</label>
+		<div class="btn-group">
+			<form name="registration_form" id='registration_form'>
+				
+					<div class="col-xs-5">
+						<label class="sr-only"></label> <input id="distComercio"
+							class="form-control input-group-lg reg_name sinmargenabajo"
+							type="text" name="distComercio" title="Ingresa la distancia maxima a un comercio"
+							placeholder="mts" />
+				</div>
+			</form>
+		</div>
+		<label class="labelMenu anchoLabel2">Liceos</label>
+		<div class="btn-group">
+			<form name="registration_form" id='registration_form'>
+				
+					<div class=" col-xs-5">
+						<label class="sr-only"></label> <input id="distLiceo"
+							class="form-control input-group-lg reg_name sinmargenabajo"
+							type="text" name="distLiceo" title="Ingresa la distancia maxima a un liceo"
+							placeholder="mts" />
+				</div>
+			</form><a href="#" class="btn btn-primary" id="buscarFiltrosDist"><span><img
+				src="resources/images/lupa.png" /></span></a>
+		</div>
+
+		
+		
+	</h:panelGroup>
+</ui:composition>
+</html>

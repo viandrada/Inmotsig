@@ -13,12 +13,12 @@
 			<button type="button" id="operacion"
 				class="multiselect dropdown-toggle btn btn-default"
 				data-toggle="dropdown" title="Seleccionar">
-				<span class="multiselect-selected-text">Seleccionar</span> <b
+				<span class="multiselect-selected-text ">Seleccionar</span> <b
 					class="caret"></b>
 			</button>
 			<ul class="multiselect-container dropdown-menu">
 				<li class="btn-group open"><a tabindex="0"><label
-						class="checkbox"><input type="checkbox" value="compra"
+						class="checkbox "><input type="checkbox" value="compra"
 							id="compra" /> Compra</label></a></li>
 				<li><a tabindex="0"><label class="checkbox"><input
 							type="checkbox" value="alquiler" id="alquiler" /> Alquiler</label></a></li>
@@ -76,8 +76,7 @@
 		</div>
 		
 
-		<label class="labelMenu anchoLabel multiselect-selected-text">Rango
-			de Precios</label>
+		<label class="labelMenu anchoLabel multiselect-selected-text">Precios</label>
 		
 		<div class="btn-group">
 			<form name="registration_form" id='registration_form'>
@@ -86,13 +85,13 @@
 						<label class="sr-only"></label> <input id="minimo"
 							class="form-control input-group-lg reg_name sinmargenabajo"
 							type="text" name="minimo" title="Ingresa el precio mínimo"
-							placeholder="Mínimo" />
+							placeholder="Min" />
 					</div>
 					<div class="form-group col-xs-5">
 						<label class="sr-only"></label> <input id="maximo"
 							class="form-control input-group-lg reg_name sinmargenabajo"
 							type="text" name="maximo" title="Ingresa el precio máximo"
-							placeholder="Máximo" />
+							placeholder="Max" />
 					</div>
 				</div>
 			</form>
@@ -124,7 +123,7 @@
 		
 
 		<label class="labelMenu anchoLabel">Baños</label>
-		<br />
+		
 		<div class="btn-group">
 			<button type="button"
 				class="multiselect dropdown-toggle btn btn-default"
@@ -191,7 +190,7 @@
 							type="checkbox" value="piscina" id="piscina"/> Piscina</label></a></li>
 			</ul>
 		</div>
-		<a href="#" class="btn btn-danger" id="buscarFiltros">Buscar <span><img
+		<a href="#" class="btn btn-primary" id="buscarFiltros">Buscar <span><img
 				src="resources/images/lupa.png" /></span></a>
 	</h:panelGroup>
 </ui:composition>

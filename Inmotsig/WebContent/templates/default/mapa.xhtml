@@ -7,7 +7,7 @@
 		src="http://www.openlayers.org/api/OpenLayers.js">
     </script>
 	<h:panelGroup class="container">
-		<div id="mapa" class="shadow" style="width: 100%; height: 800px;"></div>
+		<div id="mapa" class="shadow" style="width: 100%; height: 480px;"></div>
 	</h:panelGroup>
 	<!-- script>
     function abrir() {
@@ -31,10 +31,10 @@
 	 saveStrategy = new OpenLayers.Strategy.Save();
 
 	  var filterTipoOp = new OpenLayers.Filter.Comparison({
-	             type: OpenLayers.Filter.Comparison.EQUAL_TO,
-	             property: "tipooperac",
-	             value: "aconcagua"
-	         });
+	      type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	      property: "tipooperac",
+	      value: "aconcagua"
+	  });
 	  var filterTipoInm = new OpenLayers.Filter.Comparison({
           type: OpenLayers.Filter.Comparison.EQUAL_TO,
           property: "tipoinmueb",
@@ -103,6 +103,12 @@
           property: "parillero",
           value: "Si"
       });
+	  var filterRambla= new OpenLayers.Filter.Comparison({
+		    type: OpenLayers.Filter.Comparison.BETWEEN,
+		    property: "DistRambla",
+		    lowerBoundary: 1,
+		    upperBoundary: 50000
+		});
 	  
 	  var filterAnd;
 	  
@@ -124,7 +130,149 @@
 		    
 		  })
 	});
-	  
+      
+
+	//FILTROS DISTANCIAS
+	  document.getElementById("buscarFiltrosDist").onclick=function(){
+		  var filtros=new Array();
+			
+			if(!(document.getElementById("distRambla").value=="")){
+				filterRambla.lowerBoundary=0;
+				filterRambla.upperBoundary=parseInt(document.getElementById("distRambla").value);
+				filtros.push(filterRambla);
+			}
+			
+			
+			filterAnd=new OpenLayers.Filter.Logical({
+				  type: OpenLayers.Filter.Logical.AND,
+			  	  filters:filtros
+			  });
+			filterStrategy.setFilter(filterAnd);
+			wfsTasmaniaRoads.refresh({force:true});	
+
+			//FILTROS BASICOS SOBRE YA FILTRADA DISTANCIAS
+			document.getElementById("buscarFiltros").onclick=function(){
+				
+
+				if(document.getElementById("compra").checked){
+					filterTipoOp.value="Compra";
+					filtros.push(filterTipoOp);
+				};
+				if(document.getElementById("alquiler").checked){
+					filterTipoOp.value="Alquiler";
+					filtros.push(filterTipoOp);
+				};
+				
+				if(document.getElementById("casa").checked){
+					filterTipoInm.value="Casa";
+					filtros.push(filterTipoInm);
+				};
+				if(document.getElementById("apartamento").checked){
+					filterTipoInm.value="Apartamento";
+					filtros.push(filterTipoInm);
+				};
+				if(document.getElementById("terreno").checked){
+					filterTipoInm.value="Terreno";
+					filtros.push(filterTipoInm);
+				};
+				
+				//falta el filtro de barrios
+				if(!(document.getElementById("minimo").value=="")){
+					filterPrecio.lowerBoundary=parseInt(document.getElementById("minimo").value);
+					filterPrecio.upperBoundary=parseInt(document.getElementById("maximo").value);
+					filtros.push(filterPrecio);
+				}
+				
+				
+				if(document.getElementById("dor1").checked){
+					filterDorm.value="1";
+					filtros.push(filterDorm);
+				};
+				if(document.getElementById("dor2").checked){
+					filterDorm.value="2";
+					filtros.push(filterDorm);
+				};
+				if(document.getElementById("dor3").checked){
+					filterDorm.value="3";
+					filtros.push(filterDorm);
+				};
+				if(document.getElementById("dor4").checked){
+					filterDorm.value="4";
+					filtros.push(filterDorm);
+				};
+				
+				if(document.getElementById("dor4mas").checked){
+					filtros.push(filterDorm4Mas);
+				};
+				
+				if(document.getElementById("bano1").checked){
+					filterBano.value="1";
+					filtros.push(filterBano);
+				};
+				if(document.getElementById("bano2").checked){
+					filterBano.value="2";
+					filtros.push(filterBano);
+				};
+				if(document.getElementById("bano3").checked){
+					filterBano.value="3";
+					filtros.push(filterBano);
+				};
+				if(document.getElementById("bano4").checked){
+					filterBano.value="4";
+					filtros.push(filterBano);
+				};
+				if(document.getElementById("bano4mas").checked){
+					filtros.push(filterBano4Mas);
+				};
+				
+				if(document.getElementById("menos30").checked){
+					filterTamano.lowerBoundary="0";
+					filtertamano.upperBoundary="30";
+					filtros.push(filterTamano);
+				};
+				if(document.getElementById("entre30y60").checked){
+					filterTamano.lowerBoundary="30";
+					filtertamano.upperBoundary="60";
+					filtros.push(filterTamano);
+				};
+				if(document.getElementById("entre60y90").checked){
+					filterTamano.lowerBoundary="60";
+					filtertamano.upperBoundary="90";
+					filtros.push(filterTamano);
+				};
+				if(document.getElementById("entre90y120").checked){
+					filterTamano.lowerBoundary="90";
+					filtertamano.upperBoundary="120";
+					filtros.push(filterTamano);
+				};
+				if(document.getElementById("mas120").checked){
+					filtros.push(filterTamanoMas120);
+				};
+				
+				if(document.getElementById("calefaccion").checked){
+					filtros.push(filterCalefaccion);
+				};
+				if(document.getElementById("garage").checked){
+					filtros.push(filterGarage);
+				};
+				if(document.getElementById("parrillero").checked){
+					filtros.push(filterParrillero);
+				};
+				if(document.getElementById("piscina").checked){
+					filtros.push(filterPiscina);
+				};
+				filterAnd=new OpenLayers.Filter.Logical({
+					  type: OpenLayers.Filter.Logical.AND,
+				  	  filters:filtros
+				  });
+				filterStrategy.setFilter(filterAnd);
+				wfsTasmaniaRoads.refresh({force:true});	
+	      }
+					
+			
+      };	  
+
+	  //FILTROS BASICOS
 	document.getElementById("buscarFiltros").onclick=function(){
 		var filtros=new Array();
 
@@ -236,7 +384,24 @@
 			filtros.push(filterPiscina);
 		};
 
-
+		//FILTROS DISTANCIAS ADEMAS DE LOS BASICOS
+		  document.getElementById("buscarFiltrosDist").onclick=function(){
+			
+				
+				if(!(document.getElementById("distRambla").value=="")){
+					filterRambla.lowerBoundary=0;
+					filterRambla.upperBoundary=parseInt(document.getElementById("distRambla").value);
+					filtros.push(filterRambla);
+				}
+				
+				
+				filterAnd=new OpenLayers.Filter.Logical({
+					  type: OpenLayers.Filter.Logical.AND,
+				  	  filters:filtros
+				  });
+				filterStrategy.setFilter(filterAnd);
+				wfsTasmaniaRoads.refresh({force:true});	
+	      }
 
 
 	
@@ -301,7 +466,7 @@
 		                    feature.geometry.getBounds().getCenterLonLat(),
 		                    null,
 		                    '<form target="_blank" action="detallePropiedad.xhtml" class="form" >Direccion:<br/><input class="form-control" type="text" id="direccion2" value="'+feature.attributes.direccion+'" name="dir" />'+
-		                    '<input type="hidden" id="propGid" value="'+feature.attributes.gidpadron+'" name="gid" />'+
+		                    '<input type="hidden" id="propGid" value="'+feature.fid+'" name="gid" />'+
 		                    'Numero de apartamento:<input class="form-control" type="text" id="numAp2" value="'+feature.attributes.numapartam+'" name="numApartamento" /> <input class="form-control btn btn-default" type="submit" value="Ver más" ></input></form>',
 		                    null,
 		                    true 
