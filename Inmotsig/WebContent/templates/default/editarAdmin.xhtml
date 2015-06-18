@@ -10,10 +10,11 @@
 	<script type="text/javascript"
 		src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js" />
 
-	<h:panelGroup id="tablaAdminContainer">
+	<h:panelGroup id="tablaAdminContainer" style="background-color:">
 		<h:panelGroup id="tablaAdmin">
+			<h:panelGroup class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<h3>Administradores</h3>
-			<h:dataTable var="item" value="#{edicionAdminBean.admins}">
+			<h:dataTable class="table" style="background-color: rgba(117, 125, 120, 0.5);" var="item" value="#{edicionAdminBean.admins}">
 				<h:column>
 					<h:outputText styleClass="output" value="#{item.idadministrador}" />
 				</h:column>
@@ -33,6 +34,7 @@
 					<h:commandButton value="Editar" action="#" />
 				</h:column>
 			</h:dataTable>
+			</h:panelGroup>
 		</h:panelGroup>
 	</h:panelGroup>
 </ui:composition>

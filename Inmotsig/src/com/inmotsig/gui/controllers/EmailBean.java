@@ -16,6 +16,7 @@ public class EmailBean {
 	private String telefono;
 	private String emailUsuario;
 	private String consulta;
+	private String fid;
 	public String getEmailAdmin() {
 		return emailAdmin;
 	}
@@ -47,6 +48,13 @@ public class EmailBean {
 		this.consulta = consulta;
 	}
 	
+	
+	public String getFid() {
+		return fid;
+	}
+	public void setFid(String fid) {
+		this.fid = fid;
+	}
 	public String send()
 	{
 		//boolean enviado = false;

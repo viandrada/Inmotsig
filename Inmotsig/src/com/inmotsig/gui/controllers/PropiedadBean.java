@@ -18,7 +18,7 @@ import com.sun.xml.internal.ws.wsdl.writer.document.Part;
 @ViewScoped
 public class PropiedadBean {
 
-	private int gid = 1;
+	private String gid = "";
 	private String adminid = "admin@admin.com"; // en realidad es el mail
 	private String direccion = "Cargando...";
 	private int numapartam = 221;
@@ -55,6 +55,9 @@ public class PropiedadBean {
 				System.out.println("  " + addr.getHostAddress());
 			}
 		}
+		
+	       FacesContext facesContext = FacesContext.getCurrentInstance();
+	        this.gid = facesContext.getExternalContext().getRequestParameterMap().get("gid");
 	}
 
 	public String getAdminid() {
@@ -193,11 +196,13 @@ public class PropiedadBean {
 		this.descripcion = descripcion;
 	}
 
-	public int getGid() {
+
+
+	public String getGid() {
 		return gid;
 	}
 
-	public void setGid(int gid) {
+	public void setGid(String gid) {
 		this.gid = gid;
 	}
 

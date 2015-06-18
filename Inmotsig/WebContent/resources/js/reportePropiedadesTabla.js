@@ -32,7 +32,7 @@ function cargarTabla() {
 								precio : response.features[int].data.precio,
 								estado : estado,
 								link : '<button onclick="cargarDatos('
-										+ (response.features[int].fid).substring(10,11)
+										+ (response.features[int].fid).substring(10,12)
 										+ ')" value="'
 										+ response.features[int].fid
 										+ '">Modificar</button>'
