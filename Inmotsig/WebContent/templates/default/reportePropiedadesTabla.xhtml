@@ -1,5 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition>
@@ -7,14 +8,119 @@
 		src="http://www.openlayers.org/api/OpenLayers.js" />
 	<script type="text/javascript"
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
+
+	<h:outputScript name="js/reportePropiedadesTabla.js" />
+	
+	<script type="text/javascript"
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+	<link rel="stylesheet"
+		href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css"
+		type="text/css" media="all" />
 	<script type="text/javascript"
 		src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js" />
-	<h:outputScript name="js/reportePropiedadesTabla.js" />
-
 	<h:panelGroup id="tablaPropsContainer">
 		<h:panelGroup id="tablaProps">
 			<h3>Propiedades</h3>
 		</h:panelGroup>
+		<h:outputText id="fid" rendered="false"></h:outputText>
+	</h:panelGroup>
+	<h:panelGroup id="editarAdmin" rendered="true">
+			<h:panelGroup class="container-fluid">
+				<div class="row" style="margin-left:0px;">
+					<!-- Detalles -->
+					<h:panelGroup class="col-xs-8 col-sm-8 col-md-8 col-lg-8"
+						style="background-color: rgb(54, 46, 35); opacity: 0.9;color:white;">
+						<h:outputLabel class="control-label btn-lg">
+						<h:panelGroup style="font-size: 35px;"
+							class="glyphicon glyphicon-map-marker"></h:panelGroup>
+					</h:outputLabel>
+					<h:outputLabel id="direccion" style="font-size: 20px;"></h:outputLabel>
+						<h:panelGroup class="form-group">
+							<h:form class="form" id="detallesPropiedad">
+								<h:panelGroup class="row">
+									<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+										<h:outputLabel for="operacion" class="control-label">Operación: </h:outputLabel>
+										<h:inputText id="operacion" class="form-control"><f:ajax event="change"/></h:inputText>
+									</div>
+									<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+										<h:outputLabel for="precio" class="control-label">Precio: </h:outputLabel>
+										<h:panelGroup class="input-group">
+											<h:panelGroup class="input-group-addon">USD</h:panelGroup>
+											<h:inputText id="precio" class="form-control"><f:ajax event="change"/></h:inputText>
+										</h:panelGroup>
+									</div>
+									<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+										<h:outputLabel for="tipoPropiedad" class="control-label">Tipo: </h:outputLabel>
+										<h:inputText id="tipoPropiedad" class="form-control"><f:ajax event="change"/></h:inputText>
+									</div>
+								</h:panelGroup>
+
+								<h:panelGroup class="row">
+									<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+										<h:outputLabel for="superficieEdificada" class="control-label">Superficie construida: </h:outputLabel>
+										<h:panelGroup class="input-group">
+											<h:inputText id="superficieEdificada" class="form-control"><f:ajax event="change"/></h:inputText>
+											<h:panelGroup class="input-group-addon">m2</h:panelGroup>
+										</h:panelGroup>
+									</div>
+									<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+										<h:outputLabel for="dormitorios" class="control-label">Dormitorios: </h:outputLabel>
+										<h:inputText id="dormitorios" class="form-control"><f:ajax event="change"/></h:inputText>
+									</div>
+									<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+										<h:outputLabel for="banos" class="control-label">Baños: </h:outputLabel>
+										<h:inputText id="banos" class="form-control"><f:ajax event="change"/></h:inputText>
+									</div>
+								</h:panelGroup>
+								<h:panelGroup class="row">
+									<fieldset>
+										<legend>Comodidades</legend>
+									</fieldset>
+								</h:panelGroup>
+								<h:panelGroup class="row">
+									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+										<h:outputLabel for="calefaccion" class="control-label">Calefacción: </h:outputLabel>
+										<!-- input type="checkbox" value="#{propiedadBean.calefaccion}"
+										id="calefaccion" class="form-control" checked="checked"></input-->
+										<h:selectBooleanCheckbox id="calefaccion"
+											value="#{propiedadBean.calefaccion}" class="form-control" />
+									</div>
+									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+										<h:outputLabel for="garage" class="control-label">Garage: </h:outputLabel>
+										<h:selectBooleanCheckbox id="garage"
+											value="#{propiedadBean.garage}" class="form-control" />
+									</div>
+									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+										<h:outputLabel for="parrillero" class="control-label">Parrillero: </h:outputLabel>
+										<h:selectBooleanCheckbox value="#{propiedadBean.parrillero}"
+											id="parrillero" class="form-control"></h:selectBooleanCheckbox>
+									</div>
+									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+										<h:outputLabel for="piscina" class="control-label">Piscina: </h:outputLabel>
+										<h:selectBooleanCheckbox value="#{propiedadBean.piscina}"
+											id="piscina" class="form-control"></h:selectBooleanCheckbox>
+									</div>
+								</h:panelGroup>
+								<h:panelGroup class="row">
+									<fieldset>
+										<legend>Descripción</legend>
+									</fieldset>
+								</h:panelGroup>
+								<h:panelGroup class="row">
+									<h:panelGroup class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+									<h:inputTextarea id="descripcion"></h:inputTextarea>
+									</h:panelGroup>
+									<h:panelGroup class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+									<h:commandButton class="btn btn-default" value="Guardar" type="submit"> <f:ajax onevent="save"/></h:commandButton>
+									</h:panelGroup>
+								</h:panelGroup>
+							</h:form>
+						</h:panelGroup>
+					</h:panelGroup>
+				</div>
+			</h:panelGroup>
 	</h:panelGroup>
 </ui:composition>
 </html>

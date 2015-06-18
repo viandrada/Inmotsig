@@ -105,7 +105,9 @@
 								<h:commandLink
 									action="#{navigationBean.goRegistroAdmin('registroAdmin.xhtml')}"
 									value="Agregar" class="list-group-item"></h:commandLink>
-								<a href="#" class="list-group-item">Editar</a>
+								<h:commandLink
+									action="#{navigationBean.goRegistroAdmin('editarAdmin.xhtml')}"
+									value="Editar" class="list-group-item"></h:commandLink>
 								<a href="#" class="list-group-item">Eliminar</a>
 							</h:form>
 						</div>

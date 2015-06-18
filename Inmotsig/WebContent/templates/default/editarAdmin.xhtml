@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+	<script type="text/javascript"
+		src="http://www.openlayers.org/api/OpenLayers.js" />
+	<script type="text/javascript"
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
+	<script type="text/javascript"
+		src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js" />
+
+	<h:panelGroup id="tablaAdminContainer">
+		<h:panelGroup id="tablaAdmin">
+			<h3>Administradores</h3>
+			<h:dataTable var="item" value="#{edicionAdminBean.admins}">
+				<h:column>
+					<h:outputText styleClass="output" value="#{item.idadministrador}" />
+				</h:column>
+				<h:column>
+					<h:outputText styleClass="output" value="#{item.nombre}" />
+				</h:column>
+				<h:column>
+					<h:outputText styleClass="output" value="#{item.apellido}" />
+				</h:column>
+				<h:column>
+					<h:outputText styleClass="output" value="#{item.email}" />
+				</h:column>
+				<h:column>
+					<h:outputText styleClass="output" value="#{item.telefono}" />
+				</h:column>
+				<h:column>
+					<h:commandButton value="Editar" action="#" />
+				</h:column>
+			</h:dataTable>
+		</h:panelGroup>
+	</h:panelGroup>
+</ui:composition>
+</html>

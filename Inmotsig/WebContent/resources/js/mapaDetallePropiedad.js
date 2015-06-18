@@ -201,7 +201,7 @@ var QueryString;
 			mapa = new OpenLayers.Map("mapa");
 			var osm = new OpenLayers.Layer.OSM();
 
-			var propiedad = new OpenLayers.Layer.Vector("Propiedad", {
+			propiedad = new OpenLayers.Layer.Vector("Propiedad", {
 				strategies : [ new OpenLayers.Strategy.BBOX() ],
 				 style: {
 				        externalGraphic: 'http://publicdomainvectors.org/photos/sweet_home.png', 
@@ -220,9 +220,13 @@ var QueryString;
 					type : OpenLayers.Filter.Comparison.EQUAL_TO,
 					property : "gidpadron",
 					value : QueryString.gid
-				}),
+				})
 			});
 
+			 //layer = propiedad.features;
+			 //console.log(propiedad);
+				//console.log(layer.attributes.numVisitas);
+		
 		/*	var prop_Style = new OpenLayers.Style({
 				'fillColor' : 'red',
 				'fillOpacity' : .8,
@@ -334,7 +338,7 @@ var QueryString;
 								var listaFinal = new Array();
 								
 								for (var int = 0; int < response.features.length; int++) {
-									if (response.features[int].data.gidpadron == QueryString.gid) {
+									if (response.features[int].attributes.gidpadron == QueryString.gid) {
 										feauture = response.features[int];
 										agregarPuntosInteres();
 										// Cargar datos en vista

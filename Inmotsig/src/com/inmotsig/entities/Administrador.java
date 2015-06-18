@@ -16,7 +16,11 @@ import javax.persistence.*;
 				+ "WHERE u.email = :email and u.password = :pass"),
 
 		@NamedQuery(name = "Administrador.buscarAdministrador.Email", query = "SELECT u "
-				+ "FROM Administrador u " + "WHERE u.email = :email") })
+				+ "FROM Administrador u " + "WHERE u.email = :email"),
+				
+		@NamedQuery(name = "Administrador.findAllAdministradores", query = "SELECT u "
+						+ "FROM Administrador u ")	
+})
 @Entity
 @Table(name = "administrador", schema = "public")
 public class Administrador implements Serializable {
@@ -91,6 +95,7 @@ public class Administrador implements Serializable {
 		this.telefono = telefono;
 	}
 
+	
 	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "administrador")
 	// @ElementCollection(targetClass=Propiedad.class)
 	// public Set<Propiedad> getPropiedads() {

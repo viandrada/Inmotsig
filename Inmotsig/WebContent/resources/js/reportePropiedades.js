@@ -19,14 +19,11 @@ window.onload = function() {
 	var osm = new OpenLayers.Layer.OSM();
 
 	var style = new OpenLayers.Style(
-	// the first argument is a base symbolizer
-	// all other symbolizers in rules will extend this one
 	{
 		graphicWidth : 21,
 		graphicHeight : 29,
 		graphicYOffset : -28 // shift graphic up 28 pixels
 	},
-	// the second argument will include all rules
 	{
 		rules : [ new OpenLayers.Rule({
 			// a rule contains an optional filter
@@ -131,11 +128,11 @@ window.onload = function() {
 							"pop",
 							feature.geometry.getBounds().getCenterLonLat(),
 							null,
-							'<form target="_blank" action="detallePropiedad.xhtml" class="form" >Direccion:<br/><input class="form-control" type="text" id="direccion2" value="'
+							'<form target="_blank" action="/Inmotsig/detallePropiedad.xhtml" class="form" >Direccion:<br/><input class="form-control" type="text" id="direccion2" value="'
 									+ feature.attributes.direccion
 									+ '" name="dir" />'
 									+ '<input type="hidden" id="propGid" value="'
-									+ feature.attributes.gidpadron
+									+ feature.fid
 									+ '" name="gid" />'
 									+ 'Numero de apartamento:<input class="form-control" type="text" id="numAp2" value="'
 									+ feature.attributes.numapartam

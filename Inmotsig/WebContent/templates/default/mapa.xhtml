@@ -306,7 +306,8 @@
 		                    null,
 		                    true 
 		                    );
-		                 mapa.addPopup(feature.popup);  
+		                 mapa.addPopup(feature.popup);
+		                 
 		                },
 
 		                <!-- destroy popup when feature is no longer selected. Prevents showing 2 Popups at the same time-->
@@ -318,9 +319,7 @@
 		                }
 		         
 		            });
-		            
-
-		    
+   
 			  mapa.addLayer(osm);
 			  var position       = new OpenLayers.LonLat(-56.21,-34.81).transform( fromProjection, toProjection);
   			  mapa.addLayer(wfsTasmaniaRoads);
@@ -345,8 +344,13 @@
 	}
 
     function locateMarker(event) {
-        geoLocate = new OpenLayers.LonLat(event.point.x, event.point.y).transform(new OpenLayers.Projection("EPSG:3857"),new OpenLayers.Projection("EPSG:4326"));;
+        geoLocate = new OpenLayers.LonLat(event.point.x, event.point.y).transform(new OpenLayers.Projection("EPSG:3857"),new OpenLayers.Projection("EPSG:4326"));
     }
+    
+    function sumarVisita(feature){
+    	console.log(feature);
+    }
+    		 
 </script>
 
 </ui:composition>
