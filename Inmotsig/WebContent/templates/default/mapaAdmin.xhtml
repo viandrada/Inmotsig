@@ -7,6 +7,32 @@
 		src="http://www.openlayers.org/api/OpenLayers.js">
     </script>
 
+<style>
+      .olFramedCloudPopupContent {
+	    overflow-x: hidden;
+	    overflow-y: auto;
+      }
+      .olControlEditingToolbar .olControlDrawFeaturePointItemInactive {
+	  background-image: url("http://localhost:8080/Inmotsig/resources/images/draw.png");
+	  background-position-x: 0;
+      }
+	 
+	  
+	  .olControlEditingToolbar .olControlSaveFeaturePointItemInactive{
+	  background-image: url("http://localhost:8080/Inmotsig/resources/images/save.png");
+	  background-position-x: 0;
+	  }
+	
+	  	  .olControlEditingToolbar .olControlModifyFeaturePointItemInactive{
+	  background-image: url("http://localhost:8080/Inmotsig/resources/images/mano.png");
+	  background-position-x: 0;
+	  }
+	  .olControlEditingToolbar .olControlModifyFeaturePointItemActive{
+	  background-image: url("http://localhost:8080/Inmotsig/resources/images/mano.png");
+	  background-position-x: 0;
+	  }
+    </style>
+    
 	<div id="mapa" style="width: 99%; height: 560px;"></div>
 
 	<style>
@@ -52,7 +78,7 @@ var filterP=new OpenLayers.Filter.Spatial({
 
 var wfsPadrones = new OpenLayers.Layer.Vector("WFS", {
 	  strategies: [new OpenLayers.Strategy.BBOX()],
-	
+	  style: { strokeColor: "#ff00ff", strokeWidth: 3, fillOpacity: 0 },
 	  protocol: new OpenLayers.Protocol.WFS({
 	    url: "http://localhost:8080/geoserver/wfs", 
 	 	featureType: "padronesdireccion",
@@ -268,7 +294,7 @@ window.onload = function() {
 						var geom_1 = new OpenLayers.Geometry.Point(fMinD.geometry.x, fMinD.geometry.y);
 						var geom_2 = new OpenLayers.Geometry.Point(lon, lat);
 						var dist= geom_1.distanceTo(geom_2);    
-						alert(dist);
+						
 						var fAux;
 			        for(var i=1;comparar(i,wfsPadrones.features.length-1)==1;i++ ){
 			        	fAux=wfsPadrones.features[i];
@@ -537,7 +563,7 @@ window.onload = function() {
 	});
 		            
 
-	var save=  new OpenLayers.Control.Button({displayClass: 'saveButton',
+	var save=  new OpenLayers.Control.Button({displayClass: 'olControlSaveFeaturePoint',
 	   	   trigger: function() {
 	   		
 	   		var geom_1 = new OpenLayers.Geometry.Point(f.geometry.getBounds().getCenterLonLat().lon,f.geometry.getBounds().getCenterLonLat().lat)
@@ -676,7 +702,7 @@ window.onload = function() {
 	     var del = new DeleteFeature(wfsTasmaniaRoads, {title: "Delete Feature"});
 	     
 	  var drag = new OpenLayers.Control.DragFeature(wfsTasmaniaRoads, {
-		  title: "Move Feature",
+		  title: "Move Feature", displayClass: "olControlModifyFeaturePoint",
 		    clickFeature: function(feature){
 		    	
 		    
@@ -685,14 +711,93 @@ window.onload = function() {
 		    	feature.state = OpenLayers.State.UPDATE;
 				saveStrategy.save();
 		    },
-			onComplete: function(feature) { 
+		    onComplete: function(feature) {
+				lon = feature.geometry.getBounds().getCenterLonLat().lon;
+			       lat = feature.geometry.getBounds().getCenterLonLat().lat;
+			       var minx, miny;
+			       var point = new OpenLayers.LonLat(lon, lat);
+			       point.transform(new OpenLayers.Projection('EPSG:3857'),
+			   		new OpenLayers.Projection('EPSG:4326'));
+			       minx = point.lon;
+			       miny = point.lat;
+			       var sum = 0.000385794448853;
+
+			       var bounds_object = new OpenLayers.Bounds(minx + sum, miny + sum, minx - sum, miny - sum);
+
+
+			                 wfsPadrones.filter=new OpenLayers.Filter.Spatial({
+			                 type: OpenLayers.Filter.Spatial.BBOX,
+			                 value: bounds_object,
+			                 //projection : new OpenLayers.Projection('EPSG:4326')
+			                 });
+			                
+			                 wfsPadrones.refresh({force:true});
+			    	
+							var calle;
+			                 var fMinD
+			                 setTimeout(function(){
+					
+				                fMinD=wfsPadrones.features[0];
+				                
+							var geom_1 = new OpenLayers.Geometry.Point(fMinD.geometry.x, fMinD.geometry.y);
+							var geom_2 = new OpenLayers.Geometry.Point(lon, lat);
+							var dist= geom_1.distanceTo(geom_2);    
+							var fAux;
+				        for(var i=1;comparar(i,wfsPadrones.features.length-1)==1;i++ ){
+				        	fAux=wfsPadrones.features[i];
+				        	geom_1 = new OpenLayers.Geometry.Point(fAux.geometry.x, fAux.geometry.y);
+				        	if(comparar(geom_2.distanceTo(geom_1),dist)==1){
+				    			dist=geom_2.distanceTo(geom_1);
+				    			fMinD=wfsPadrones.features[i];
+				    		};
+				    	};
+				    	
+				    	feature.move(fMinD.geometry.getBounds().getCenterLonLat());
+				    	calle=fMinD.attributes.nom_calle;
+				    	feature.attributes.direccion=calle;
+				    	feature.attributes.numapartam=fMinD.attributes.num_puerta;
+		    	feature.popup = new OpenLayers.Popup.FramedCloud
+	         ("pop",
+	         feature.geometry.getBounds().getCenterLonLat(),
+	         null,           
+	         '<div class="form-group">'+
+	'<form class="form-horizontal">'+
+		'<div class="row">'+
+		     '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+
+			      '<strong>DATOS DE LA NUEVA UBICACION: </strong>'+
+		     '</div>'+
+		'</div>'+
+		
+		'<div class="row">'+
+		     '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">'+
+				  '<input class="form-control" type="text" id="direccion3" value="'+fMinD.attributes.nom_calle+'" name="dir" placeholder="Dirección"></input>'+
+		     '</div>'+
+		     '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">'+
+				  '<input class="form-control" placeholder="Nro de apto" type="text" value="'+fMinD.attributes.num_puerta+'" id="numAp3" name="numApartamento"/>'+
+		     '</div>'+
+		'</div>'+
+		
+	
+	'</form>'+
+	'</div>',
+	         null,
+	         true 
+	         );
+			    	mapa.addPopup(feature.popup); 
+			    	feature.state = OpenLayers.State.UPDATE;
+					
+//	 				
+					saveStrategy.save();
+// 					
 				
-				feature.state = OpenLayers.State.UPDATE;
-				saveStrategy.save();
+				}, 600);
+			
+				
+				
 				}
-		});	       
+		});
 		       
-	panel.addControls([drag,del,select,draw,save]);
+	panel.addControls([drag,del,draw,save]);
 	mapa.addControl(panel);  
  			
 			

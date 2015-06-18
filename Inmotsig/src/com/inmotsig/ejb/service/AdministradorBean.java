@@ -40,7 +40,7 @@ public class AdministradorBean implements AdministradorBeanRemote,
 			consulta.setParameter("pass", admin.getPassword());
 			if ((!consulta.getResultList().isEmpty())
 					|| (admin.getEmail().equalsIgnoreCase("admin") && admin
-							.getPassword().equalsIgnoreCase("admin"))) {
+							.getPassword().equalsIgnoreCase("21232f297a57a5a743894a0e4a801fc3"))) {
 				existe = true;
 			}
 		} catch (Exception excep) {
